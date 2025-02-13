@@ -1,0 +1,13 @@
+{
+    "name": "issue",
+    "type": "package",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "ISSUE_LINE": "PhobOS"
+    },
+    "merge": true
+}

@@ -1,0 +1,18 @@
+[Unit]
+Description=Docker Compose service with docker compose
+Requires=docker.service
+After=docker.service
+ConditionPathExists=/var/sota/storage/docker-compose/docker-compose.yml
+ConditionPathExists=!/var/sota/storage/docker-compose/docker-compose.yml.tmp
+OnFailure=docker-integrity-checker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/var/sota/storage/docker-compose/
+ExecStart=/usr/bin/docker-compose -p phobos up -d --remove-orphans
+ExecStartPost=rm -f /tmp/recovery-attempt.txt
+ExecStop=/usr/bin/docker-compose -p phobos down
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

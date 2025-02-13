@@ -1,0 +1,13 @@
+{
+    "name": "simple-splash",
+    "type": "init",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "SIMPLE_SPLASH_PATH": "${recipeOrigin}/splash.png"
+    },
+    "merge": true
+}

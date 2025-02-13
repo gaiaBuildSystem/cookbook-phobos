@@ -1,0 +1,47 @@
+{
+    "name": "easy-splash",
+    "type": "init",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "source": "https://github.com/OSSystems/EasySplash.git",
+    "ref": {
+        "linux/amd64": "84f31efe6c7593218d005d4c2f64fafdcb1fa93f",
+        "linux/arm64": "84f31efe6c7593218d005d4c2f64fafdcb1fa93f"
+    },
+    "hostAsContainer": true,
+    "containerImage": {
+        "image": "debian",
+        "tag": "bookworm"
+    },
+    "hostDeps": [
+        "libgstreamer1.0-0",
+        "libgstreamer1.0-dev",
+        "curl",
+        "build-essential",
+        "pkg-config",
+        "libglib2.0-dev"
+    ],
+    "targetDeps": [
+        "libgstreamer1.0-0",
+        "gstreamer1.0-plugins-good",
+        "gstreamer1.0-plugins-bad",
+        "procps",
+        "systemd",
+        "patchelf",
+        "python3",
+        "python3-pip",
+        "scons"
+    ],
+    "fetchRecipes": [
+        "fetch.py"
+    ],
+    "buildRecipes": [
+        "build.sh"
+    ],
+    "deployRecipes": [
+        "deploy.py"
+    ]
+}

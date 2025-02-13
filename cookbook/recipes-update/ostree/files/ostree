@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export OSTREE_BOOT_PARTITION=/boot
+export OSTREE_GRUB2_EXEC=/usr/lib/ostree/ostree-grub-generator
+
+/usr/bin/ostree-bin $@

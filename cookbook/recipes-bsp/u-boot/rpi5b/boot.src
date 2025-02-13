@@ -1,0 +1,35 @@
+#
+# Copyright 2025 MicroHobby
+#
+# Reference boot script.
+
+echo "Booting Reference ..."
+
+# check if loglevel is set
+if env exists loglevel
+    then
+        echo "loglevel is set to ${loglevel}"
+    else
+        setenv loglevel 3
+fi
+
+mmc dev 0
+ext4load mmc 0:2 ${scriptaddr} boot/uEnv.txt
+env import -t ${scriptaddr} ${filesize}
+
+env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} console=ttyAMA10,115200
+env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
+env set bootargs ${bootargs} 8250.nr_uarts=1
+env set bootargs ${bootargs} ignore_loglevel earlycon
+env set bootargs ${bootargs} ${extraargs}
+
+saveenv
+
+# loads the kernel and the initramfs
+ext4load mmc 0:2 ${kernel_addr_r} ${kernel_image}
+ext4load mmc 0:2 ${ramdisk_addr_r} ${ramdisk_image}
+env set ramdisk_size ${filesize}
+
+# the device tree was already loaded by the rpi firmware
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr}

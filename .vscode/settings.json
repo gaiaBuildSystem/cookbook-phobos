@@ -1,0 +1,26 @@
+{
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/sources/poky/bitbake/lib",
+        "${workspaceFolder}/sources/poky/meta/lib"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/sources/poky/bitbake/lib",
+        "${workspaceFolder}/sources/poky/meta/lib"
+    ],
+    "files.associations": {
+        "Dockerfile*": "dockerfile",
+        "Containerfile*": "dockerfile",
+        "docker-compose*": "yaml",
+        "*.scr": "shellscript",
+        "*defconfig*": "kconfig",
+        "*.build": "powershell",
+        "*.run": "powershell",
+        "*COMMIT_EDITMSG*": "git-commit",
+        ".wslconfig": "ini",
+        "*.defs": "makefile",
+        "*.ld": "linkerscript",
+        ".env*": "dotenv",
+        "*.inc": "bitbake",
+        "*.conf": "bitbake"
+    }
+}

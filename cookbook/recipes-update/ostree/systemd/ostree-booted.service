@@ -1,0 +1,13 @@
+[Unit]
+Description=OSTree Complete Boot
+ConditionKernelCommandLine=ostree
+ConditionPathExists=/ostree/repo
+ConditionPathExists=/boot/loader
+After=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=touch /run/ostree-booted
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,36 @@
+{
+    "name": "ostree",
+    "type": "config",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "hostDeps": [
+        "ostree",
+        "rsync"
+    ],
+    "targetDeps": [
+        "ostree",
+        "rsync"
+    ],
+    "deployRecipes": [
+        "systemd/deploy.py"
+    ],
+    "afterDeployRecipes": [
+        "bootloader.py",
+        "movekernel.py",
+        "ostreewrapper.py"
+    ],
+    "initramfsRecipes": [
+        "deployInit.sh"
+    ],
+    "afterDeployInitramfsRecipes": [
+        "overwriteinitscript.py"
+    ],
+    "bundleRecipes": [
+        "moveinitramfs.py",
+        "fixuprootfs.py",
+        "createotadisk.py"
+    ]
+}

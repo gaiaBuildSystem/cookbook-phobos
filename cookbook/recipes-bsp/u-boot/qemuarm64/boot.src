@@ -1,0 +1,30 @@
+#
+# Copyright 2024 MicroHobby
+#
+# Reference boot script.
+
+echo "Booting Reference ..."
+
+# check if loglevel is set
+if env exists loglevel
+    then
+        echo "loglevel is set to ${loglevel}"
+    else
+        setenv loglevel 3
+fi
+
+env set bootargs root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} console=ttyAMA0,115200
+env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
+env set bootargs ${bootargs} video=1024x768
+env set bootargs ${bootargs} loglevel=${loglevel}
+env set bootargs ${bootargs} ${extraargs}
+
+# loads the kernel and the initramfs
+virtio dev 0
+fatload virtio 0:1 ${kernel_addr_r} Image
+fatload virtio 0:1 ${ramdisk_addr_r} initramfs.cpio.gz
+env set ramdisk_size ${filesize}
+
+# qemu is a specia case, because it already loads the device tree
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr}

@@ -1,0 +1,13 @@
+{
+    "name": "docker",
+    "type": "package",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "DOCKER_ALTERNATIVES_ADMINDIR": "/usr/var/lib/dpkg/alternatives"
+    },
+    "merge": true
+}

@@ -1,0 +1,23 @@
+{
+    "name": "debian-bookworm",
+    "type": "rootfs",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "BOOT_LABEL": "BOOT",
+        "ROOT_LABEL": "otaroot"
+    },
+    "targetDeps": [
+        "xterm"
+    ],
+    "hostDeps": [
+        "python3"
+    ],
+    "beforeTargetDepsRecipes": [
+        "configure.py"
+    ],
+    "merge": true
+}

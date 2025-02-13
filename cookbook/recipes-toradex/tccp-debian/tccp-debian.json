@@ -1,0 +1,12 @@
+{
+    "name": "tccp-debian",
+    "type": "package",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "beforeTargetDepsRecipes": [
+        "addsource.py"
+    ]
+}

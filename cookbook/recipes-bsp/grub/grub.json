@@ -1,0 +1,19 @@
+{
+    "name": "grub2",
+    "type": "bootloader",
+    "priority": 1,
+    "support": [
+        "linux/amd64"
+    ],
+    "targetDeps": [
+        "grub-common"
+    ],
+    "env": {
+        "GRUB_SPLASH_PATH": "${recipeOrigin}/microhobby.png"
+    },
+    "afterDeployRecipes": [
+        "grub-ota-rollback/deploy_fw_utils.py",
+        "grub-ota-rollback/deploy_grubenv_service.py"
+    ],
+    "merge": true
+}

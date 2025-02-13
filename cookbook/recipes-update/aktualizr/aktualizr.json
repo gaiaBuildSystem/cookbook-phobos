@@ -1,0 +1,20 @@
+{
+    "name": "aktualizr-deb",
+    "type": "config",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "hostDeps": [
+        "wget",
+        "unzip"
+    ],
+    "targetDeps": [
+        "aktualizr-torizon"
+    ],
+    "deployRecipes": [
+        "fixup_hardware_id.py",
+        "compose_secondary.py"
+    ]
+}

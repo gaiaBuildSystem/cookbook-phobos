@@ -1,0 +1,9 @@
+{
+    "name": "u-boot",
+    "type": "bootloader",
+    "priority": 1,
+    "support": [
+        "linux/arm64"
+    ],
+    "merge": true
+}

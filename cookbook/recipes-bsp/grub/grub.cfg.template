@@ -1,0 +1,22 @@
+# Begin /boot/grub/grub.cfg
+serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1
+set default=0
+set timeout_style=hidden
+set timeout=0
+
+set root=(hd0,1)
+
+# graphical mode
+set gfxmode=auto
+set gfxpayload=keep
+insmod all_video
+insmod gfxterm
+insmod png
+terminal_output gfxterm
+
+# load the splash image
+background_image /splash.png
+
+# search for the rootfs drive
+search.fs_label otaroot root
+configfile /boot/grub2/grub.cfg

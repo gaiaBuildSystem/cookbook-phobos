@@ -1,0 +1,13 @@
+{
+    "name": "hostname",
+    "type": "config",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "HOSTNAME_NAME": "phobos"
+    },
+    "merge": true
+}

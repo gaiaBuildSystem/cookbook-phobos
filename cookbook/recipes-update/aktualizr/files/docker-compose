@@ -1,0 +1,4 @@
+#!/bin/sh
+# make docker-compose an "alias" do docker compose
+
+docker compose $@
