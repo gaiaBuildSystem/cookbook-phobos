@@ -1,7 +1,7 @@
 {
     "name": "fstab",
     "type": "config",
-    "priority": 1,
+    "priority": 2,
     "support": [
         "linux/amd64",
         "linux/arm64"
