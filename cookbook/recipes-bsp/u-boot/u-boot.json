@@ -1,7 +1,7 @@
 {
     "name": "u-boot",
     "type": "bootloader",
-    "priority": 1,
+    "priority": 2,
     "support": [
         "linux/arm64"
     ],
