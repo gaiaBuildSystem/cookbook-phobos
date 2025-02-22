@@ -11,7 +11,8 @@
         "ROOT_LABEL": "otaroot"
     },
     "targetDeps": [
-        "xterm"
+        "xterm",
+        "openssh-server"
     ],
     "hostDeps": [
         "python3"
