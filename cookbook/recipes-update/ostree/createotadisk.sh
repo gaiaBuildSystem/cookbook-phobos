@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Get the environment variables
 ARCH=${ARCH}
 MACHINE=${MACHINE}

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Building easy-splash..."
 
 # instal the cargo toolchain
