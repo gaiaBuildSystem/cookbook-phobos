@@ -1,0 +1,26 @@
+{
+    "name": "PhobOS",
+    "machine": "imx95",
+    "arch": "linux/arm64",
+    "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "build": 0
+    },
+    "useInitramfs": true,
+    "maxImgSize": 6444,
+    "searchForRecipesOn": [
+        "../gaia/cookbook",
+        "../cookbook-nxp/cookbook",
+        "cookbook"
+    ],
+    "excludeRecipes": [
+        "grub",
+        "microsoft",
+        "powershell",
+        "neofetch",
+        "initramfs-php",
+        "easy-splash"
+    ]
+}

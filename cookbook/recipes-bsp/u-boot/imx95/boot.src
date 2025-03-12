@@ -1,0 +1,50 @@
+#
+# Copyright 2025 MicroHobby
+#
+# Reference boot script.
+
+echo "Booting Reference ..."
+
+# check if loglevel is set
+if env exists loglevel
+    then
+        echo "loglevel is set to ${loglevel}"
+    else
+        setenv loglevel 3
+fi
+
+# load a custom fdt
+if env exists fdtfile
+    then
+        echo "fdtfile is set to ${fdtfile}"
+    else
+        setenv fdtfile imx95-19x19-verdin-lt8912.dtb
+fi
+
+# PhobOS specific
+mmc dev 0
+ext4load mmc 0:2 ${scriptaddr} boot/uEnv.txt
+env import -t ${scriptaddr} ${filesize}
+
+
+env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} console=ttyLP0,115200
+env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
+env set bootargs ${bootargs} 8250.nr_uarts=1
+env set bootargs ${bootargs} loglevel=${loglevel} earlycon
+env set bootargs ${bootargs} ${extraargs}
+
+
+saveenv
+
+# loads the kernel and the initramfs
+ext4load mmc 0:2 ${kernel_addr_r} ${kernel_image}
+ext4load mmc 0:2 ${initrd_addr} ${ramdisk_image}
+env set ramdisk_size ${filesize}
+
+# FIXME:    the dtb is loaded from the boot partition
+#           would be nice to get it from ostree
+fatload mmc 0:1 ${fdt_addr} ${fdtfile}
+
+# run Forest run
+booti ${kernel_addr_r} ${initrd_addr}:${ramdisk_size} ${fdt_addr}
