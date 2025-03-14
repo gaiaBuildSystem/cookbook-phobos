@@ -30,7 +30,7 @@ ret_file_path = os.path.join(
     BUILD_PATH,
     "tmp",
     MACHINE,
-    'aktualizr',
+    'aktualizr-config',
     '40-hardware-id.toml'
 )
 
@@ -42,7 +42,7 @@ with open(template_file_path, 'r') as file:
 
 file_contents = file_contents.replace(
     '{{AKTUALIZR_PRIMARY_ECU_HARDWARE_ID}}',
-    f"torizon-debian-{MACHINE}"
+    f"{MACHINE}"
 )
 
 with open(ret_file_path, 'w') as file:
@@ -53,9 +53,9 @@ subprocess.run(
     f"cp {ret_file_path} {IMAGE_MNT_ROOT}/etc/sota/conf.d/40-hardware-id.toml",
     shell=True,
     check=True,
-    cwd=f"{BUILD_PATH}/tmp/{MACHINE}/aktualizr",
+    cwd=f"{BUILD_PATH}/tmp/{MACHINE}/aktualizr-config",
     executable="/bin/bash",
     env=os.environ
 )
 
-print(f"deploy aktualizr ok!")
+print(f"deploy aktualizr-config ok!")

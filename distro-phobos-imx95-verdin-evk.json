@@ -1,6 +1,6 @@
 {
     "name": "PhobOS",
-    "machine": "imx95",
+    "machine": "imx95-verdin-evk",
     "arch": "linux/arm64",
     "version": {
         "major": 0,
@@ -22,6 +22,7 @@
         "powershell",
         "neofetch",
         "initramfs-php",
-        "easy-splash"
+        "easy-splash",
+        "platform-provisioning"
     ]
 }

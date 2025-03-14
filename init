@@ -1,0 +1,23 @@
+#!/bin/bash
+
+##
+# INSTALL DEPS FOR THIS COOKBOOK
+##
+
+sudo apt-get update
+sudo apt-get install -y \
+    python3 \
+    python3-pip \
+    pipx
+
+
+pipx install xonsh
+pipx ensurepath
+pipx inject xonsh distro
+pipx inject xonsh shtab
+pipx inject xonsh pyyaml
+pipx inject xonsh psutil
+pipx inject xonsh torizon-templates-utils
+pipx inject xonsh GitPython
+pipx inject xonsh python-lsp-server
+pipx inject xonsh pylsp-rope

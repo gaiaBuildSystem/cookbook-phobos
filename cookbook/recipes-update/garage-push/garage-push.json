@@ -1,13 +1,18 @@
 {
-    "name": "ostree",
+    "name": "garage-push",
     "type": "config",
     "priority": 0,
     "support": [
         "linux/amd64",
         "linux/arm64"
     ],
+    "source": "https://github.com/gaiaBuildSystem/aktualizr.git",
+    "ref": {
+        "linux/arm64": "29a7d4bd073f762d24cb0968b814dcb488a98847",
+        "linux/amd64": "29a7d4bd073f762d24cb0968b814dcb488a98847"
+    },
     "env": {
-        "OSTREE_GARAGE_PUSH": "true"
+        "UPTANE_SIGN_VER": "3.2.10"
     },
     "hostDeps": [
         "ostree",
@@ -28,30 +33,13 @@
         "python3-requests",
         "libglib2.0-dev",
         "file",
-        "libostree-dev"
+        "libostree-dev",
+        "openjdk-17-jre-headless"
     ],
-    "targetDeps": [
-        "ostree",
-        "rsync"
+    "fetchRecipes": [
+        "garage-fetch.xsh"
     ],
-    "deployRecipes": [
-        "systemd/deploy.py"
-    ],
-    "afterDeployRecipes": [
-        "bootloader.py",
-        "movekernel.py",
-        "ostreewrapper.py"
-    ],
-    "initramfsRecipes": [
-        "deployInit.sh"
-    ],
-    "afterDeployInitramfsRecipes": [
-        "overwriteinitscript.py"
-    ],
-    "bundleRecipes": [
-        "moveinitramfs.py",
-        "fixuprootfs.py",
-        "createotadisk.py",
-        "pushplatform.xsh"
+    "buildRecipes": [
+        "garage-build.xsh"
     ]
 }

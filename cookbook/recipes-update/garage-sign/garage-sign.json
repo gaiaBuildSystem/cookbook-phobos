@@ -1,0 +1,22 @@
+{
+    "name": "garage-sign",
+    "type": "config",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "source": "https://github.com/uptane/ota-tuf/releases/download/v3.2.10/",
+    "file": "cli-3.2.10.tgz",
+    "checksum": {
+        "linux/amd64": "97c562c01bdbe40f2336a485bc523489f61a4867d3d982d318ccf233d94640a3",
+        "linux/arm64": "97c562c01bdbe40f2336a485bc523489f61a4867d3d982d318ccf233d94640a3"
+    },
+    "hostDeps": [
+        "wget",
+        "openjdk-17-jre-headless"
+    ],
+    "fetchRecipes": [
+        "garage-fetch.xsh"
+    ]
+}

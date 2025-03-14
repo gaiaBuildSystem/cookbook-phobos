@@ -15,6 +15,7 @@
     ],
     "deployRecipes": [
         "fixup_hardware_id.py",
+        "fixup_disable_ostree.py",
         "compose_secondary.py"
     ]
 }
