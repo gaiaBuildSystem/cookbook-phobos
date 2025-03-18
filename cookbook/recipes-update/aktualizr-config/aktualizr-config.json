@@ -1,5 +1,5 @@
 {
-    "name": "aktualizr-deb",
+    "name": "aktualizr-config",
     "type": "config",
     "priority": 0,
     "support": [
@@ -10,10 +10,7 @@
         "wget",
         "unzip"
     ],
-    "targetDeps": [
-        "aktualizr-torizon"
-    ],
-    "deployRecipes": [
+    "afterDeployRecipes": [
         "fixup_hardware_id.py",
         "fixup_disable_ostree.py",
         "compose_secondary.py"
