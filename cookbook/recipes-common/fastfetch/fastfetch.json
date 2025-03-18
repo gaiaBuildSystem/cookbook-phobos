@@ -1,0 +1,18 @@
+{
+    "name": "fastfetch",
+    "type": "config",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "source": "https://github.com/gaiaBuildSystem/fastfetch.git",
+    "ref": {
+        "linux/amd64": "72a98e9fb01926e29864e58261e02070cd897677",
+        "linux/arm64": "72a98e9fb01926e29864e58261e02070cd897677"
+    },
+    "afterDeployRecipes": [
+        "config.xsh"
+    ],
+    "merge": true
+}
