@@ -1,0 +1,33 @@
+{
+    "name": "mars",
+    "type": "application",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "source": "https://github.com/gaiaBuildSystem/mars",
+    "ref": {
+        "linux/amd64": "beb32c332fa305802d02b38c4f069e6ed91022f6",
+        "linux/arm64": "beb32c332fa305802d02b38c4f069e6ed91022f6"
+    },
+    "hostAsContainer": true,
+    "containerImage": {
+        "image": "docker.io/pergamos/zig-sdk",
+        "tag": "0.13.0",
+        "extraConfig": "--entrypoint=\"\""
+    },
+    "hostDeps": [
+        "libglib2.0-dev",
+        "libostree-dev"
+    ],
+    "fetchRecipes": [
+        "fetch.xsh"
+    ],
+    "buildRecipes": [
+        "build.xsh"
+    ],
+    "deployRecipes": [
+        "deploy.xsh"
+    ]
+}
