@@ -25,6 +25,8 @@ _BUILD_PATH = os.environ.get('BUILD_PATH')
 _DISTRO_MAJOR = os.environ.get('DISTRO_MAJOR')
 _DISTRO_MINOR = os.environ.get('DISTRO_MINOR')
 _DISTRO_PATCH = os.environ.get('DISTRO_PATCH')
+_DISTRO_BUILD = os.environ.get('DISTRO_BUILD')
+_DISTRO_CODENAME = os.environ.get('DISTRO_CODENAME')
 _USER_PASSWD = os.environ.get('USER_PASSWD')
 
 # read the meta data
@@ -57,7 +59,8 @@ _commit = $(ostree --repo=@(_OSTREE_REPO_PATH) rev-parse @(_MACHINE))
 _module = _MACHINE
 _credentials_path = f"{_path}/credentials/credentials.zip"
 _package_name = f"{_module}"
-_version = f"phobos-{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}"
+_version = f"phobos-{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}"
+_codename = f"{_DISTRO_CODENAME}"
 
 # check if the credentials file exists
 if not os.path.exists(_credentials_path):
@@ -94,6 +97,7 @@ f"""
 Pushing OTA to Torizon Cloud
     - Module: {_module}
     - Commit: {_commit}
+    - Version: {_version}
 """,
     color=Color.WHITE,
     bg_color=BgColor.BLUE
@@ -111,6 +115,7 @@ Signing OTA to Torizon Cloud
     - Module: {_module}
     - Commit: {_commit}
     - Package: {_package_name}
+    - Version: {_version}
 """,
     color=Color.WHITE,
     bg_color=BgColor.BLUE
@@ -119,7 +124,7 @@ Signing OTA to Torizon Cloud
 print("prepare metadata ...")
 _meta = {
     "commitBody": "",
-    "commitSubject": f"{_module}-{_commit}",
+    "commitSubject": f"{_module}-{_commit}-{_codename}-{_version}",
     "ostreeMetadata": {
         "gaia.arch": _ARCH,
         "gaia.distro": "phobos",
@@ -131,7 +136,7 @@ _meta = {
         "ostree.ref.binding": [
             f"{_module}"
         ],
-        "version": f"{_version}"
+        "version": f"{_version}-{_codename}"
     }
 }
 
