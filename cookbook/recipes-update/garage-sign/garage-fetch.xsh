@@ -10,6 +10,7 @@ $RAISE_SUBPROC_ERROR = True
 
 
 import os
+import sys
 import json
 import os.path
 from torizon_templates_utils.colors import print,BgColor,Color
@@ -49,6 +50,16 @@ if not os.path.exists(f"{_BUILD_ROOT}/uptane-sign"):
     mkdir -p @(f"{_BUILD_ROOT}/uptane-sign")
 else:
     rm -rf @(f"{_BUILD_ROOT}/uptane-sign/*")
+
+
+# check if the file is already downloaded
+if os.path.exists(f"{_BUILD_ROOT}/uptane-sign/{meta['file']}"):
+    print(
+        f"File [{meta['file']}] already downloaded, skipping",
+        color=Color.WHITE,
+        bg_color=BgColor.YELLOW
+    )
+    sys.exit(0)
 
 os.chdir(f"{_BUILD_ROOT}/uptane-sign")
 wget @(meta['source'])/@(meta['file'])
