@@ -1,15 +1,17 @@
 {
-    "name": "Blazon-Artemis",
+    "name": "PhobOS",
     "machine": "qemux86-64",
     "arch": "linux/amd64",
     "version": {
         "major": 0,
         "minor": 0,
         "patch": 0,
-        "build": 0
+        "build": 3,
+        "variant": "ota",
+        "codename": "lion-killer"
     },
     "useInitramfs": true,
-    "maxImgSize": 6444,
+    "maxImgSize": 6844,
     "searchForRecipesOn": [
         "../gaia/cookbook",
         "cookbook"
@@ -17,8 +19,10 @@
     "excludeRecipes": [
         "u-boot",
         "microsoft",
+        "powershell",
         "neofetch",
         "initramfs-php",
-        "simple-splash"
+        "easy-splash",
+        "platform-provisioning"
     ]
 }
