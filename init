@@ -24,5 +24,7 @@ pipx inject xonsh pylsp-rope
 
 # check where xonsh was installed and make an symlink to /usr/bin
 if [ -f ~/.local/bin/xonsh ]; then
-    sudo ln -s ~/.local/bin/xonsh /usr/bin/xonsh
+    if [ ! -L /usr/bin/xonsh ]; then
+        sudo ln -s ~/.local/bin/xonsh /usr/bin/xonsh
+    fi
 fi
