@@ -57,12 +57,13 @@ sudo cp @(_BUILD_ROOT)/aktualizr-torizon/build/garage_deploy.deb @(_IMAGE_MNT_RO
 
 # install the deb
 sudo chroot @(_IMAGE_MNT_ROOT) apt-get remove -y aktualizr-torizon
-sudo chroot @(_IMAGE_MNT_ROOT) dpkg -i /tmp/aktualizr.deb /tmp/garage_deploy.deb
+sudo chroot @(_IMAGE_MNT_ROOT) apt-get install -y /tmp/aktualizr.deb /tmp/garage_deploy.deb
 
 # cleanup
 sudo rm @(_IMAGE_MNT_ROOT)/tmp/*.deb
 
 # config
+sudo mkdir -p @(_IMAGE_MNT_ROOT)/etc/sota/conf.d
 sudo cp @(_path)/files/20-sota-device-cred.toml @(_IMAGE_MNT_ROOT)/etc/sota/conf.d/
 sudo cp @(_path)/files/30-rollback.toml @(_IMAGE_MNT_ROOT)/etc/sota/conf.d/
 sudo cp @(_path)/files/40-hardware-id.toml @(_IMAGE_MNT_ROOT)/etc/sota/conf.d/
