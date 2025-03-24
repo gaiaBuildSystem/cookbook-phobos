@@ -1,0 +1,14 @@
+{
+    "name": "environment",
+    "type": "config",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "MARS_OSTREE_REPO_BRANCH": "$MACHINE",
+        "GAIA_DISTRO": "phobos"
+    },
+    "merge": true
+}
