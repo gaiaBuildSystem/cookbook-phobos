@@ -20,5 +20,8 @@
     "beforeTargetDepsRecipes": [
         "configure.py"
     ],
+    "cleanRecipes": [
+        "umount.xsh"
+    ],
     "merge": true
 }

@@ -64,11 +64,12 @@ ls -la ${IMAGE_MNT_ROOT}-ota/ostree/repo
 ls -la ${IMAGE_MNT_ROOT}-ota/ostree/repo/refs
 echo "-----------------------------------------------------------------Rootfs cloned:"
 
-# unmount the partitions
-umount $IMAGE_MNT_BOOT-ota
-umount $IMAGE_MNT_ROOT-ota
+# FIXME: this need to be in a cleanup step
+# # unmount the partitions
+# umount $IMAGE_MNT_BOOT-ota
+# umount $IMAGE_MNT_ROOT-ota
 
-# remove the mapping
-kpartx -dv $IMG_OTA_PATH
+# # remove the mapping
+# kpartx -dv $IMG_OTA_PATH
 
 echo "OTA .img created"
