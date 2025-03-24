@@ -8,8 +8,8 @@
     ],
     "source": "https://github.com/gaiaBuildSystem/fastfetch.git",
     "ref": {
-        "linux/amd64": "72a98e9fb01926e29864e58261e02070cd897677",
-        "linux/arm64": "72a98e9fb01926e29864e58261e02070cd897677"
+        "linux/amd64": "ef00c1eb25df8d946c24fe613779e7d050d70c4b",
+        "linux/arm64": "ef00c1eb25df8d946c24fe613779e7d050d70c4b"
     },
     "afterDeployRecipes": [
         "config.xsh"
