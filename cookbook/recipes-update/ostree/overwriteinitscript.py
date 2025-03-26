@@ -27,7 +27,7 @@ print(f"overwriting the init script in the initramfs")
 
 # copy the local init.sh to the initramfs
 subprocess.run(
-    f"echo {USER_PASSWD} | sudo -k -S cp {_path}/init.sh {INITRAMFS_PATH}/init",
+    f"sudo -k cp {_path}/init.sh {INITRAMFS_PATH}/init",
     shell=True,
     check=True,
     executable="/bin/bash",
@@ -36,7 +36,7 @@ subprocess.run(
 
 # Make the init script executable
 subprocess.run(
-    f"echo {USER_PASSWD} | sudo -k -S chmod +x {INITRAMFS_PATH}/init",
+    f"sudo -k chmod +x {INITRAMFS_PATH}/init",
     shell=True,
     check=True,
     executable="/bin/bash",

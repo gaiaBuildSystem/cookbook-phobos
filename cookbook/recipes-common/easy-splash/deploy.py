@@ -41,7 +41,7 @@ for _cmd in _cmds:
     print(f"\033[94mRunning: {_cmd}\033[0m")
 
     subprocess.run(
-        f"sudo -k -S "
+        f"sudo -k "
         f"{_cmd}",
         shell=True,
         check=True,
@@ -52,7 +52,7 @@ for _cmd in _cmds:
 
 # enable the services
 str_cmd = (
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
     f"systemctl enable easy-splash-stop.service"
     f"\""

@@ -49,7 +49,7 @@ with open(ret_file_path, 'w') as file:
     file.write(file_contents)
 
 subprocess.run(
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"cp {ret_file_path} {IMAGE_MNT_ROOT}/etc/sota/conf.d/40-hardware-id.toml",
     shell=True,
     check=True,

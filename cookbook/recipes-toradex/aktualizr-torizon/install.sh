@@ -8,8 +8,8 @@ cd $BUILD_ROOT/aktualizr-torizon
 cd build/
 
 # INSTALL!
-echo $USER_PASSWD | sudo -k -S \
+sudo -k \
     make install
 
-echo $USER_PASSWD | sudo -k -S \
+sudo -k \
     ldconfig

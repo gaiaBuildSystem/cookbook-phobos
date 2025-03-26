@@ -47,9 +47,6 @@ $BUILD_ROOT = _BUILD_ROOT
 
 
 # deploy the files
-# we need super cow powers
-echo @(_USER_PASSWD) | sudo -k -S \
-    echo "🐮"
 
 # deploy the .deb
 sudo cp @(_BUILD_ROOT)/aktualizr-torizon/build/aktualizr.deb @(_IMAGE_MNT_ROOT)/tmp/

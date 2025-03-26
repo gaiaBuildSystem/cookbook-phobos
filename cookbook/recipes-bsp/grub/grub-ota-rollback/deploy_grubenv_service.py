@@ -26,7 +26,7 @@ _path = os.path.dirname(os.path.realpath(__file__))
 print(f"Deploying the grubenv-create service ...")
 
 subprocess.run(
-    f"echo {USER_PASSWD} | sudo -k -S \
+    f"sudo -k \
     cp {_path}/grubenv-create.service {IMAGE_MNT_ROOT}/etc/systemd/system/grubenv-create.service \
     ",
     shell=True,
@@ -37,7 +37,7 @@ subprocess.run(
 
 # initialize the service
 str_cmd = (
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
     f"systemctl enable grubenv-create.service"
     f"\""

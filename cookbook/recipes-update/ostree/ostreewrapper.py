@@ -42,7 +42,7 @@ if ARCH == "linux/amd64":
             print(f"\033[94mRunning: {_cmd}\033[0m")
 
             subprocess.run(
-                f"echo {USER_PASSWD} | sudo -k -S "
+                f"sudo -k "
                 f"{_cmd}",
                 shell=True,
                 check=True,

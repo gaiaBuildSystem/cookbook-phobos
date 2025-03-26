@@ -35,7 +35,7 @@ if len(kernel_versions) != 1:
 
 subprocess.run(
     f" \
-        sudo -k -S \
+        sudo -k \
         cp -a {IMAGE_MNT_BOOT}/initramfs.cpio.gz {IMAGE_MNT_ROOT}/usr/lib/modules/{kernel_versions[0]}/initramfs.img \
     ",
     shell=True,

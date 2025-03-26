@@ -27,13 +27,13 @@ print(f"Adding TCCP debian source ...")
 
 # copy the .list to the image
 str_cmd1 = (
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"cp {_path}/files/toradex.list {IMAGE_MNT_ROOT}/etc/apt/sources.list.d/"
 )
 
 # get the feed signing key
 str_cmd = (
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
     f"apt-get update && apt-get install -y gnupg2 curl && \
         curl -fsSL https://feeds.toradex.com/staging/debian/toradex-debian-repo-19092023.asc | gpg --dearmor > /usr/share/keyrings/toradex.gpg"

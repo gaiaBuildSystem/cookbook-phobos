@@ -24,11 +24,11 @@ mkdir -p $BUILD_ROOT/aktualizr/install-dir
 
 # WARN: THIS IS NOT MEANING TO BE RUN IN YOUR LOCAL MACHINE
 # This should run in the dev container only
-echo $USER_PASSWD | sudo -k -S \
+sudo -k \
     make -j"$(nproc)"
 
-echo $USER_PASSWD | sudo -k -S \
+sudo -k \
     make install
 
-echo $USER_PASSWD | sudo -k -S \
+sudo -k \
     ldconfig

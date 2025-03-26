@@ -27,7 +27,7 @@ print(f"configuring systemd ...")
 
 # chroot cmds
 systemd_cmd = (
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
     f"systemctl enable sshd --force"
     f"\""

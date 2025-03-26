@@ -5,7 +5,7 @@ set -e
 _path=$(dirname "$0")
 
 # go to the target rootfs because we need the binaries in the right architecture
-echo $USER_PASSWD | sudo -E -S chroot $IMAGE_MNT_ROOT /bin/bash -c "
+sudo -E chroot $IMAGE_MNT_ROOT /bin/bash -c "
     apt-get install -y python3-pip python3 &&
     cd / &&
     pip3 install --break-system-packages setuptools &&
@@ -17,13 +17,13 @@ echo $USER_PASSWD | sudo -E -S chroot $IMAGE_MNT_ROOT /bin/bash -c "
 "
 
 # copy the static binaries to the initramfs folder
-echo $USER_PASSWD | sudo -E -S mv $IMAGE_MNT_ROOT/ostree-prepare-root $INITRAMFS_PATH/bin/ostree-prepare-root
+sudo -E mv $IMAGE_MNT_ROOT/ostree-prepare-root $INITRAMFS_PATH/bin/ostree-prepare-root
 
 # deploy the mount root script
-echo $USER_PASSWD | sudo -E -S cp $_path/busybox/90-root.sh $INITRAMFS_PATH/scripts/90-root.sh
+sudo -E cp $_path/busybox/90-root.sh $INITRAMFS_PATH/scripts/90-root.sh
 
 # clean the target rootfs
-echo ${USER_PASSWD} | sudo -E -S chroot $IMAGE_MNT_ROOT /bin/bash -c "
+sudo -E chroot $IMAGE_MNT_ROOT /bin/bash -c "
     pip3 uninstall --break-system-packages -y setuptools &&
     pip3 uninstall --break-system-packages -y staticx &&
     pip3 uninstall --break-system-packages -y wheel scons &&

@@ -26,7 +26,7 @@ _path = os.path.dirname(os.path.realpath(__file__))
 print(f"Installing .service for ostree")
 
 subprocess.run(
-    f"echo {USER_PASSWD} | sudo -k -S \
+    f"sudo -k \
     cp {_path}/ostree-booted.service {IMAGE_MNT_ROOT}/etc/systemd/system/ostree-booted.service \
     ",
     shell=True,
@@ -37,7 +37,7 @@ subprocess.run(
 
 # install the aktualizr debian packages to the image
 str_cmd = (
-    f"echo {USER_PASSWD} | sudo -k -S "
+    f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
     f"systemctl enable ostree-booted.service"
     f"\""

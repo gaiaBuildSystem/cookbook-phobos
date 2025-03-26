@@ -69,7 +69,7 @@ for _cmd in _cmds:
     print(f"\033[94mRunning: {_cmd}\033[0m")
 
     subprocess.run(
-        f"sudo -k -E -S "
+        f"sudo -k -E "
         f"{_cmd}",
         shell=True,
         check=True,

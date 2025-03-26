@@ -50,7 +50,7 @@ os.environ['IMAGE_MNT_BOOT'] = _IMAGE_MNT_BOOT
 os.environ['IMAGE_MNT_ROOT'] = _IMAGE_MNT_ROOT
 
 # detach the .img from /dev
-echo @(_USER_PASSWD) | sudo -k -S \
+sudo -k \
     echo "detaching ..."
 
 

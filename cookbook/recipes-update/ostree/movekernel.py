@@ -48,7 +48,7 @@ if len(kernel_versions) != 1:
 
 subprocess.run(
     f" \
-        sudo -k -S \
+        sudo -k \
         cp -a {IMAGE_MNT_BOOT}/{LINUX_IMAGE} {IMAGE_MNT_ROOT}/usr/lib/modules/{kernel_versions[0]}/vmlinuz \
     ",
     shell=True,

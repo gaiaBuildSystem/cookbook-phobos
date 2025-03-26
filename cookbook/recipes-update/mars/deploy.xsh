@@ -48,7 +48,7 @@ $BUILD_ROOT = _BUILD_ROOT
 
 # deploy the files
 # we need super cow powers
-echo @(_USER_PASSWD) | sudo -k -S \
+sudo -k \
     echo "🐮"
 
 sudo cp @(_BUILD_ROOT)/mars/zig-out/bin/mars @(_IMAGE_MNT_ROOT)/usr/bin/mars

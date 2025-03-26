@@ -80,15 +80,15 @@ print(
 
 if not os.path.exists(_OSTREE_REPO_Z2_PATH):
     print("Creating the OSTree z2 folder ...")
-    echo @(_USER_PASSWD) | sudo -k -S \
+    sudo -k \
         mkdir -p @(_OSTREE_REPO_Z2_PATH)
 
     print("Initializing the OSTree z2 repository ...")
-    echo @(_USER_PASSWD) | sudo -k -S \
+    sudo -k \
         ostree init --repo=@(_OSTREE_REPO_Z2_PATH) --mode=archive-z2
 
 print("Sync OSTree repository to archive-z2 format ...")
-echo @(_USER_PASSWD) | sudo -k -S \
+sudo -k \
     ostree -v --repo=@(_OSTREE_REPO_Z2_PATH) pull-local @(_OSTREE_REPO_PATH) @(_MACHINE)
 
 
