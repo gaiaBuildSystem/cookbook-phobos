@@ -42,12 +42,6 @@
         "movekernel.py",
         "ostreewrapper.py"
     ],
-    "initramfsRecipes": [
-        "deployInit.sh"
-    ],
-    "afterDeployInitramfsRecipes": [
-        "overwriteinitscript.py"
-    ],
     "bundleRecipes": [
         "moveinitramfs.py",
         "fixuprootfs.py",
