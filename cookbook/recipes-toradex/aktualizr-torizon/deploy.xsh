@@ -56,6 +56,10 @@ sudo cp @(_BUILD_ROOT)/aktualizr-torizon/build/garage_deploy.deb @(_IMAGE_MNT_RO
 sudo chroot @(_IMAGE_MNT_ROOT) apt-get remove -y aktualizr-torizon
 sudo chroot @(_IMAGE_MNT_ROOT) apt-get install -y /tmp/aktualizr.deb /tmp/garage_deploy.deb
 
+# overwrite the uptane-sign
+sudo cp @(_path)/files/uptane-sign @(_IMAGE_MNT_ROOT)/usr/bin/uptane-sign
+sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/uptane-sign
+
 # cleanup
 sudo rm @(_IMAGE_MNT_ROOT)/tmp/*.deb
 
