@@ -6,12 +6,12 @@
         "major": 0,
         "minor": 0,
         "patch": 0,
-        "build": 3,
+        "build": 5,
         "variant": "ota",
         "codename": "lion-killer"
     },
     "useInitramfs": true,
-    "maxImgSize": 6844,
+    "maxImgSize": 4724,
     "searchForRecipesOn": [
         "../gaia/cookbook",
         "cookbook"
@@ -22,7 +22,6 @@
         "powershell",
         "neofetch",
         "initramfs-php",
-        "easy-splash",
-        "platform-provisioning"
+        "easy-splash"
     ]
 }
