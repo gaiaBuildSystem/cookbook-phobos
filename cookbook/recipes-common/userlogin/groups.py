@@ -27,8 +27,10 @@ print(f"Adding user {USER_LOGIN_USER} to the groups ...")
 str_cmd = (
     f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
-    # add the user to the docker group
-    f"usermod -aG docker {USER_LOGIN_USER}"
+    f"getent group docker > /dev/null && "
+    f"usermod -aG docker {USER_LOGIN_USER} && "
+    f"echo 'User {USER_LOGIN_USER} added to docker group' || "
+    f"echo 'Docker group does not exist, skipping'"
     f"\""
 )
 
