@@ -50,6 +50,7 @@ if not os.path.exists(f"{_BUILD_ROOT}/mars"):
     git clone @(meta['source'])
 
 os.chdir(f"{_BUILD_ROOT}/mars")
+git fetch origin
 git checkout @(meta['ref'][_ARCH])
 
 
