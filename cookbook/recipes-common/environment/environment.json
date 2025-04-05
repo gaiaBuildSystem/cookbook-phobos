@@ -8,7 +8,9 @@
     ],
     "env": {
         "MARS_OSTREE_REPO_BRANCH": "$MACHINE",
-        "GAIA_DISTRO": "phobos"
+        "GAIA_DISTRO": "phobos",
+        "OSTREE_BOOT_PARTITION": "/boot",
+        "OSTREE_GRUB2_EXEC": "/usr/lib/ostree/ostree-grub-generator"
     },
     "merge": true
 }
