@@ -1,0 +1,12 @@
+[Unit]
+Description=Pair Torizon FB App
+ConditionPathExists=!/var/sota/import/info.json
+After=network-online.target rc-local.service systemd-user-sessions.service getty.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pair-fb
+
+[Install]
+WantedBy=multi-user.target

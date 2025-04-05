@@ -1,0 +1,20 @@
+{
+    "name": "platform-pair-fb",
+    "type": "application",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "targetDeps": [
+        "jq",
+        "curl",
+        "iputils-ping",
+        "unzip",
+        "fbi",
+        "imagemagick"
+    ],
+    "deployRecipes": [
+        "deploy.xsh"
+    ]
+}

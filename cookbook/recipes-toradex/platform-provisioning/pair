@@ -1,0 +1,64 @@
+#!/bin/bash
+
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+
+# check if the script has been run as root
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run with root privileges (sudo)"
+    exit 69
+fi
+
+
+ret=$(curl -fsSL "https://app.torizon.io/api/provision-code")
+
+# Check if curl command succeeded
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to connect to Torizon API" >&2
+    exit 1
+fi
+
+# Check if response is empty
+if [ -z "$ret" ]; then
+    echo "Error: Received empty response from API" >&2
+    exit 2
+fi
+
+# Try to parse the JSON response
+if ! code=$(echo "$ret" | jq -r '.provisionCode' 2>/dev/null); then
+    echo "Error: Failed to parse API response code" >&2
+    exit 3
+fi
+
+# try to parse the uuid
+if ! uuid=$(echo "$ret" | jq -r '.provisionUuid' 2>/dev/null); then
+    echo "Error: Failed to parse API response uuid" >&2
+    exit 4
+fi
+
+# make each char of code be c o d e
+code=$(echo "$code" | sed 's/./& /g')
+# trim leading and trailing spaces
+code=$(echo "$code" | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+echo ""
+echo -e "Access ${BLUE}https://pair.torizon.io${NC} and use code [${YELLOW}$code${NC}] to pair this device"
+echo ""
+
+while true; do
+    sleep 10
+
+    _info=$(curl -fsSL "https://app.torizon.io/api/provision-code?provisionUuid=$uuid")
+    _token=$(echo "$_info" | awk -F'"' '/access/{print $4}')
+    if [ "$_token" != "" ]; then
+        break
+    fi
+done
+
+sh <<SCRIPT
+curl -fsSL https://app.torizon.io/statics/scripts/provision-device.sh | bash -s -- -u https://app.torizon.io/api/accounts/devices -t "${_token}" && systemctl restart aktualizr remote-access
+SCRIPT
+
+# print the info
