@@ -54,8 +54,10 @@ sudo -k \
     echo "detaching ..."
 
 
+$RAISE_SUBPROC_ERROR = False
 sudo umount @(f"{_IMAGE_MNT_BOOT}-ota")
 sudo umount @(f"{_IMAGE_MNT_ROOT}-ota")
+$RAISE_SUBPROC_ERROR = True
 
 
 # check if the image file exists
