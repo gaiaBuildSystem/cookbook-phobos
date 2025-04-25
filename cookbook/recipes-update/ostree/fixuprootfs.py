@@ -13,16 +13,23 @@ USER = os.getenv('USER')
 PSWD = os.getenv('PSWD')
 USER_LOGIN_USER = os.getenv('USER_LOGIN_USER')
 INITRAMFS_PATH = os.getenv('INITRAMFS_PATH')
+DISTRO_MAJOR = os.getenv('DISTRO_MAJOR')
+DISTRO_MINOR = os.getenv('DISTRO_MINOR')
+DISTRO_PATCH = os.getenv('DISTRO_PATCH')
+DISTRO_BUILD = os.getenv('DISTRO_BUILD')
 
 IMAGE_MNT_BOOT = f"{BUILD_PATH}/tmp/{MACHINE}/mnt/boot"
 IMAGE_MNT_ROOT = f"{BUILD_PATH}/tmp/{MACHINE}/mnt/root"
 os.environ['IMAGE_MNT_BOOT'] = IMAGE_MNT_BOOT
 os.environ['IMAGE_MNT_ROOT'] = IMAGE_MNT_ROOT
 
+OS_RELEASE_VERSION = f"{DISTRO_MAJOR}.{DISTRO_MINOR}.{DISTRO_PATCH}.{DISTRO_BUILD}"
+os.environ['OS_RELEASE_VERSION'] = OS_RELEASE_VERSION
+
 # get the actual script path
 _path = os.path.dirname(os.path.realpath(__file__))
 
-print(f"Setting up the rootfs for ostree")
+print("Setting up the rootfs for ostree")
 
 _cmds = []
 
@@ -31,7 +38,7 @@ _cmds = []
 # if os.getenv('CLEAN_IMAGE') == "true":
 #     # check if the folder exists
 if os.path.exists(f"{BUILD_PATH}/tmp/{MACHINE}/ostree"):
-    print(f"Removing ostree")
+    print("Removing ostree")
     _cmds += [
         f"bash -c 'chattr -R -i {BUILD_PATH}/tmp/{MACHINE}/ostree | true'",
         f"rm -rf {BUILD_PATH}/tmp/{MACHINE}/ostree"
@@ -114,7 +121,7 @@ _cmds += [
 if ARCH == "linux/amd64":
     # for x86_64 we use grub
     # so, we need to inject variables to ostree know
-    os.environ['OSTREE_BOOT_PARTITION'] = f"/boot"
+    os.environ['OSTREE_BOOT_PARTITION'] = "/boot"
     os.environ['OSTREE_GRUB2_EXEC'] = f"{IMAGE_MNT_ROOT}/usr/lib/ostree/ostree-grub-generator"
 
     _cmds += [
@@ -135,6 +142,9 @@ _cmds += [
     f"ostree --repo={_os_tree_repo_path} commit \
         --branch {MACHINE} \
         --tree=dir={_os_tree_cloned_rootfs} \
+        --add-metadata-string=\"version={OS_RELEASE_VERSION}\" \
+        --add-metadata-string=\"gaia.arch={ARCH}\" \
+        --add-metadata-string=\"gaia.machine={MACHINE}\" \
     "
 ]
 
@@ -162,4 +172,4 @@ for _cmd in _cmds:
         env=os.environ
     )
 
-print(f"os-tree fixup ok!")
+print("os-tree fixup ok!")
