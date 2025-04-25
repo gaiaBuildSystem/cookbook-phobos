@@ -7,7 +7,7 @@
         "linux/arm64"
     ],
     "env": {
-        "OSTREE_GARAGE_PUSH": "true"
+        "OSTREE_GARAGE_PUSH": "false"
     },
     "hostDeps": [
         "ostree",
