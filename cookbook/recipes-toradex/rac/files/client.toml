@@ -1,6 +1,6 @@
 [torizon]
 url = "https://dgw.torizon.io/ras/"
-server_cert_path = "/usr/lib/sota/root.crt"
+server_cert_path = "/etc/sota/root.crt"
 client_cert_path = "/var/sota/import/client.pem"
 client_key_path = "/var/sota/import/pkey.pem"
 
@@ -11,7 +11,7 @@ unprivileged_user_group = "phobos:phobos"
 local_tuf_repo_path = "/home/phobos/run/rac/uptane-repo"
 poll_timeout = { secs = 30, nanos = 0 }
 validation_poll_timeout = { secs = 30, nanos = 0 }
-enable_dbus_client = true
+enable_dbus_client = false
 
 [device.session.spawned_sshd]
 sshd_path = "/usr/sbin/sshd"

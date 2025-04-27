@@ -58,8 +58,8 @@ else:
 
 _file_url = f"{meta['source']}/{_file}"
 
-mkdir -p $_BUILD_ROOT/rac
-curl -o $_BUILD_ROOT/rac/rac -L @(_file_url)
+mkdir -p $BUILD_ROOT/rac
+curl -o $BUILD_ROOT/rac/rac -L @(_file_url)
 
 print(
     "Fetch rac binary, ok",

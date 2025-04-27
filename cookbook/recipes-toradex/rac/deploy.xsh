@@ -49,11 +49,12 @@ $BUILD_ROOT = _BUILD_ROOT
 # deploy the files
 sudo cp @(_path)/systemd/remote-access.service @(_IMAGE_MNT_ROOT)/etc/systemd/system/remote-access.service
 sudo cp @(_BUILD_ROOT)/rac/rac @(_IMAGE_MNT_ROOT)/usr/bin/rac
+sudo mkdir -p @(_IMAGE_MNT_ROOT)/etc/rac
 sudo cp @(_path)/files/client.toml @(_IMAGE_MNT_ROOT)/etc/rac/client.toml
 sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/rac
 
 # enable the systemd
-sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable pair-fb.service
+sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable remote-access.service
 
 
 print(
