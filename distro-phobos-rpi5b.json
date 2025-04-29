@@ -9,7 +9,7 @@
         "build": 0
     },
     "useInitramfs": true,
-    "maxImgSize": 6444,
+    "maxImgSize": 5120,
     "searchForRecipesOn": [
         "../gaia/cookbook",
         "../cookbook-rpi/cookbook",
