@@ -52,6 +52,8 @@ sudo -k \
     echo "🐮"
 
 sudo cp @(_BUILD_ROOT)/mars/zig-out/bin/mars @(_IMAGE_MNT_ROOT)/usr/bin/mars
+# make a symlink to the mars CLI,inside the rootfs
+sudo ln -s /usr/bin/mars @(_IMAGE_MNT_ROOT)/usr/bin/phobos
 
 
 print(
