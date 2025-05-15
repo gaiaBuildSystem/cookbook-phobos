@@ -7,7 +7,7 @@
         "linux/arm64"
     ],
     "env": {
-        "OS_RELEASE_PRETTY_NAME": "PhobOS",
+        "OS_RELEASE_PRETTY_NAME": "PhobOS Torizon",
         "OS_RELEASE_NAME": "PhobOS",
         "OS_RELEASE_ID": "phonos",
         "OS_RELEASE_VERSION_CODENAME": "artemis",
