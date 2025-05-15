@@ -6,12 +6,12 @@
         "major": 0,
         "minor": 0,
         "patch": 0,
-        "build": 3,
+        "build": 4,
         "variant": "ota",
         "codename": "lion-killer"
     },
     "useInitramfs": true,
-    "maxImgSize": 6444,
+    "maxImgSize": 5120,
     "searchForRecipesOn": [
         "../gaia/cookbook",
         "../cookbook-nxp/cookbook",
