@@ -7,7 +7,7 @@
         "linux/arm64"
     ],
     "env": {
-        "HOSTNAME_NAME": "phobos"
+        "HOSTNAME_NAME": "${MACHINE}"
     },
     "merge": true
 }
