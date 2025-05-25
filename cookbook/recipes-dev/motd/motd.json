@@ -1,7 +1,7 @@
 {
     "name": "motd",
     "type": "package",
-    "priority": 0,
+    "priority": 1,
     "support": [
         "linux/amd64",
         "linux/arm64"
