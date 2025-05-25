@@ -58,7 +58,7 @@ print("⚠️ WARNING: This recipe is meant to be used for development purposes 
 ###
 # config the sudo to not ask for password
 sudo chroot @(_IMAGE_MNT_ROOT) \
-    bash 'echo "phobos ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/phobos'
+    bash -c 'echo "phobos ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/phobos'
 
 # config sshd to not ask for password for root
 sudo chroot @(_IMAGE_MNT_ROOT) \
