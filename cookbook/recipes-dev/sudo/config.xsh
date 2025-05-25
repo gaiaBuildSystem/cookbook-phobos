@@ -58,13 +58,14 @@ print("⚠️ WARNING: This recipe is meant to be used for development purposes 
 ###
 # config the sudo to not ask for password
 sudo chroot @(_IMAGE_MNT_ROOT) \
-    bash -c @(f"'echo \"phobos ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/phobos'")
+    bash 'echo "phobos ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/phobos'
 
 # config sshd to not ask for password for root
 sudo chroot @(_IMAGE_MNT_ROOT) \
-    bash -c @(f"'echo \"PermitRootLogin yes\" >> /etc/ssh/sshd_config'")
+    bash -c 'echo "PermitRootLogin yes" >> /etc/ssh/sshd_config'
+
 sudo chroot @(_IMAGE_MNT_ROOT) \
-    bash -c @(f"'echo \"PermitEmptyPasswords yes\" >> /etc/ssh/sshd_config'")
+    bash -c 'echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config'
 ###
 # ⚠️ WARNING: This recipe is meant to be used for development purposes only.
 ###
