@@ -8,8 +8,5 @@
     ],
     "env": {
         "MOTD_MESSAGE": "⚠️ THIS IS A DEVELOPMENT IMAGE ⚠️\n\nThe image is not secure!\nPlease use phobos-custom hardening feature to create production images."
-    },
-    "deployRecipes": [
-        "deploy.ts"
-    ]
+    }
 }
