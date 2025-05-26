@@ -7,7 +7,7 @@
         "linux/arm64"
     ],
     "env": {
-        "HOSTNAME_NAME": "${MACHINE}"
+        "HOSTNAME_NAME": "{{MACHINE}}"
     },
     "merge": true
 }
