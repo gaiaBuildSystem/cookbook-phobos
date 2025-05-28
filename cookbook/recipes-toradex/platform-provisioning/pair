@@ -58,7 +58,7 @@ while true; do
 done
 
 sh <<SCRIPT
-curl -fsSL https://app.torizon.io/statics/scripts/provision-device.sh | bash -s -- -u https://app.torizon.io/api/accounts/devices -t "${_token}" && systemctl restart aktualizr remote-access
+/usr/bin/provision-device -u https://app.torizon.io/api/accounts/devices -t "${_token}" && systemctl restart aktualizr remote-access
 SCRIPT
 
 # print the info

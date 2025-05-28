@@ -48,7 +48,9 @@ $BUILD_ROOT = _BUILD_ROOT
 
 # deploy the files
 sudo cp @(_path)/pair @(_IMAGE_MNT_ROOT)/usr/bin/pair
+sudo cp @(_path)/provision-device.sh @(_IMAGE_MNT_ROOT)/usr/bin/provision-device
 sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/pair
+sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/provision-device
 
 
 print(
