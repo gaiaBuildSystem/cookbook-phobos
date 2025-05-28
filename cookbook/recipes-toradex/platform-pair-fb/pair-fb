@@ -11,6 +11,12 @@ if [ "$EUID" -ne 0 ]; then
     exit 69
 fi
 
+cat /dev/zero > /dev/fb0
+cat /dev/urandom > /dev/fb0
+
+# let's wait some time
+sleep 10s
+
 ping -c 1 8.8.8.8 > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: No internet connection. Please check your network settings." >&2
