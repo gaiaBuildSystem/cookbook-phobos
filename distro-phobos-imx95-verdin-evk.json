@@ -23,7 +23,6 @@
         "powershell",
         "neofetch",
         "initramfs-php",
-        "easy-splash",
-        "platform-provisioning"
+        "easy-splash"
     ]
 }
