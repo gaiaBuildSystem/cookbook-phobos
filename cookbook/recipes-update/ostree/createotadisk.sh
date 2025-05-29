@@ -55,7 +55,7 @@ ls -la ${IMAGE_MNT_ROOT}-ota/
 echo "-----------------------------------------------------------------Rootfs cleaned:"
 
 # clone from the ostree
-rsync -aS ${OS_TREE_DEPLOY_PATH}/ ${IMAGE_MNT_ROOT}-ota/
+rsync -aHS ${OS_TREE_DEPLOY_PATH}/ ${IMAGE_MNT_ROOT}-ota/
 
 # debug if the rootfs was really cloned
 echo "-----------------------------------------------------------------Rootfs cloned:"
