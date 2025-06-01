@@ -66,6 +66,10 @@ sudo chroot @(_IMAGE_MNT_ROOT) \
 
 sudo chroot @(_IMAGE_MNT_ROOT) \
     bash -c 'echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config'
+
+# set also the phobos user to not have a password
+sudo chroot @(_IMAGE_MNT_ROOT) \
+    bash -c 'passwd -d phobos'
 ###
 # ⚠️ WARNING: This recipe is meant to be used for development purposes only.
 ###
