@@ -52,6 +52,8 @@ sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/pair-fb
 
 # add the systemd service
 sudo cp @(_path)/systemd/pair-fb.service @(_IMAGE_MNT_ROOT)/etc/systemd/system/pair-fb.service
+sudo mkdir -p @(_IMAGE_MNT_ROOT)/usr/share/pair-fb
+sudo cp @(_path)/diagrams.jpg @(_IMAGE_MNT_ROOT)/usr/share/pair-fb/diagrams.jpg
 
 # enable it
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable pair-fb.service

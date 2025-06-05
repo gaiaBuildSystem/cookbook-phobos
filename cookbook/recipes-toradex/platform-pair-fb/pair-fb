@@ -11,8 +11,12 @@ if [ "$EUID" -ne 0 ]; then
     exit 69
 fi
 
+# cleaning the framebuffer
 cat /dev/zero > /dev/fb0
-cat /dev/urandom > /dev/fb0
+
+# load the first image
+# cat /dev/urandom > /dev/fb0
+fbi --noverbose -a -T 7 /usr/share/pair-fb/diagrams.jpg >/dev/null 2>&1
 
 # let's wait some time
 sleep 10s
