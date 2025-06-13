@@ -15,7 +15,7 @@ cmake \
     -DBUILD_SOTA_TOOLS=ON \
     -DGARAGE_SIGN_ARCHIVE=$BUILD_ROOT/uptane-sign/cli-$UPTANE_SIGN_VER.tgz \
     -DGARAGE_SIGN_TOOL="uptane-sign" \
-    -DSOTA_DEBIAN_PACKAGE_DEPENDS=openjdk-17-jre-headless \
+    -DSOTA_DEBIAN_PACKAGE_DEPENDS=openjdk-21-jdk-headless \
     -DBUILD_OSTREE=ON \
     -DWARNING_AS_ERROR=OFF \
     ..

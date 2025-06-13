@@ -34,7 +34,7 @@
         "libglib2.0-dev",
         "file",
         "libostree-dev",
-        "openjdk-17-jre-headless"
+        "openjdk-21-jdk-headless"
     ],
     "fetchRecipes": [
         "garage-fetch.xsh"
