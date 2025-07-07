@@ -3,7 +3,8 @@
     "type": "bootloader",
     "priority": 2,
     "support": [
-        "linux/arm64"
+        "linux/arm64",
+        "linux/amd64"
     ],
     "merge": true
 }

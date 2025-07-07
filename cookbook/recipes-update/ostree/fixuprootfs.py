@@ -110,35 +110,20 @@ _cmds += [
 ]
 
 # FIXME: we need to add a way to maintain new builds
+# NOW IS ALL ABOUT U-BOOT
 _cmds += [
     # prepare the ostree rootfs
     f"ostree --sysroot={_os_tree_deploy_path} admin init-fs --modern {_os_tree_deploy_path}",
     f"ostree --sysroot={_os_tree_deploy_path} admin os-init phobos",
     f"mkdir -p {_os_tree_deploy_path}/boot/loader.0",
-    f"ln -sf loader.0 {_os_tree_deploy_path}/boot/loader"
+    f"ln -sf loader.0 {_os_tree_deploy_path}/boot/loader",
+    f"touch {_os_tree_deploy_path}/boot/loader/uEnv.txt",
+    f"ln -s loader/uEnv.txt {_os_tree_deploy_path}/boot/uEnv.txt"
 ]
-
-if ARCH == "linux/amd64":
-    # for x86_64 we use grub
-    # so, we need to inject variables to ostree know
-    os.environ['OSTREE_BOOT_PARTITION'] = "/boot"
-    os.environ['OSTREE_GRUB2_EXEC'] = f"{IMAGE_MNT_ROOT}/usr/lib/ostree/ostree-grub-generator"
-
-    _cmds += [
-        f"cp {BUILD_PATH}/tmp/{MACHINE}/grub/grub.cfg {_os_tree_deploy_path}/boot/loader.0/grub.cfg",
-        f"mkdir -p {_os_tree_deploy_path}/boot/grub2",
-        f"ln -sf ../loader/grub.cfg {_os_tree_deploy_path}/boot/grub2/grub.cfg"
-    ]
-
-if ARCH == "linux/arm64":
-    # for aarch64 we use u-boot
-    _cmds += [
-        f"touch {_os_tree_deploy_path}/boot/loader/uEnv.txt",
-        f"ln -s loader/uEnv.txt {_os_tree_deploy_path}/boot/uEnv.txt"
-    ]
 
 # ostree commit
 _cmds += [
+    f"ostree --repo={_os_tree_repo_path} config set sysroot.bootloader uboot",
     f"ostree --repo={_os_tree_repo_path} commit \
         --branch {MACHINE} \
         --tree=dir={_os_tree_cloned_rootfs} \

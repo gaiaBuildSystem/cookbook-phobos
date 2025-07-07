@@ -6,7 +6,7 @@
         "major": 0,
         "minor": 0,
         "patch": 0,
-        "build": 10,
+        "build": 12,
         "variant": "ota",
         "codename": "lion-killer"
     },
@@ -17,7 +17,6 @@
         "cookbook"
     ],
     "excludeRecipes": [
-        "u-boot",
         "microsoft",
         "powershell",
         "neofetch",

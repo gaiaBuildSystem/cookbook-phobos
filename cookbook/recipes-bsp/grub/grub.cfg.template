@@ -17,6 +17,8 @@ terminal_output gfxterm
 # load the splash image
 background_image /splash.png
 
-# search for the rootfs drive
-search.fs_label otaroot root
-configfile /boot/grub2/grub.cfg
+# EFI u-boot as an app
+menuentry "U-BOOT" {
+    insmod chain
+    chainloader /EFI/BOOT/u-boot-app.efi
+}
