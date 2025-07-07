@@ -1,0 +1,2 @@
+LABEL=BOOT      /var/rootdirs/media/grub  vfat    defaults                                    0   2
+LABEL=otaroot   /                         ext4    errors=remount-ro                           0   1
