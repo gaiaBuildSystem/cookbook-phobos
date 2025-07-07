@@ -52,7 +52,11 @@ $BUILD_ROOT = _BUILD_ROOT
 
 
 os.chdir(f"{_BUILD_ROOT}/mars")
-zig build -freference-trace
+
+if _ARCH == 'linux/amd64':
+    zig build -freference-trace -Dcpu=baseline
+else:
+    zig build -freference-trace
 
 
 print(
