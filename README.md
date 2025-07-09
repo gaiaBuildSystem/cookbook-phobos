@@ -2,7 +2,7 @@
 
 <p align="center">
     <img
-        src="https://github.com/gaiaBuildSystem/.github/raw/main/profile/PhobOS1.png"
+        src="https://github.com/gaiaBuildSystem/.github/raw/main/profile/PhobOS2.png"
         height="112"
     />
 </p>
@@ -31,6 +31,7 @@ PhobOS is compatible with the Toradex Torizon ecosystem. It uses OSTree to manag
 - One of the Machine specific BSP cookbooks:
     - [NXP Boards](https://github.com/gaiaBuildSystem/cookbook-nxp)
     - [Raspberry Pi Boards](https://github.com/gaiaBuildSystem/cookbook-rpi)
+    - [x86_64 Boards](https://github.com/gaiaBuildSystem/cookbook-intel)
 
 ### Build
 
@@ -90,24 +91,27 @@ Although systems have design and architectural differences the goal as the proje
 ❌ - Feature will never match <br>
 ℹ️ - Community support
 
-| Feature                           | Torizon OS | PhobOS iMX95 Verdin EVK | PhobOS Raspberry Pi 5B |
-| --------------------------------- | ---------- | ----------------------- | ---------------------- |
-| OTA Update OS Image               | ✅          | ✅                       | ✅                      |
-| OTA Update Container App          | ✅          | ✅                       | ✅                      |
-| OTA Update Bootloader             | ✅          | ⌛                       | ⌛                      |
-| Debian package development*       | ❌          | ✅                       | ✅                      |
-| Device Monitoring                 | ✅          | ⌛                       | ⌛                      |
-| RAC Remote Access                 | ✅          | ⌛                       | ⌛                      |
-| Free Technical Support            | ✅          | ℹ️                      | ℹ️                     |
-| Prebuilt OS Image                 | ✅          | ⌛                       | ⌛                      |
-| QA Approved Releases              | ✅          | ⌛                       | ⌛                      |
-| Built with Yocto                  | ✅          | ❌                       | ❌                      |
-| Image Customizing with TCB**      | ✅          | ❌                       | ❌                      |
-| SBOM***                           | ✅          | ⌛                       | ⌛                      |
-| Torizon VS Code Extension support | ✅          | ⌛                       | ⌛                      |
+| Feature                           | Torizon OS | PhobOS |
+| --------------------------------- | ---------- | ----------------------- |
+| OTA Update OS Image               | ✅          | ✅                       |
+| OTA Update Container App          | ✅          | ✅                       |
+| OTA Update Bootloader             | ✅          | ⌛                       |
+| Debian package development¹       | ❌          | ✅                       |
+| Device Monitoring                 | ✅          | ⌛                       |
+| RAC Remote Access                 | ✅          | ✅                        |
+| Free Technical Support            | ✅          | ℹ️                      |
+| Prebuilt OS Image                 | ✅          | ⌛                       |
+| QA Approved Releases              | ✅          | ⌛                       |
+| Built with Yocto                  | ✅          | ❌                       |
+| Image Customizing with TCB²     | ✅          | ❌                       |
+| Image Customizing with Opus³      | ❌         | ✅                       |
+| SBOM⁴                          | ✅          | ⌛                       |
+| Torizon VS Code Extension support⁵ | ✅          | ✅                       |
 
 
 
-***Debian package development**: it is possible to install Debian packages without need of containerization, as the OS is Debian based. <br>
-****TCB**: Torizon Core Builder <br>
-*****SBOM**: Software Bill of Materials <br>
+¹**Debian package development**: it is possible to install Debian packages without need of containerization, as the OS is Debian based. <br>
+²**TCB**: Torizon Core Builder <br>
+³**Opus**: PhobOS image customization tool <br>
+⁴**SBOM**: Software Bill of Materials <br>
+⁵**Torizon VS Code Extension support**: PhobOS supports the Torizon VS Code templates trought a different repository that need to be configured on the VS Code settings <br>
