@@ -1,8 +1,8 @@
 [Unit]
 Description=Easy Splash Stop Service
 Before=getty.target
-After=network-online.target multi-user.target graphical.target
-Requires=multi-user.target
+After=getty@tty1.service
+Requires=getty@tty1.service
 
 [Service]
 Type=oneshot
