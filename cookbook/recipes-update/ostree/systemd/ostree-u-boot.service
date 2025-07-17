@@ -1,0 +1,13 @@
+[Unit]
+Description=OSTree u-boot Complete Boot
+ConditionKernelCommandLine=!rollback
+ConditionPathExists=/ostree/repo
+ConditionPathExists=/boot/loader
+After=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=fw_setenv bootcount 0
+
+[Install]
+WantedBy=multi-user.target

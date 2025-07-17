@@ -28,6 +28,9 @@ print(f"Installing .service for ostree")
 subprocess.run(
     f"sudo -k \
     cp {_path}/ostree-booted.service {IMAGE_MNT_ROOT}/etc/systemd/system/ostree-booted.service \
+    && \
+    sudo -k \
+    cp {_path}/ostree-u-boot.service {IMAGE_MNT_ROOT}/etc/systemd/system/ostree-u-boot.service \
     ",
     shell=True,
     check=True,
@@ -45,6 +48,21 @@ str_cmd = (
 
 subprocess.run(
     str_cmd,
+    shell=True,
+    check=True,
+    executable="/bin/bash",
+    env=os.environ
+)
+
+str_cmd2 = (
+    f"sudo -k "
+    f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
+    f"systemctl enable ostree-u-boot.service"
+    f"\""
+)
+
+subprocess.run(
+    str_cmd2,
     shell=True,
     check=True,
     executable="/bin/bash",
