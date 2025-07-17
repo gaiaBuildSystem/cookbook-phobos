@@ -5,6 +5,22 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 
+# Signal handler for graceful shutdown
+cleanup() {
+    echo "Received termination signal, cleaning up..."
+    pkill -9 fbi
+
+    cat /dev/zero > /dev/fb0 2>/dev/null
+    fbset -t 39721 48 16 33 10 96 2
+    echo "Cleanup done. Exiting..."
+
+    exit 0
+}
+
+# Trap termination signals
+trap cleanup SIGTERM SIGINT SIGQUIT
+
+
 # check if the script has been run as root
 if [ "$EUID" -ne 0 ]; then
     echo "Please run with root privileges (sudo)"
@@ -13,10 +29,12 @@ fi
 
 # cleaning the framebuffer
 cat /dev/zero > /dev/fb0
+fbset -t 39721 48 16 33 10 96 2
 
 # load the first image
 # cat /dev/urandom > /dev/fb0
 fbi --noverbose -a -T 7 /usr/share/pair-fb/diagrams.jpg >/dev/null 2>&1
+fbset -t 39721 48 16 33 10 96 2
 
 # let's wait some time
 sleep 10s
@@ -75,6 +93,7 @@ convert \
     /home/phobos/output.jpg
 
 fbi --noverbose -a -T 7 /home/phobos/output.jpg >/dev/null 2>&1
+fbset -t 39721 48 16 33 10 96 2
 
 while true; do
     sleep 10
@@ -102,11 +121,13 @@ convert \
     "Paired OK" \
     /home/phobos/output.jpg
 
-pkill fbi
+pkill -9 fbi
 sleep 1s
 
 fbi --noverbose -a -T 7 /home/phobos/output.jpg >/dev/null 2>&1
+fbset -t 39721 48 16 33 10 96 2
 
 # sleep like 2min
 sleep 120s
-pkill fbi
+pkill -9 fbi
+cat /dev/zero > /dev/fb0 2>/dev/null
