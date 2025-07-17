@@ -4,6 +4,9 @@
 # Reference boot script.
 
 echo "Booting Reference ..."
+saveenv
+
+setenv bootlimit 3
 
 # check if loglevel is set
 if env exists loglevel
@@ -13,8 +16,40 @@ if env exists loglevel
         setenv loglevel 3
 fi
 
+if env exists bootcount
+    then
+        echo "bootcount is ${bootcount}"
+    else
+        setenv bootcount 1
+fi
+
+setexpr bootcount $bootcount + 1
+saveenv
+
 ext4load efi 0:2 ${scriptaddr} boot/uEnv.txt
 env import -t ${scriptaddr} ${filesize}
+
+if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
+    then
+        # Make sure to reset upgrade_available to avoid unnecessary wear
+        # Note this also makes rollback permanent. aktualizr will reset rollback
+        # when a new (hopefully better) update comes in.
+        env set upgrade_available 0
+        setenv bootcount 0
+        saveenv
+fi
+
+if test $bootcount -gt $bootlimit
+    then
+        echo "Bootcount exceeded, applying rollback"
+        setenv bootcount 0
+        saveenv
+
+        setenv kernel_image ${kernel_image2}
+        setenv ramdisk_image ${ramdisk_image2}
+        setenv bootargs ${bootargs2}
+        setenv bootargs ${bootargs} rollback=1
+fi
 
 env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
 env set bootargs ${bootargs} console=ttyS0,115200
