@@ -1,0 +1,46 @@
+{
+    "name": "mplayer-splash",
+    "type": "init",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "source": "https://github.com/microhobby/mplayer.git",
+    "ref": {
+        "linux/amd64": "da00933d5693792d1b415add07b0514a7f17d92e",
+        "linux/arm64": "da00933d5693792d1b415add07b0514a7f17d92e"
+    },
+    "hostAsContainer": true,
+    "containerImage": {
+        "image": "docker.io/pergamos/staticx",
+        "tag": "bookworm",
+        "extraConfig": "--privileged --pid=host --ipc=host --uts=host --net=host"
+    },
+    "hostDeps": [
+        "curl",
+        "git",
+        "build-essential",
+        "musl-tools",
+        "yasm",
+        "zlib1g-dev",
+        "libpng-dev",
+        "pkg-config",
+        "linux-headers-6.1.0-35-common",
+        "linux-libc-dev",
+        "fbset",
+        "fbi"
+    ],
+    "fetchRecipes": [
+        "fetch.py"
+    ],
+    "buildRecipes": [
+        "build.sh"
+    ],
+    "deployRecipes": [
+        "deploy.py"
+    ],
+    "initramfsRecipes": [
+        "deployInit.py"
+    ]
+}

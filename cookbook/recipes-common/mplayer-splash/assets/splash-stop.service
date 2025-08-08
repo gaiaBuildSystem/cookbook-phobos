@@ -1,0 +1,13 @@
+[Unit]
+Description=Easy Splash Stop Service
+Before=getty.target
+After=getty@tty1.service
+Requires=getty@tty1.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 4
+ExecStart=/usr/bin/pkill -9 mplayer
+
+[Install]
+WantedBy=default.target
