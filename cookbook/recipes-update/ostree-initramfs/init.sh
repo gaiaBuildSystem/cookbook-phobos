@@ -70,8 +70,6 @@ echo "[initramfs] switching to ostree deploy..."
 
 # mount the /dev on /sysroot/dev
 /bin/busybox mount -t devtmpfs dev /sysroot/dev
-# exec the splash screen from /sysroot
-chroot /sysroot /bin/bash -c "/usr/easy-splash/easysplash open /usr/easy-splash/ --video-sink fbdevsink &"
 
 # now we are ready to switch_root
 exec switch_root /sysroot /sbin/init
