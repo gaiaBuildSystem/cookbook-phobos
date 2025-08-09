@@ -6,7 +6,7 @@
         "major": 0,
         "minor": 0,
         "patch": 0,
-        "build": 10,
+        "build": 14,
         "variant": "ota",
         "codename": "lion-killer"
     },
@@ -23,6 +23,7 @@
         "powershell",
         "neofetch",
         "initramfs-php",
+        "simple-splash",
         "easy-splash"
     ]
 }
