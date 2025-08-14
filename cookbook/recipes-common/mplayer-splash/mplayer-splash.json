@@ -41,6 +41,7 @@
         "deploy.py"
     ],
     "initramfsRecipes": [
-        "deployInit.py"
+        "deployInit.py",
+        "utils.sh"
     ]
 }
