@@ -1,9 +1,12 @@
 #
-# Copyright 2024 MicroHobby
+# Copyright 2025 MicroHobby
 #
 # Reference boot script.
 
 echo "Booting Reference ..."
+saveenv
+
+setenv bootlimit 3
 
 # check if loglevel is set
 if env exists loglevel
@@ -13,17 +16,51 @@ if env exists loglevel
         setenv loglevel 3
 fi
 
-env set bootargs root=LABEL:otaroot rootfstype=ext4
+if env exists bootcount
+    then
+        echo "bootcount is ${bootcount}"
+    else
+        setenv bootcount 1
+fi
+
+setexpr bootcount $bootcount + 1
+saveenv
+
+ext4load virtio 0:2 ${scriptaddr} boot/uEnv.txt
+env import -t ${scriptaddr} ${filesize}
+
+if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
+    then
+        # Make sure to reset upgrade_available to avoid unnecessary wear
+        # Note this also makes rollback permanent. aktualizr will reset rollback
+        # when a new (hopefully better) update comes in.
+        env set upgrade_available 0
+        setenv bootcount 0
+        saveenv
+fi
+
+if test $bootcount -gt $bootlimit
+    then
+        echo "Bootcount exceeded, applying rollback"
+        setenv bootcount 0
+        saveenv
+
+        setenv kernel_image ${kernel_image2}
+        setenv ramdisk_image ${ramdisk_image2}
+        setenv bootargs ${bootargs2}
+        setenv bootargs ${bootargs} rollback=1
+fi
+
+env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
 env set bootargs ${bootargs} console=ttyAMA0,115200
 env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
-env set bootargs ${bootargs} video=1024x768
-env set bootargs ${bootargs} loglevel=${loglevel}
+env set bootargs ${bootargs} ignore_loglevel earlycon
 env set bootargs ${bootargs} ${extraargs}
 
 # loads the kernel and the initramfs
-virtio dev 0
-fatload virtio 0:1 ${kernel_addr_r} Image
-fatload virtio 0:1 ${ramdisk_addr_r} initramfs.cpio.gz
+ext4load virtio 0:2 ${kernel_addr_r} ${kernel_image}
+env set kernel_size ${filesize}
+ext4load virtio 0:2 ${ramdisk_addr_r} ${ramdisk_image}
 env set ramdisk_size ${filesize}
 
 # qemu is a specia case, because it already loads the device tree

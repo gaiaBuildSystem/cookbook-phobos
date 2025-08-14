@@ -1,0 +1,12 @@
+{
+    "name": "u-boot",
+    "type": "bootloader",
+    "priority": 2,
+    "support": [
+        "linux/arm64"
+    ],
+    "bundleRecipes": [
+        "bios.xsh"
+    ],
+    "merge": true
+}
