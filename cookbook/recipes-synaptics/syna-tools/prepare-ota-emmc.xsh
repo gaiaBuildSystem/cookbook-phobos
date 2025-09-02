@@ -58,7 +58,7 @@ _TOTAL_SIZE_MB = _ROOTFS_SIZE_MB + _PADDING_MB
 print(f"Rootfs content size: {_ROOTFS_SIZE_MB}MB, padding: {_PADDING_MB}MB, total: {_TOTAL_SIZE_MB}MB", color=Color.WHITE, bg_color=BgColor.BLUE)
 
 # create the rootfs image file
-_ROOTFS_IMG = f"{_DEPLOY_DIR}/{MACHINE}-ota-{DISTRO_MAJOR}-{DISTRO_MINOR}-{DISTRO_PATCH}.img"
+_ROOTFS_IMG = f"{_DEPLOY_DIR}/{_MACHINE}-ota-{_DISTRO_MAJOR}-{_DISTRO_MINOR}-{_DISTRO_PATCH}.img"
 sudo dd if=/dev/zero of=@(_ROOTFS_IMG) bs=1M count=@(_TOTAL_SIZE_MB) status=progress
 
 # format as ext4 with more inodes and reserved space
@@ -116,46 +116,6 @@ sudo bash -c @(f"{_cmd}")
 print(f"Raw rootfs image created: {_ROOTFS_IMG}", color=Color.WHITE, bg_color=BgColor.BLUE)
 print(f"Compressed rootfs image created: {_ROOTFS_IMG_GZ}", color=Color.WHITE, bg_color=BgColor.BLUE)
 
-# to the same for boot partition
-print("Calculating boot partition size...", color=Color.WHITE, bg_color=BgColor.BLUE)
-_BOOT_SIZE_KB = $(sudo du -sk @(_IMAGE_MNT_BOOT) | cut -f1)
-_BOOT_SIZE_MB = int(int(_BOOT_SIZE_KB) / 1024)
-_PADDING_BOOT_MB = max(int(_BOOT_SIZE_MB * 0.5), 100)
-_TOTAL_BOOT_SIZE_MB = _BOOT_SIZE_MB + _PADDING_BOOT_MB
-print(f"Boot content size: {_BOOT_SIZE_MB}MB, padding: {_PADDING_BOOT_MB}MB, total: {_TOTAL_BOOT_SIZE_MB}MB", color=Color.WHITE, bg_color=BgColor.BLUE)
-
-_BOOT_IMG = f"{_DEPLOY_DIR}/boot.img"
-sudo dd if=/dev/zero of=@(_BOOT_IMG) bs=1M count=@(_TOTAL_BOOT_SIZE_MB) status=progress
-
-# format as FAT32 for bootloader
-sudo mkfs.vfat -F 32 @(_BOOT_IMG)
-sudo fatlabel @(_BOOT_IMG) BOOT
-
-_TEMP_BOOT_MNT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/temp_boot"
-sudo mkdir -p @(_TEMP_BOOT_MNT)
-sudo mount -o loop @(_BOOT_IMG) @(_TEMP_BOOT_MNT)
-
-try:
-    print("Copying boot partition content...", color=Color.WHITE, bg_color=BgColor.BLUE)
-    sudo rsync -av @(f"{_IMAGE_MNT_BOOT}/") @(f"{_TEMP_BOOT_MNT}/")
-    sync
-    print("Boot image created successfully", color=Color.WHITE, bg_color=BgColor.BLUE)
-except Exception as e:
-    print("syna-tools preparing emmc partitions, OOPS at boot...", color=Color.WHITE, bg_color=BgColor.RED)
-    print(e)
-finally:
-    sudo umount @(_TEMP_BOOT_MNT) || true
-    sudo rmdir @(_TEMP_BOOT_MNT) || true
-
-# compress the boot image
-_BOOT_IMG_GZ = f"{_BOOT_IMG}.gz"
-print("Compressing boot image...", color=Color.WHITE, bg_color=BgColor.BLUE)
-sudo bash -c @(f"gzip -fc {_BOOT_IMG} > {_BOOT_IMG_GZ}")
-
-print(f"Raw boot image created: {_BOOT_IMG}", color=Color.WHITE, bg_color=BgColor.BLUE)
-print(f"Compressed boot image created: {_BOOT_IMG_GZ}", color=Color.WHITE, bg_color=BgColor.BLUE)
-
-
 # now we need to split the image
 # the syna bootloader only support 300mb by file
 sudo \
@@ -166,18 +126,8 @@ sudo \
         @(_DEPLOY_DIR)
 
 
-# for the boot we do not expect to need this but
-sudo \
-    bash @(_path)/split.sh \
-        @(_BOOT_IMG) \
-        @(_BOOT_IMG_GZ) \
-        300 \
-        @(_DEPLOY_DIR)
-
-
 # always remove the non compressed .img
 sudo rm -rf @(_ROOTFS_IMG)
-sudo rm -f @(_BOOT_IMG)
 
 
 print("syna-tools preparing emmc partitions, OK", color=Color.WHITE, bg_color=BgColor.GREEN)
