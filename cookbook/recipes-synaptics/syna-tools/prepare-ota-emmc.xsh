@@ -80,7 +80,7 @@ sudo mount @(_LOOP_DEV) @(_TEMP_MNT)
 try:
     # copy rootfs content excluding virtual filesystems
     print("Copying rootfs content to image (excluding virtual filesystems)...", color=Color.WHITE, bg_color=BgColor.BLUE)
-    sudo rsync -av \
+    sudo rsync -aHS \
         --exclude=/proc \
         --exclude=/sys \
         --exclude=/dev \
@@ -88,17 +88,6 @@ try:
         --exclude=/tmp \
         --exclude=/lost+found \
         @(f"{_IMAGE_MNT_ROOT}/") @(f"{_TEMP_MNT}/")
-
-    # create essential empty directories in the new rootfs
-    sudo mkdir -p @(f"{_TEMP_MNT}/proc")
-    sudo mkdir -p @(f"{_TEMP_MNT}/sys")
-    sudo mkdir -p @(f"{_TEMP_MNT}/dev")
-    sudo mkdir -p @(f"{_TEMP_MNT}/run")
-    sudo mkdir -p @(f"{_TEMP_MNT}/tmp")
-
-    # set proper permissions
-    sudo chmod 1777 @(f"{_TEMP_MNT}/tmp")
-    sudo chmod 755 @(f"{_TEMP_MNT}/proc") @(f"{_TEMP_MNT}/sys") @(f"{_TEMP_MNT}/dev") @(f"{_TEMP_MNT}/run")
 
     sync  # ensure all data is written
     print("Rootfs image created successfully", color=Color.WHITE, bg_color=BgColor.BLUE)
