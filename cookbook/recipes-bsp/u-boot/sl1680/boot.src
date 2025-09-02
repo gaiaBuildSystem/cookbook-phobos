@@ -4,6 +4,7 @@
 # Reference boot script.
 
 echo "Booting Reference ..."
+sleep 2
 
 # check if loglevel is set
 if env exists loglevel
