@@ -34,8 +34,8 @@ meta = json.loads(os.environ.get('META', '{}'))
 # get the actual script path, not the process.cwd
 _path = os.path.dirname(os.path.abspath(__file__))
 
-_IMAGE_MNT_BOOT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/boot"
-_IMAGE_MNT_ROOT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/root"
+_IMAGE_MNT_BOOT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/boot-ota"
+_IMAGE_MNT_ROOT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/root-ota"
 _DEPLOY_DIR = f"{_BUILD_PATH}/tmp/{_MACHINE}/deploy"
 os.environ['IMAGE_MNT_BOOT'] = _IMAGE_MNT_BOOT
 os.environ['IMAGE_MNT_ROOT'] = _IMAGE_MNT_ROOT
@@ -51,8 +51,8 @@ sudo mkdir -p @(_DEPLOY_DIR)
 print("Calculating rootfs size (excluding virtual filesystems)...", color=Color.WHITE, bg_color=BgColor.BLUE)
 _ROOTFS_SIZE_KB = $(sudo du -sk --exclude=proc --exclude=sys --exclude=dev --exclude=run --exclude=tmp @(_IMAGE_MNT_ROOT) | cut -f1)
 _ROOTFS_SIZE_MB = int(int(_ROOTFS_SIZE_KB) / 1024)
-# Add significant padding: 50% extra space + minimum 500MB for filesystem overhead
-_PADDING_MB = max(int(_ROOTFS_SIZE_MB * 0.5), 500)
+# Add significant padding: 150% extra space + minimum 500MB for filesystem overhead
+_PADDING_MB = max(int(_ROOTFS_SIZE_MB * 1.5), 500)
 _TOTAL_SIZE_MB = _ROOTFS_SIZE_MB + _PADDING_MB
 
 print(f"Rootfs content size: {_ROOTFS_SIZE_MB}MB, padding: {_PADDING_MB}MB, total: {_TOTAL_SIZE_MB}MB", color=Color.WHITE, bg_color=BgColor.BLUE)
@@ -68,7 +68,14 @@ sudo e2label @(_ROOTFS_IMG) "rootfs"
 # mount the image to copy rootfs content
 _TEMP_MNT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/temp_ota_rootfs"
 sudo mkdir -p @(_TEMP_MNT)
-sudo mount -o loop @(_ROOTFS_IMG) @(_TEMP_MNT)
+
+# Attach the image to a free loop device and mount that device.
+# Using losetup --find --show is safer in concurrent environments than
+# relying on the mount implementation to pick a free loop device.
+_LOOP_DEV = $(sudo losetup --find --show @(_ROOTFS_IMG))
+# strip any trailing newline from the captured output
+_LOOP_DEV = _LOOP_DEV.strip()
+sudo mount @(_LOOP_DEV) @(_TEMP_MNT)
 
 try:
     # copy rootfs content excluding virtual filesystems
@@ -103,9 +110,6 @@ finally:
     # always unmount
     sudo umount @(_TEMP_MNT) || true
     sudo rmdir @(_TEMP_MNT) || true
-    # check the disk for potential errors and fix it automatically
-    # use the image file directly instead of loop device
-    sudo fsck.ext4 -y -f -v @(_ROOTFS_IMG)
 
 # optionally compress the image
 _ROOTFS_IMG_GZ = f"{_ROOTFS_IMG}.gz"
