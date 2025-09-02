@@ -58,7 +58,7 @@ _TOTAL_SIZE_MB = _ROOTFS_SIZE_MB + _PADDING_MB
 print(f"Rootfs content size: {_ROOTFS_SIZE_MB}MB, padding: {_PADDING_MB}MB, total: {_TOTAL_SIZE_MB}MB", color=Color.WHITE, bg_color=BgColor.BLUE)
 
 # create the rootfs image file
-_ROOTFS_IMG = f"{_DEPLOY_DIR}/{_MACHINE}-ota-{_DISTRO_MAJOR}-{_DISTRO_MINOR}-{_DISTRO_PATCH}.img"
+_ROOTFS_IMG = f"{_DEPLOY_DIR}/ota-rootfs.img"
 sudo dd if=/dev/zero of=@(_ROOTFS_IMG) bs=1M count=@(_TOTAL_SIZE_MB) status=progress
 
 # format as ext4 with more inodes and reserved space

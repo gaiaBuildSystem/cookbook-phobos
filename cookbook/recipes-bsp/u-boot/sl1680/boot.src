@@ -20,6 +20,7 @@ env set skip_fdt_update 0x2
 # Memory layout for SL1680 - use Synaptics recommended addresses
 env set kernel_addr_r 0x7c00000
 env set ramdisk_addr_r 0xcf00000
+env set scriptaddr 0x1f000000
 env set fdt_addr_r 0x10000000
 env set initrd_high 0xffffffffffffffff
 env set cma 524288000@1556086784
@@ -43,5 +44,9 @@ saveenv
 ext4load mmc 0:8 ${kernel_addr_r} ${kernel_image}
 ext4load mmc 0:8 ${ramdisk_addr_r} ${ramdisk_image}
 env set ramdisk_size ${filesize}
+
+# FIXME:    the dtb is loaded from the boot partition
+#           would be nice to get it from ostree
+fatload mmc 0:7 ${fdt_addr_r} dolphin-rdk.dtb
 
 booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r}
