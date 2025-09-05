@@ -64,6 +64,7 @@ fi
 # Generate metadata
 echo "Generating metadata..."
 METADATA_FILE="${OUTPUT_DIR}/metadata_${BASE_NAME}.txt"
+rm -f "$METADATA_FILE"
 touch "$METADATA_FILE"
 
 # List all generated files

@@ -1,0 +1,11 @@
+preboot.subimg.gz,b1
+preboot.subimg.gz,b2
+format,sd1
+format,sd6
+format,sd7
+key.subimg.gz,sd2
+tzk.subimg.gz,sd3
+bl.subimg.gz,sd4
+firmware.subimg.gz,sd5
+fastlogo.subimg.gz,sd6
+boot.subimg.gz,sd7

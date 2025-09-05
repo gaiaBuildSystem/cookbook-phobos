@@ -1,0 +1,9 @@
+#GPT
+factory_setting     ,16	,16	,
+key_a               ,0	,1	,
+tzk_a               ,0	,7	,
+bl_a                ,0	,16	,
+firmware_a          ,0	,32	,
+fastlogo_a          ,0	,16 ,
+boot                ,0  ,150    ,
+rootfs_a            ,0  ,{{ROOTFS_SIZE}}	,
