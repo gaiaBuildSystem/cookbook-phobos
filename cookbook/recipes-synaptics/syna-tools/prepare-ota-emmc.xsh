@@ -128,7 +128,7 @@ sudo cp @(_path)/eMMCimg/* @(_DEPLOY_DIR)/eMMCimg/
 
 # copy the files that was wrote to the metadata
 _splitted_rootfs = []
-with open(f"{_DEPLOY_DIR}/metadata_rootfs.txt", "r") as f:
+with open(f"{_DEPLOY_DIR}/metadata_ota-rootfs.txt", "r") as f:
     for line in f:
         file = line.strip()
         _file_replaced = file.replace('ota-rootfs', 'rootfs')
