@@ -128,20 +128,21 @@ sudo cp @(_path)/eMMCimg/* @(_DEPLOY_DIR)/eMMCimg/
 
 # copy the files that was wrote to the metadata
 _splitted_rootfs = []
-with open(f"{_DEPLOY_DIR}/metadata_ota-rootfs.txt", "r") as f:
+with open(f"{_DEPLOY_DIR}/metadata_rootfs.txt", "r") as f:
     for line in f:
         file = line.strip()
         _file_replaced = file.replace('ota-rootfs', 'rootfs')
+        _file_absolute = os.path.join(_DEPLOY_DIR, file)
 
-        if os.path.isfile(file):
-            sudo mv @(file) @(_DEPLOY_DIR)/eMMCimg/@(_file_replaced)
+        if os.path.isfile(_file_absolute):
+            sudo mv @(_file_absolute) @(_DEPLOY_DIR)/eMMCimg/@(_file_replaced)
             _splitted_rootfs.append(_file_replaced)
         else:
-            print(f"Warning: File {file} listed in metadata does not exist.", color=Color.YELLOW, bg_color=BgColor.RED)
+            print(f"Warning: File {file} listed in metadata does not exist.", color=Color.WHITE, bg_color=BgColor.RED)
 
 
 # replace the emmc_part_list.template with the actual rootfs size
-with open(f"{_path}/emmc_part_list.template", 'r') as file:
+with open(f"{_path}/eMMCimg/emmc_part_list.template", 'r') as file:
     _filedata = file.read()
     _filedata = _filedata.replace('{{ROOTFS_SIZE}}', str(_TOTAL_SIZE_MB))
 
@@ -150,6 +151,7 @@ touch f"{_DEPLOY_DIR}/eMMCimg/emmc_part_list"
 with open(f"{_DEPLOY_DIR}/eMMCimg/emmc_part_list", 'w') as file:
     file.write(_filedata)
 
+sudo rm -rf @(_DEPLOY_DIR)/eMMCimg/emmc_part_list.template
 
 # also append on the emmc_image_list the rootfs files
 with open(f"{_DEPLOY_DIR}/eMMCimg/emmc_image_list", 'a') as file:
