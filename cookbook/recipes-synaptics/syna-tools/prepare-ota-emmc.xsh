@@ -147,7 +147,11 @@ with open(f"{_path}/eMMCimg/emmc_part_list.template", 'r') as file:
     _filedata = _filedata.replace('{{ROOTFS_SIZE}}', str(_TOTAL_SIZE_MB))
 
 # create the file and set the content
-touch f"{_DEPLOY_DIR}/eMMCimg/emmc_part_list"
+sudo touch @(f"{_DEPLOY_DIR}/eMMCimg/emmc_part_list")
+# set the permission to open and write for all
+sudo chmod 666 @(_DEPLOY_DIR)/eMMCimg/emmc_part_list
+sudo chmod 666 @(_DEPLOY_DIR)/eMMCimg/emmc_image_list
+
 with open(f"{_DEPLOY_DIR}/eMMCimg/emmc_part_list", 'w') as file:
     file.write(_filedata)
 
