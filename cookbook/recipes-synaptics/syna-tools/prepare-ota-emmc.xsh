@@ -10,6 +10,7 @@ $RAISE_SUBPROC_ERROR = True
 
 
 import os
+import sys
 import json
 import os.path
 from torizon_templates_utils.colors import print,BgColor,Color
@@ -42,6 +43,12 @@ os.environ['IMAGE_MNT_ROOT'] = _IMAGE_MNT_ROOT
 _REPO_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-tools"
 _EXECUTABLES_PATH = f"{_REPO_PATH}/tools/src/executables"
 _EMMC_PT_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-configs/product/sl1680_poky_aarch64_rdk/emmc.pt"
+
+
+# this is only for astra boards
+if _MACHINE != "sl1680":
+    sys.exit(0)
+
 
 # make sure that the deploy dir is created
 sudo mkdir -p @(_DEPLOY_DIR)
