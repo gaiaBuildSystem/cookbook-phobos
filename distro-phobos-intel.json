@@ -23,6 +23,7 @@
         "neofetch",
         "initramfs-php",
         "simple-splash",
-        "easy-splash"
+        "easy-splash",
+        "syna-tools"
     ]
 }
