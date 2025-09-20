@@ -1,0 +1,24 @@
+{
+    "name": "greenboot",
+    "type": "config",
+    "priority": 0,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "source": "https://github.com/gaiaBuildSystem/greenboot.git",
+    "ref": {
+        "linux/amd64": "0777806c88ed4f806484bc9d36d198a667576b6f",
+        "linux/arm64": "0777806c88ed4f806484bc9d36d198a667576b6f"
+    },
+    "targetDeps": [
+        "systemd",
+        "bash"
+    ],
+    "fetchRecipes": [
+        "fetch.xsh"
+    ],
+    "deployRecipes": [
+        "deploy.xsh"
+    ]
+}
