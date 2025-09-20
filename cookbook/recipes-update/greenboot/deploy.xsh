@@ -50,7 +50,7 @@ $BUILD_ROOT = _BUILD_ROOT
 # sync the greenboot/usr with the root/usr
 sudo \
     rsync -a \
-    @(f"{_BUILD_ROOT}/usr") @(f"{_IMAGE_MNT_ROOT}/usr/")
+    @(f"{_BUILD_ROOT}/greenboot/usr") @(f"{_IMAGE_MNT_ROOT}/usr/")
 
 
 sudo \
