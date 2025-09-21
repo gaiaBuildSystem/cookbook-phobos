@@ -8,8 +8,8 @@
     ],
     "source": "https://github.com/gaiaBuildSystem/mars",
     "ref": {
-        "linux/amd64": "6524ec5205d1a763202e199da659a6f9d6e0cde9",
-        "linux/arm64": "6524ec5205d1a763202e199da659a6f9d6e0cde9"
+        "linux/amd64": "fa95ef933a48cca25a068450dd85c2c28b710fdd",
+        "linux/arm64": "fa95ef933a48cca25a068450dd85c2c28b710fdd"
     },
     "hostAsContainer": true,
     "containerImage": {
