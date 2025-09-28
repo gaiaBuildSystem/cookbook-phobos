@@ -57,6 +57,39 @@ sudo \
     rsync -a \
     @(f"{_BUILD_ROOT}/greenboot/etc/") @(f"{_IMAGE_MNT_ROOT}/etc/")
 
+sudo \
+    install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/green.d")
+
+sudo \
+    install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/red.d")
+
+sudo \
+    install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/check/required.d")
+
+sudo \
+    install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/check/wanted.d")
+
+sudo \
+    install -m 755 \
+    @(f"{_path}/files/00_cleanup_uboot_vars.sh") \
+    @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/green.d")
+sudo \
+    install -m 755 \
+    @(f"{_path}/files/01_log_rollback_info.sh") \
+    @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/green.d")
+sudo \
+    install -m 755 \
+    @(f"{_path}/files/greenboot-status") \
+    @(f"{_IMAGE_MNT_ROOT}/usr/libexec/greenboot")
+sudo \
+    install -m 755 \
+    @(f"{_path}/files/greenboot-logs") \
+    @(f"{_IMAGE_MNT_ROOT}/usr/libexec/greenboot")
+sudo \
+    install -m 644 \
+    @(f"{_path}/files/redboot-auto-reboot") \
+    @(f"{_IMAGE_MNT_ROOT}/usr/libexec/greenboot")
+
 # enable the service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-healthcheck.service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-status.service
