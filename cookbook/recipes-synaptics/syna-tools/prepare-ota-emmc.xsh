@@ -46,7 +46,13 @@ _EMMC_PT_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-configs/product/sl1680_poky_
 
 
 # this is only for astra boards
-if _MACHINE != "sl1680":
+_supported_machines = [
+    "sl1680",
+    "winglet"
+]
+
+if _MACHINE not in _supported_machines:
+    print(f"Machine {_MACHINE} is not in the syna-tools supported machines list, skipping...")
     sys.exit(0)
 
 
