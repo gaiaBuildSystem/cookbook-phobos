@@ -18,6 +18,7 @@
     ],
     "excludeRecipes": [
         "grub",
+        "u-boot-ram",
         "microsoft",
         "powershell",
         "neofetch",

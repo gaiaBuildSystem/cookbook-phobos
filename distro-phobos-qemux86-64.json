@@ -17,6 +17,7 @@
         "cookbook"
     ],
     "excludeRecipes": [
+        "u-boot-ram",
         "microsoft",
         "powershell",
         "neofetch",
