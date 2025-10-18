@@ -1,0 +1,31 @@
+{
+    "name": "PhobOS",
+    "machine": "imx8mp-verdin",
+    "arch": "linux/arm64",
+    "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "build": 11,
+        "variant": "ota",
+        "codename": "lion-killer"
+    },
+    "useInitramfs": true,
+    "maxImgSize": 3072,
+    "searchForRecipesOn": [
+        "../gaia/cookbook",
+        "../cookbook-nxp/cookbook",
+        "cookbook"
+    ],
+    "excludeRecipes": [
+        "grub",
+        "microsoft",
+        "powershell",
+        "docker",
+        "initramfs-php",
+        "neofetch",
+        "resize-helper",
+        "simple-splash",
+        "easy-splash"
+    ]
+}
