@@ -13,6 +13,21 @@ PhobOS is compatible with the Toradex Torizon ecosystem. It uses OSTree to manag
 
 > Torizon™ is a registered trademark of Toradex Group AG. Gaia project does not talk on behalf of Toradex or on behalf of any Toradex product.
 
+## Supported Platforms
+
+| Board                       | Gaia Machine Name   |
+|-----------------------------|---------------------|
+| Raspberry Pi 5B             | rpi5b               |
+| Raspberry Pi 4B             | rpi4b               |
+| Toradex iMX95 EVK           | imx95-verdin-evk    |
+| Toradex Verdin iMX8M Plus   | imx8mp-verdin       |
+| Toradex Winglet SBC         | winglet             |
+| Synaptics Astra sl1680      | sl1680              |
+| Generic x86_64              | intel               |
+| QEMU x86_64                 | qemux86-64          |
+| QEMU arm64                  | qemuarm64           |
+
+
 ## Building PhobOS
 
 ### Prerequisites
