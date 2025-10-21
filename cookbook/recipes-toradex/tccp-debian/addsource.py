@@ -25,6 +25,12 @@ _path = os.path.dirname(os.path.realpath(__file__))
 
 print(f"Adding TCCP debian source ...")
 
+str_cmd2 = (
+    f"sudo -k "
+    f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
+    f"apt-get update && apt-get install -y gnupg2 curl\""
+)
+
 # copy the .list to the image
 str_cmd1 = (
     f"sudo -k "
@@ -35,8 +41,7 @@ str_cmd1 = (
 str_cmd = (
     f"sudo -k "
     f"chroot {IMAGE_MNT_ROOT} /bin/bash -c \""
-    f"apt-get update && apt-get install -y gnupg2 curl && \
-        curl -fsSL https://feeds.toradex.com/staging/debian/toradex-debian-repo-19092023.asc | gpg --dearmor > /usr/share/keyrings/toradex.gpg"
+    f"curl -fsSL https://feeds.toradex.com/staging/debian/toradex-debian-repo-19092023.asc | gpg --dearmor > /usr/share/keyrings/toradex.gpg"
     f"\""
 )
 
