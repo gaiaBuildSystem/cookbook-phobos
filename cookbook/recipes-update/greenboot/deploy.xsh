@@ -90,6 +90,9 @@ sudo \
     @(f"{_path}/files/redboot-auto-reboot") \
     @(f"{_IMAGE_MNT_ROOT}/usr/libexec/greenboot")
 
+sudo cp @(f"{_path}/files/greenboot.conf") \
+    @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/greenboot.conf")
+
 # enable the service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-healthcheck.service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-status.service
