@@ -1,7 +1,7 @@
 {
     "name": "debian-bookworm",
     "type": "rootfs",
-    "priority": 1,
+    "priority": 2,
     "support": [
         "linux/amd64",
         "linux/arm64"
