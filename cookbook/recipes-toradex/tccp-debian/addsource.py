@@ -45,7 +45,7 @@ str_cmd = (
     f"\""
 )
 
-_cmds = [str_cmd1, str_cmd]
+_cmds = [str_cmd2, str_cmd1, str_cmd]
 
 for cmd in _cmds:
     subprocess.run(
