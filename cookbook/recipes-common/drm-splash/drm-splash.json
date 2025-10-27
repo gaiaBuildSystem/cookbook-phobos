@@ -1,0 +1,13 @@
+{
+    "name": "drm-splash",
+    "type": "init",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "DRM_SPLASH_NO_DEPLOY_INITRAMFS": "1"
+    },
+    "merge": true
+}
