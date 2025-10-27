@@ -25,7 +25,6 @@
         "initramfs-php",
         "simple-splash",
         "easy-splash",
-        "syna-tools",
-        "drm-splash"
+        "syna-tools"
     ]
 }
