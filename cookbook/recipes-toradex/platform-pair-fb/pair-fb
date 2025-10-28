@@ -8,10 +8,9 @@ NC='\033[0m'
 # Signal handler for graceful shutdown
 cleanup() {
     echo "Received termination signal, cleaning up..."
-    pkill -9 fbi
+    pkill -9 drmi
 
     cat /dev/zero > /dev/fb0 2>/dev/null
-    fbset -t 39721 48 16 33 10 96 2
     echo "Cleanup done. Exiting..."
 
     exit 0
@@ -27,14 +26,8 @@ if [ "$EUID" -ne 0 ]; then
     exit 69
 fi
 
-# cleaning the framebuffer
-cat /dev/zero > /dev/fb0
-fbset -t 39721 48 16 33 10 96 2
-
 # load the first image
-# cat /dev/urandom > /dev/fb0
-fbi --noverbose -a -T 7 /usr/share/pair-fb/diagrams.jpg >/dev/null 2>&1
-fbset -t 39721 48 16 33 10 96 2
+drmi /usr/share/pair-fb/diagrams.jpg 0 >/dev/null 2>&1 &
 
 # let's wait some time
 sleep 10s
@@ -92,8 +85,8 @@ convert \
     "https://pair.torizon.io\nCode: ${code}" \
     /home/phobos/output.jpg
 
-fbi --noverbose -a -T 7 /home/phobos/output.jpg >/dev/null 2>&1
-fbset -t 39721 48 16 33 10 96 2
+pkill -9 drmi
+drmi /home/phobos/output.jpg  0 >/dev/null 2>&1 &
 
 while true; do
     sleep 10
@@ -121,13 +114,12 @@ convert \
     "Paired OK" \
     /home/phobos/output.jpg
 
-pkill -9 fbi
+pkill -9 drmi
 sleep 1s
 
-fbi --noverbose -a -T 7 /home/phobos/output.jpg >/dev/null 2>&1
-fbset -t 39721 48 16 33 10 96 2
+drmi /home/phobos/output.jpg  0 >/dev/null 2>&1 &
 
 # sleep like 2min
 sleep 120s
-pkill -9 fbi
+pkill -9 drmi
 cat /dev/zero > /dev/fb0 2>/dev/null
