@@ -8,7 +8,7 @@ NC='\033[0m'
 # Signal handler for graceful shutdown
 cleanup() {
     echo "Received termination signal, cleaning up..."
-    pkill -9 drmi
+    pkill -SIGINT drmi
 
     cat /dev/zero > /dev/fb0 2>/dev/null
     echo "Cleanup done. Exiting..."
@@ -27,7 +27,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # load the first image
-drmi /usr/share/pair-fb/diagrams.jpg 0 >/dev/null 2>&1 &
+drmi /usr/share/pair-fb/diagrams.jpg 0 1 &
 
 # let's wait some time
 sleep 10s
@@ -85,11 +85,14 @@ convert \
     "https://pair.torizon.io\nCode: ${code}" \
     /home/phobos/output.jpg
 
-pkill -9 drmi
-drmi /home/phobos/output.jpg  0 >/dev/null 2>&1 &
+pkill -SIGINT drmi
+sleep 1
+drmi /home/phobos/output.jpg 0 1 &
 
 while true; do
     sleep 10
+
+    echo "Checking pairing status..."
 
     _info=$(curl -fsSL "https://app.torizon.io/api/provision-code?provisionUuid=$uuid")
     _token=$(echo "$_info" | awk -F'"' '/access/{print $4}')
@@ -114,12 +117,12 @@ convert \
     "Paired OK" \
     /home/phobos/output.jpg
 
-pkill -9 drmi
+pkill -SIGINT drmi
 sleep 1s
 
-drmi /home/phobos/output.jpg  0 >/dev/null 2>&1 &
+drmi /home/phobos/output.jpg 0 1 &
 
 # sleep like 2min
 sleep 120s
-pkill -9 drmi
+pkill -SIGINT drmi
 cat /dev/zero > /dev/fb0 2>/dev/null
