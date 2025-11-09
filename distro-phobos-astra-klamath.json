@@ -1,31 +1,32 @@
 {
     "name": "PhobOS",
-    "machine": "intel",
-    "arch": "linux/amd64",
+    "machine": "sl2619",
+    "arch": "linux/arm64",
     "version": {
         "major": 0,
         "minor": 0,
         "patch": 0,
-        "build": 14,
+        "build": 0,
         "variant": "ota",
         "codename": "lion-killer"
     },
     "useInitramfs": true,
-    "maxImgSize": 4724,
+    "maxImgSize": 3072,
     "searchForRecipesOn": [
         "../gaia/cookbook",
-        "../cookbook-intel/cookbook",
+        "../cookbook-synaptics/cookbook",
         "cookbook"
     ],
     "excludeRecipes": [
+        "grub",
         "u-boot-ram",
+        "su-boot",
         "microsoft",
         "powershell",
         "neofetch",
         "initramfs-php",
         "simple-splash",
         "easy-splash",
-        "syna-tools",
         "drm-splash"
     ]
 }

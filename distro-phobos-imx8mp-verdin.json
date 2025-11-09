@@ -25,6 +25,7 @@
         "neofetch",
         "resize-helper",
         "simple-splash",
-        "easy-splash"
+        "easy-splash",
+        "drm-splash"
     ]
 }

@@ -25,6 +25,7 @@
         "neofetch",
         "initramfs-php",
         "simple-splash",
-        "easy-splash"
+        "easy-splash",
+        "drm-splash"
     ]
 }
