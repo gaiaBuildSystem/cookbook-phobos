@@ -48,12 +48,18 @@ _EMMC_PT_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-configs/product/sl1680_poky_
 # this is only for astra boards
 _supported_machines = [
     "sl1680",
-    "winglet"
+    "winglet",
+    "sl2619"
 ]
 
 if _MACHINE not in _supported_machines:
     print(f"Machine {_MACHINE} is not in the syna-tools supported machines list, skipping...")
     sys.exit(0)
+
+
+_EMMC_IMG_PATH = "eMMCimg"
+if _MACHINE == "sl2619":
+    _EMMC_IMG_PATH = "eMMCimg-sl2619"
 
 
 # make sure that the deploy dir is created
@@ -137,7 +143,7 @@ sudo \
 # we need to remove the old rootfs files
 sudo rm -rf @(_DEPLOY_DIR)/eMMCimg/rootfs.subimg.*
 # overwrite the partition data
-sudo cp @(_path)/eMMCimg/* @(_DEPLOY_DIR)/eMMCimg/
+sudo cp @(_path)/@(_EMMC_IMG_PATH)/* @(_DEPLOY_DIR)/eMMCimg/
 
 # copy the files that was wrote to the metadata
 _splitted_rootfs = []
@@ -155,7 +161,7 @@ with open(f"{_DEPLOY_DIR}/metadata_ota-rootfs.txt", "r") as f:
 
 
 # replace the emmc_part_list.template with the actual rootfs size
-with open(f"{_path}/eMMCimg/emmc_part_list.template", 'r') as file:
+with open(f"{_path}/{_EMMC_IMG_PATH}/emmc_part_list.template", 'r') as file:
     _filedata = file.read()
     _filedata = _filedata.replace('{{ROOTFS_SIZE}}', str(_TOTAL_SIZE_MB))
 
