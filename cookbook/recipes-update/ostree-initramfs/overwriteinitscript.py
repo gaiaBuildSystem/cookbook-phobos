@@ -25,9 +25,16 @@ _path = os.path.dirname(os.path.realpath(__file__))
 
 print(f"overwriting the init script in the initramfs")
 
-# copy the local init.sh to the initramfs
+# read the init.sh.template
+_init_template_path = f"{_path}/init.sh.template"
+with open(_init_template_path, "r", encoding="utf-8") as f:
+    _init_sh = f.read().replace("{{MACHINE}}", MACHINE) # type: ignore
+
+# dump the parsed file using sudo tee
 subprocess.run(
-    f"sudo -k cp {_path}/init.sh {INITRAMFS_PATH}/init",
+    f"sudo -k tee {INITRAMFS_PATH}/init > /dev/null",
+    input=_init_sh,
+    text=True,
     shell=True,
     check=True,
     executable="/bin/bash",
