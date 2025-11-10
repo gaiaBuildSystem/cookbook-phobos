@@ -22,6 +22,7 @@ env set ramdisk_addr_r 0x30000000
 env set fdt_addr_r 0x5d166c40
 env set initrd_high 0xffffffffffffffff
 env set fdt_high 0xffffffffffffffff
+env set scriptaddr 0xcf00000
 
 mmc dev 0
 ext4load mmc 0:8 ${scriptaddr} boot/uEnv.txt
