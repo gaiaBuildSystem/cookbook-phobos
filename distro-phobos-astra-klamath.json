@@ -27,7 +27,6 @@
         "initramfs-php",
         "simple-splash",
         "easy-splash",
-        "drm-splash",
         "syna-fastlogo"
     ]
 }
