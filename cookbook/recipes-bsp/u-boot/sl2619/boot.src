@@ -19,7 +19,7 @@ setenv skip_fdt_update 0x1f
 
 env set kernel_addr_r 0x7c00000
 env set ramdisk_addr_r 0x30000000
-env set fdt_addr_r 0x5d166c40
+env set fdt_addr_r 0x10000000
 env set initrd_high 0xffffffffffffffff
 env set fdt_high 0xffffffffffffffff
 env set scriptaddr 0xcf00000
