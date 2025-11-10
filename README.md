@@ -24,6 +24,7 @@ PhobOS is compatible with the Toradex Torizon ecosystem. It uses OSTree to manag
 | Toradex Verdin iMX8M Plus   | imx8mp-verdin       |
 | Toradex Winglet SBC         | winglet             |
 | Synaptics Astra sl1680      | sl1680              |
+| Synaptics Astra sl2619      | sl2619              |
 | Generic x86_64              | intel               |
 | QEMU x86_64                 | qemux86-64          |
 | QEMU arm64                  | qemuarm64           |
