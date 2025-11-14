@@ -1,13 +1,12 @@
 [Unit]
 Description=Easy Splash Stop Service
-Before=getty.target
+Before=getty.target pair-fb.service
 After=getty@tty1.service network-online.target systemd-timesyncd.service
 Requires=getty@tty1.service
 Wants=systemd-timesyncd.service network-online.target
 
 [Service]
 Type=oneshot
-ExecStartPre=/usr/bin/sleep 4
 ExecStart=/usr/bin/pkill -9 mplayer
 
 [Install]
