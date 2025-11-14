@@ -8,8 +8,8 @@
     ],
     "source": "https://github.com/microhobby/mplayer.git",
     "ref": {
-        "linux/amd64": "a119a6701cbbed9eac53d4d888659a2773660575",
-        "linux/arm64": "a119a6701cbbed9eac53d4d888659a2773660575"
+        "linux/amd64": "bd30bce9adacbf9c451da4eabb8fd4c4e5235856",
+        "linux/arm64": "bd30bce9adacbf9c451da4eabb8fd4c4e5235856"
     },
     "hostAsContainer": true,
     "containerImage": {

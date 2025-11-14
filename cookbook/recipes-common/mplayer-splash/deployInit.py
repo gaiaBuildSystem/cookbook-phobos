@@ -32,7 +32,7 @@ _cmds = []
 _cmds += [
     f"mkdir -p {INITRAMFS_PATH}/usr/mplayer-splash",
     f"cp {_path}/assets/1.mp4 {INITRAMFS_PATH}/usr/mplayer-splash/1.mp4",
-    f"cp {_path}/assets/2.mp4 {INITRAMFS_PATH}/usr/mplayer-splash/2.mp4",
+    # f"cp {_path}/assets/2.mp4 {INITRAMFS_PATH}/usr/mplayer-splash/2.mp4",
     f"cp {BUILD_PATH}/tmp/{MACHINE}/mplayer/static/mplayer {INITRAMFS_PATH}/usr/mplayer-splash/mplayer",
     f"cp {_path}/busybox/10-splash.sh {INITRAMFS_PATH}/scripts/10-splash.sh"
 ]
