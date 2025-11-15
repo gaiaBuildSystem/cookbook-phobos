@@ -22,6 +22,8 @@ if [[ $root == LABEL:* ]]; then
 
     echo "[initramfs] root partition label $_label found at $_dev"
 
+    # clean the symlink for the mplayer
+    rm -rf /sysroot
     mkdir -p /sysroot
     mount -t ext4 $_dev /sysroot
 
