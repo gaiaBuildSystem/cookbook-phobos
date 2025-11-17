@@ -1,0 +1,81 @@
+#!/usr/bin/bash
+#
+# Copyright (c) MicroHobby <matheus@castello.eng.br> 2023
+# All rights reserved.
+#
+
+# check if we have an internet connection
+# retry 3x
+for i in {1..3}
+do
+    if ping -c 1 google.com
+    then
+        break
+    # else we are in the last iteration exit
+    elif [ $i -eq 3 ]
+    then
+        echo "E: No internet connection"
+        # exit with success to avoid taint the systemd status
+        exit 0
+    fi
+
+    sleep 60
+done
+
+export JSON_OUTPUT=1
+
+# create the info in json format
+gaia-info > /tmp/gaia-info.json
+
+# get the data
+BOARDMODEL=$(cat /tmp/gaia-info.json | jq '."hardware-info"."hw-model"')
+BOARDARCH=$(cat /tmp/gaia-info.json | jq '."hardware-info"."processor-arch"')
+OSRELEASE=$(cat /tmp/gaia-info.json | jq '."software-summary"."distro-version"')
+
+# get emerg, alert, crit, err, warning dmesg levels
+DMESG=$(dmesg -r --level=emerg,alert,crit,err,warn)
+
+# query the region
+# if the region is null try 3x
+for i in {1..3}
+do
+    REGION=$(curl -s https://ipapi.co/city)
+    # try to set the date and time
+    dateFromServer=$(curl -v --silent https://google.com/ 2>&1 \
+        | grep Date | sed -e 's/< Date: //'); date +"%d%m%Y%H%M%S" -d "$dateFromServer"
+
+    if [ ! -z "$REGION" ]
+    then
+        break
+    # else we are in the last iteration exit
+    elif [ $i -eq 3 ]
+    then
+        echo "E: Region was undefined"
+        REGION="Undefined"
+    fi
+
+    sleep 60
+done
+
+# we should have a date now
+DATETIME=$(date +%Y-%m-%d)
+
+# debug
+echo "REGION: $REGION"
+echo "BOARDMODEL: $BOARDMODEL"
+echo "BOARDARCH: $BOARDARCH"
+echo "OSRELEASE: $OSRELEASE"
+echo "DATETIME: $DATETIME"
+echo "DMESG: $DMESG"
+
+# do it
+curl --request POST \
+  --url http://phobos.dev.br:8080/api/telemetry/add \
+  --data-urlencode "region=$REGION" \
+  --data-urlencode "dateTime=$DATETIME" \
+  --data-urlencode "boardarch=$BOARDARCH" \
+  --data-urlencode "boardmodel=$BOARDMODEL" \
+  --data-urlencode "osrelease=$OSRELEASE" \
+  --data-urlencode "dmesg=\"$DMESG\""
+
+exit 0
