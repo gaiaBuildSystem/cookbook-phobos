@@ -7,7 +7,8 @@
         "linux/arm64"
     ],
     "targetDeps": [
-        "jq"
+        "jq",
+        "wget"
     ],
     "deployRecipes": [
         "deploy.xsh"
