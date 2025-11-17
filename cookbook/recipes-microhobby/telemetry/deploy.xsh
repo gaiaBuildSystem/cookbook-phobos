@@ -47,15 +47,15 @@ $BUILD_ROOT = _BUILD_ROOT
 
 
 # deploy the gaia-info
-cp @(_path)/files/gaia-info @(_IMAGE_MNT_ROOT)/usr/bin/gaia-info
-chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/gaia-info
+sudo cp @(_path)/files/gaia-info @(_IMAGE_MNT_ROOT)/usr/bin/gaia-info
+sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/bin/gaia-info
 
 # deploy the telemetry
-cp @(_path)/files/telemetry @(_IMAGE_MNT_ROOT)/usr/sbin/telemetry
-chmod +x @(_IMAGE_MNT_ROOT)/usr/sbin/telemetry
+sudo cp @(_path)/files/telemetry @(_IMAGE_MNT_ROOT)/usr/sbin/telemetry
+sudo chmod +x @(_IMAGE_MNT_ROOT)/usr/sbin/telemetry
 
 # deploy the systemd service
-cp @(_path)/files/microhobby-telemetry.service @(_IMAGE_MNT_ROOT)/etc/systemd/system/microhobby-telemetry.service
+sudo cp @(_path)/files/microhobby-telemetry.service @(_IMAGE_MNT_ROOT)/etc/systemd/system/microhobby-telemetry.service
 
 # enable it
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable microhobby-telemetry.service
