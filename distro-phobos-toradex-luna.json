@@ -1,6 +1,6 @@
 {
     "name": "PhobOS",
-    "machine": "winglet",
+    "machine": "luna",
     "arch": "linux/arm64",
     "version": {
         "major": 0,
