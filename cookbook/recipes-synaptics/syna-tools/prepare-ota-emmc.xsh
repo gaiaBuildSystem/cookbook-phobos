@@ -48,7 +48,7 @@ _EMMC_PT_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-configs/product/sl1680_poky_
 # this is only for astra boards
 _supported_machines = [
     "sl1680",
-    "winglet",
+    "luna",
     "sl2619"
 ]
 
