@@ -82,7 +82,7 @@ convert \
     -pointsize 46 \
     -fill white \
     -annotate +80+10 \
-    "https://pair.torizon.io\nCode: ${code}" \
+    "${code}" \
     /home/phobos/output.jpg
 
 pkill -SIGINT drmi
@@ -114,7 +114,7 @@ convert \
     -pointsize 46 \
     -fill white \
     -annotate +80+10 \
-    "Paired OK" \
+    "Paired!" \
     /home/phobos/output.jpg
 
 pkill -SIGINT drmi
