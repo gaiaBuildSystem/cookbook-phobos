@@ -5,8 +5,9 @@ After=network-online.target rc-local.service systemd-user-sessions.service getty
 Wants=network-online.target
 
 [Service]
-Type=oneshot
+Type=exec
 ExecStart=/usr/bin/pair-fb
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

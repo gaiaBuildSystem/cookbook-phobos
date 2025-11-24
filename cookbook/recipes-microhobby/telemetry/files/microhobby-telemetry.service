@@ -4,8 +4,9 @@ Requires=set-hostname.service network-online.target
 After=set-hostname.service network-online.target
 
 [Service]
-Type=oneshot
+Type=exec
 ExecStart=/usr/sbin/telemetry
+Restart=no
 
 [Install]
 WantedBy=multi-user.target
