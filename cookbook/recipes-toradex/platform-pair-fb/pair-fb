@@ -79,9 +79,10 @@ cp /usr/share/pair-fb/diagrams.jpg /home/phobos/back.jpg
 convert \
     /home/phobos/back.jpg \
     -gravity SouthWest \
-    -pointsize 46 \
+    -pointsize 62 \
     -fill white \
-    -annotate +80+10 \
+    -gravity NorthWest \
+    -annotate 0x0+75+800 \
     "${code}" \
     /home/phobos/output.jpg
 
@@ -111,9 +112,10 @@ echo "done ..."
 convert \
     /home/phobos/back.jpg \
     -gravity SouthWest \
-    -pointsize 46 \
+    -pointsize 62 \
     -fill white \
-    -annotate +80+10 \
+    -gravity NorthWest \
+    -annotate 0x0+75+800 \
     "Paired!" \
     /home/phobos/output.jpg
 
