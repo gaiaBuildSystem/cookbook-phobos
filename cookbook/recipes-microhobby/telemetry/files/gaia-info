@@ -107,6 +107,7 @@ software_summary ()
         distro_version=""
     fi
     hostname=$(cat /etc/hostname)
+    local_ip=$(hostname -I 2>/dev/null | awk '{print $1}')
 
     print_header "Software summary"
     print_info "Bootloader" "$BOOTLOADER"
@@ -116,6 +117,7 @@ software_summary ()
     print_info "Distro version" "$distro_version"
     print_info "Distro variant" "$distro_variant"
     print_info "Hostname" "$hostname"
+    print_info "Local IP" "$local_ip"
     print_footer
 }
 
