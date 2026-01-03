@@ -2,8 +2,8 @@
 
 <p align="center">
     <img
-        src="https://github.com/gaiaBuildSystem/.github/raw/main/profile/PhobOS2.png"
-        height="112"
+        src="https://github.com/gaiaBuildSystem/.github/raw/main/profile/PhobOS3.png"
+        height="140"
     />
 </p>
 
@@ -36,18 +36,10 @@ PhobOS is compatible with the Toradex Torizon ecosystem. It uses OSTree to manag
 
 - [Docker](https://docs.docker.com/get-docker/);
 - [Gaia project Gaia Core](https://github.com/gaiaBuildSystem/gaia);
-
-<p align="center">
-    <img
-        src="https://github.com/gaiaBuildSystem/.github/raw/main/profile/GaiaBuildSystemLogoDebCircle.png"
-        alt="This is a Gaia Project based cookbook"
-        width="170"
-    />
-</p>
-
 - One of the Machine specific BSP cookbooks:
     - [NXP Boards](https://github.com/gaiaBuildSystem/cookbook-nxp)
     - [Raspberry Pi Boards](https://github.com/gaiaBuildSystem/cookbook-rpi)
+    - [Synaptics Astra Boards](https://github.com/gaiaBuildSystem/cookbook-synaptics)
     - [x86_64 Boards](https://github.com/gaiaBuildSystem/cookbook-intel)
 
 ### Build
