@@ -6,6 +6,7 @@ Wants=network-online.target
 
 [Service]
 Type=exec
+EnvironmentFile=-/etc/environment
 ExecStart=/usr/bin/pair-fb
 Restart=on-failure
 
