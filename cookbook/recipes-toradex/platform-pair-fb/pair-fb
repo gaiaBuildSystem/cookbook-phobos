@@ -19,6 +19,11 @@ cleanup() {
 # Trap termination signals
 trap cleanup SIGTERM SIGINT SIGQUIT
 
+machine_id="${MACHINE:-unknown}"
+case "${machine_id}" in
+	rpi5b) card_id=1 ;;
+	*) card_id=0 ;;
+esac
 
 # check if the script has been run as root
 if [ "$EUID" -ne 0 ]; then
@@ -27,7 +32,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # load the first image
-drmi /usr/share/pair-fb/diagrams.jpg 0 1 &
+drmi /usr/share/pair-fb/diagrams.jpg $card_id 1 &
 
 # let's wait some time
 sleep 10s
@@ -100,7 +105,7 @@ convert \
 
 pkill -SIGINT drmi
 sleep 1
-drmi /home/phobos/output.jpg 0 1 &
+drmi /home/phobos/output.jpg $card_id 1 &
 
 while true; do
     sleep 10
@@ -134,7 +139,7 @@ convert \
 pkill -SIGINT drmi
 sleep 1s
 
-drmi /home/phobos/output.jpg 0 1 &
+drmi /home/phobos/output.jpg $card_id 1 &
 
 # sleep like 2min
 sleep 120s
