@@ -26,7 +26,7 @@
         "zlib1g-dev",
         "libpng-dev",
         "pkg-config",
-        "linux-headers-6.1.0-35-common",
+        "linux-headers-6.1.0-42-common",
         "linux-libc-dev",
         "fbset",
         "fbi"
