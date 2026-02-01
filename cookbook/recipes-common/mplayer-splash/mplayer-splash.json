@@ -7,6 +7,7 @@
         "linux/arm64"
     ],
     "source": "https://github.com/microhobby/mplayer.git",
+    "version": "1.5",
     "ref": {
         "linux/amd64": "bd30bce9adacbf9c451da4eabb8fd4c4e5235856",
         "linux/arm64": "bd30bce9adacbf9c451da4eabb8fd4c4e5235856"
@@ -43,5 +44,8 @@
     "initramfsRecipes": [
         "deployInit.py",
         "utils.sh"
+    ],
+    "sbomRecipes": [
+        "mplayer-sbom.ts"
     ]
 }

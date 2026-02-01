@@ -23,5 +23,8 @@
     "cleanRecipes": [
         "umount.xsh"
     ],
+    "sbomRecipes": [
+        "sbom.ts"
+    ],
     "merge": true
 }

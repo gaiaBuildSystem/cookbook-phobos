@@ -28,3 +28,6 @@ if [ -f ~/.local/bin/xonsh ]; then
         sudo ln -s ~/.local/bin/xonsh /usr/bin/xonsh
     fi
 fi
+
+# also install the nodejs dependencies
+/root/.bun/bin/bun install
