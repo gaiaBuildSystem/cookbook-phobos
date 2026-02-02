@@ -28,9 +28,7 @@
         "libpng-dev",
         "pkg-config",
         "linux-headers-6.1.0-42-common",
-        "linux-libc-dev",
-        "fbset",
-        "fbi"
+        "linux-libc-dev"
     ],
     "fetchRecipes": [
         "fetch.py"

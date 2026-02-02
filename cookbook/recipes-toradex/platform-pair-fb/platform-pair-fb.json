@@ -11,8 +11,6 @@
         "curl",
         "iputils-ping",
         "unzip",
-        "fbset",
-        "fbi",
         "imagemagick"
     ],
     "deployRecipes": [
