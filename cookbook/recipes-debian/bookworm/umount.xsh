@@ -49,6 +49,10 @@ _TUF_REPO = f"{_BUILD_PATH}/tmp/{_MACHINE}/tuf"
 os.environ['IMAGE_MNT_BOOT'] = _IMAGE_MNT_BOOT
 os.environ['IMAGE_MNT_ROOT'] = _IMAGE_MNT_ROOT
 
+# first we sync
+sync
+sleep 1
+
 # detach the .img from /dev
 sudo -k \
     echo "detaching ..."
