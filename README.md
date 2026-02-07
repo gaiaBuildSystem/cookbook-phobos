@@ -7,11 +7,11 @@
     />
 </p>
 
-PhobOS is the Debian based and Toradex Torizon compatible Linux distribution that Gaia builds. The name is a reference to the Greek god, and brother of Deimos, Phobos.
+PhobOS is the Debian based and [Torizon](https://torizon.io/) compatible Linux distribution that Gaia builds. The name is a reference to the Greek god, and brother of Deimos, Phobos.
 
-PhobOS is compatible with the Toradex Torizon ecosystem. It uses OSTree to manage the system rootfs, Aktualizr to handle updates through Torizon OTA and comes with a Docker container runtime.
+PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the system rootfs, Aktualizr to handle updates through Torizon OTA, Torizon remote access and comes with a Docker container runtime.
 
-> Torizon™ is a registered trademark of Toradex Group AG. Gaia project does not talk on behalf of Toradex or on behalf of any Toradex product.
+> Torizon™ is a registered trademark. Gaia project does not talk on behalf of Torizon or on behalf of any Toradex product.
 
 ## Supported Platforms
 
@@ -101,26 +101,25 @@ Although systems have design and architectural differences the goal as the proje
 ❌ - Feature will never match <br>
 ℹ️ - Community support
 
-| Feature                           | Torizon OS | PhobOS |
-| --------------------------------- | ---------- | ----------------------- |
-| OTA Update OS Image               | ✅          | ✅                       |
-| OTA Update Container App          | ✅          | ✅                       |
-| OTA Update Bootloader             | ✅          | ⌛                       |
-| Debian package development¹       | ❌          | ✅                       |
-| Device Monitoring                 | ✅          | ⌛                       |
-| RAC Remote Access                 | ✅          | ✅                        |
-| Free Technical Support            | ✅          | ℹ️                      |
-| Prebuilt OS Image                 | ✅          | ⌛                       |
-| QA Approved Releases              | ✅          | ⌛                       |
-| Built with Yocto                  | ✅          | ❌                       |
-| Image Customizing with TCB²     | ✅          | ❌                       |
-| Image Customizing with Opus³      | ❌         | ✅                       |
-| SBOM⁴                          | ✅          | ⌛                       |
+| Feature                            | Torizon OS | PhobOS |
+| ---------------------------------- | ----------- | ------------------------ |
+| OTA Update OS Image                | ✅          | ✅                       |
+| OTA Update Container App           | ✅          | ✅                       |
+| OTA Update Bootloader              | ✅          | ⌛                       |
+| Native apt-get install¹            | ❌          | ✅                       |
+| Device Monitoring                  | ✅          | ⌛                       |
+| RAC Remote Access                  | ✅          | ✅                       |
+| Prebuilt OS Image                  | ✅          | ⌛                       |
+| QA Approved Releases               | ✅          | ⌛                       |
+| Built with Yocto                   | ✅          | ❌                       |
+| Image Customizing with Opus³       | ❌          | ✅                       |
+| Image Customizing with TCB²        | ✅          | ❌                       |
+| SBOM⁴                              | ✅          | ✅                       |
 | Torizon VS Code Extension support⁵ | ✅          | ✅                       |
 
 
 
-¹**Debian package development**: it is possible to install Debian packages without need of containerization, as the OS is Debian based. <br>
+¹**Native apt-get install**: it is possible to install Debian packages without need of containerization, as the OS is Debian based. <br>
 ²**TCB**: Torizon Core Builder <br>
 ³**Opus**: PhobOS image customization tool <br>
 ⁴**SBOM**: Software Bill of Materials <br>
