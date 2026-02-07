@@ -19,10 +19,11 @@ PhobOS is compatible with the Toradex Torizon ecosystem. It uses OSTree to manag
 |-----------------------------|---------------------|
 | Raspberry Pi 5B             | rpi5b               |
 | Raspberry Pi 4B             | rpi4b               |
+| Toradex SMARC iMX95         | smarc-imx95         |
 | Toradex iMX95 EVK           | imx95-verdin-evk    |
 | NXP iMX93 Freedom Board     | imx93-frdm          |
 | Toradex Verdin iMX8M Plus   | imx8mp-verdin       |
-| Toradex Luna SBC         | luna             |
+| Toradex Luna SBC            | luna                |
 | Synaptics Astra sl1680      | sl1680              |
 | Synaptics Astra sl2619      | sl2619              |
 | Generic x86_64              | intel               |
