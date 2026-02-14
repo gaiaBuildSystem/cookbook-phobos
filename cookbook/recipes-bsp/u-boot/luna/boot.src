@@ -23,8 +23,7 @@ env set ramdisk_addr_r 0xcf00000
 env set scriptaddr 0x1f000000
 env set fdt_addr_r 0x10000000
 env set initrd_high 0xffffffffffffffff
-# it was not needed anymore on the Syna SDK v2.1.0
-# env set cma 524288000@1556086784
+env set cma 524288000@1556086784
 # env set fdt_high 0xffffffffffffffff
 
 mmc dev 0
@@ -36,6 +35,7 @@ env set bootargs ${bootargs} console=ttyS0,115200
 env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
 env set bootargs ${bootargs} 8250.nr_uarts=1
 # env set bootargs ${bootargs} ignore_loglevel earlycon
+env set bootargs ${bootargs} cma=${cma}
 env set bootargs ${bootargs} loglevel=${loglevel}
 env set bootargs ${bootargs} ${extraargs}
 
