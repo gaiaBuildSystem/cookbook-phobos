@@ -40,9 +40,34 @@ sleep 10s
 
 ping -c 1 8.8.8.8 > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    echo "Error: No internet connection. Please check your network settings." >&2
-    exit 69
+    echo "No internet connection. Retrying..." >&2
+
+    # Annotate the image with error message
+    cp /usr/share/pair-fb/diagrams.jpg /home/phobos/back.jpg
+    convert \
+        /home/phobos/back.jpg \
+        -gravity SouthWest \
+        -pointsize 100 \
+        -fill red \
+        -gravity NorthWest \
+        -annotate 0x0+1029+570 \
+        "No Network" \
+        /home/phobos/output.jpg
 fi
+
+# Wait for internet connection with retries
+while true; do
+    ping -c 1 8.8.8.8 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        # Internet is available, break out of the loop
+        break
+    fi
+
+    echo "No internet connection. Retrying..." >&2
+
+    # Wait before retrying
+    sleep 10s
+done
 
 ret=$(curl -fsSL "https://app.torizon.io/api/provision-code")
 
