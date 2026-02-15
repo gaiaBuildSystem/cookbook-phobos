@@ -6,6 +6,7 @@ echo "[initramfs] initializing video splash screen..."
 machine_id="${MACHINE:-unknown}"
 case "${machine_id}" in
 	rpi5b) card_id=1 ;;
+	luna) card_id=1 ;;
 	*) card_id=0 ;;
 esac
 
