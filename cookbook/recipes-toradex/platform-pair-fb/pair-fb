@@ -53,6 +53,10 @@ if [ $? -ne 0 ]; then
         -annotate 0x0+1029+570 \
         "No Network" \
         /home/phobos/output.jpg
+
+    pkill -SIGINT drmi
+    sleep 1
+    drmi /home/phobos/output.jpg $card_id 1 &
 fi
 
 # Wait for internet connection with retries
