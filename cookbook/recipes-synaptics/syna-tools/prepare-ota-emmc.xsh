@@ -28,6 +28,7 @@ _DISTRO_MAJOR = os.environ.get('DISTRO_MAJOR')
 _DISTRO_MINOR = os.environ.get('DISTRO_MINOR')
 _DISTRO_PATCH = os.environ.get('DISTRO_PATCH')
 _USER_PASSWD = os.environ.get('USER_PASSWD')
+_DISTRO_VARIANT = os.environ.get('DISTRO_VARIANT')
 
 # read the meta data
 meta = json.loads(os.environ.get('META', '{}'))
@@ -43,6 +44,11 @@ os.environ['IMAGE_MNT_ROOT'] = _IMAGE_MNT_ROOT
 _REPO_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-tools"
 _EXECUTABLES_PATH = f"{_REPO_PATH}/tools/src/executables"
 _EMMC_PT_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/syna-configs/product/sl1680_poky_aarch64_rdk/emmc.pt"
+
+
+if _DISTRO_VARIANT == "bootc":
+    print(f"BootC variant use the vendor specific configuration, skipping...")
+    sys.exit(0)
 
 
 # this is only for astra boards
