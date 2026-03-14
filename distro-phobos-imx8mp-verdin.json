@@ -26,5 +26,6 @@
         "resize-helper",
         "simple-splash",
         "easy-splash"
-    ]
+    ],
+    "$schema": "./schema/distro.json"
 }

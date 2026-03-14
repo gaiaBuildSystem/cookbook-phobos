@@ -25,5 +25,6 @@
         "simple-splash",
         "easy-splash",
         "syna-tools"
-    ]
+    ],
+    "$schema": "./schema/distro.json"
 }

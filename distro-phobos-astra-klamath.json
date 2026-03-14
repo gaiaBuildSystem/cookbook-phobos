@@ -28,5 +28,6 @@
         "simple-splash",
         "easy-splash",
         "syna-fastlogo"
-    ]
+    ],
+    "$schema": "./schema/distro.json"
 }
