@@ -11,9 +11,11 @@ USER=${USER}
 PSWD=${PSWD}
 USER_LOGIN_USER=${USER_LOGIN_USER}
 INITRAMFS_PATH=${INITRAMFS_PATH}
+DISTRO_NAME=${DISTRO_NAME}
 DISTRO_MAJOR=${DISTRO_MAJOR}
 DISTRO_MINOR=${DISTRO_MINOR}
 DISTRO_PATCH=${DISTRO_PATCH}
+IMAGE_NAME=${IMAGE_NAME}
 
 IMAGE_MNT_BOOT="${BUILD_PATH}/tmp/${MACHINE}/mnt/boot"
 IMAGE_MNT_ROOT="${BUILD_PATH}/tmp/${MACHINE}/mnt/root"
@@ -24,7 +26,7 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 echo "Create the .img for the ostree based distro"
 
 # Check if the .img file exists
-IMG_OTA_PATH="${BUILD_PATH}/tmp/${MACHINE}/deploy/${MACHINE}-ota-${DISTRO_MAJOR}-${DISTRO_MINOR}-${DISTRO_PATCH}.img"
+IMG_OTA_PATH="${BUILD_PATH}/tmp/${MACHINE}/deploy/${DISTRO_NAME}-${MACHINE}-ota-${DISTRO_MAJOR}-${DISTRO_MINOR}-${DISTRO_PATCH}.img"
 
 if [ -f "${IMG_OTA_PATH}" ]; then
     rm -rf "${IMG_OTA_PATH}"
@@ -33,7 +35,7 @@ fi
 OS_TREE_DEPLOY_PATH="${BUILD_PATH}/tmp/${MACHINE}/ostree/deploy"
 
 # Create the .img based on the distro .img
-cp "${BUILD_PATH}/tmp/${MACHINE}/deploy/${MACHINE}-${DISTRO_MAJOR}-${DISTRO_MINOR}-${DISTRO_PATCH}.img" "${IMG_OTA_PATH}"
+cp "${BUILD_PATH}/tmp/${MACHINE}/deploy/${IMAGE_NAME}" "${IMG_OTA_PATH}"
 
 # create the mapping
 kpartxret="$(kpartx -av $IMG_OTA_PATH)"

@@ -27,6 +27,7 @@ _ARCH = os.environ.get('ARCH')
 _MACHINE = os.environ.get('MACHINE')
 _MAX_IMG_SIZE = os.environ.get('MAX_IMG_SIZE')
 _BUILD_PATH = os.environ.get('BUILD_PATH')
+_DISTRO_NAME = os.environ.get('DISTRO_NAME')
 _DISTRO_MAJOR = os.environ.get('DISTRO_MAJOR')
 _DISTRO_MINOR = os.environ.get('DISTRO_MINOR')
 _DISTRO_PATCH = os.environ.get('DISTRO_PATCH')
@@ -42,7 +43,7 @@ _path = os.path.dirname(os.path.abspath(__file__))
 
 _IMAGE_MNT_BOOT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/boot"
 _IMAGE_MNT_ROOT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/root"
-_IMAGE_OTA_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/deploy/{_MACHINE}-ota-{_DISTRO_MAJOR}-{_DISTRO_MINOR}-{_DISTRO_PATCH}.img"
+_IMAGE_OTA_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/deploy/{_DISTRO_NAME}-{_MACHINE}-ota-{_DISTRO_MAJOR}-{_DISTRO_MINOR}-{_DISTRO_PATCH}.img"
 _OSTREE_REPO_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/ostree/deploy/ostree/repo"
 _OSTREE_REPO_Z2_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/ostree/deploy/ostree/repo.z2"
 _TUF_REPO = f"{_BUILD_PATH}/tmp/{_MACHINE}/tuf"
