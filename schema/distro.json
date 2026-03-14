@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Torizon WSL Distro Manifest Schema",
+    "title": "PhobOS Distro Manifest Schema",
     "allOf": [
         {
             "$ref": "../../gaia/schema/distro.json"
