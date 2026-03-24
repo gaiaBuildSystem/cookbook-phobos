@@ -17,6 +17,7 @@ PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the sy
 
 | Board                       | Gaia Machine Name   |
 |-----------------------------|---------------------|
+| Arduino Uno Q               | arduino-uno-q       |
 | Raspberry Pi 5B             | rpi5b               |
 | Raspberry Pi 4B             | rpi4b               |
 | Toradex SMARC iMX95         | smarc-imx95         |
@@ -41,6 +42,7 @@ PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the sy
     - [NXP Boards](https://github.com/gaiaBuildSystem/cookbook-nxp)
     - [Raspberry Pi Boards](https://github.com/gaiaBuildSystem/cookbook-rpi)
     - [Synaptics Astra Boards](https://github.com/gaiaBuildSystem/cookbook-synaptics)
+    - [Qualcomm Boards](https://github.com/gaiaBuildSystem/cookbook-qcom)
     - [x86_64 Boards](https://github.com/gaiaBuildSystem/cookbook-intel)
 
 ### Build
