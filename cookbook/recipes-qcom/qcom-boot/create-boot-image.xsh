@@ -30,6 +30,13 @@ _DISTRO_PATCH = os.environ.get('DISTRO_PATCH')
 _USER_PASSWD = os.environ.get('USER_PASSWD')
 _IMAGE_NAME = os.environ.get('IMAGE_NAME')
 
+# read the meta data
+meta = json.loads(os.environ.get('META', '{}'))
+
+# get the actual script path, not the process.cwd
+_path = os.path.dirname(os.path.abspath(__file__))
+
+
 # we are on PhobOS
 # For PhobOS we need to use the ota image
 # which is in fact the same partition layout but with another name
