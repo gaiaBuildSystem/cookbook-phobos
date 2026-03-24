@@ -1,0 +1,40 @@
+#
+# Copyright 2025 MicroHobby
+#
+# Reference boot script.
+
+echo "Booting Reference ..."
+sleep 2
+
+# check if loglevel is set
+if env exists loglevel
+    then
+        echo "loglevel is set to ${loglevel}"
+    else
+        setenv loglevel 3
+fi
+
+mmc dev 0
+ext4load mmc 0:49 ${scriptaddr} boot/uEnv.txt
+env import -t ${scriptaddr} ${filesize}
+
+env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} console=ttyMSM0,115200
+# mimic the Debian from Arduino
+env set bootargs ${bootargs} clk_ignore_unused pd_ignore_unused audit=0 deferred_probe_timeout=30
+# env set bootargs ${bootargs} ignore_loglevel earlycon
+env set bootargs ${bootargs} loglevel=${loglevel}
+env set bootargs ${bootargs} ${extraargs}
+
+saveenv
+
+# loads the kernel and the initramfs
+ext4load mmc 0:49 ${kernel_addr_r} ${kernel_image}
+ext4load mmc 0:49 ${ramdisk_addr_r} ${ramdisk_image}
+env set ramdisk_size ${filesize}
+
+# FIXME:    the dtb is loaded from the boot partition
+#           would be nice to get it from ostree
+fatload mmc 0:48 ${fdt_addr_r} qrb2210-arduino-imola.dtb
+
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r}

@@ -1,0 +1,12 @@
+{
+    "name": "qcom-boot",
+    "type": "config",
+    "priority": 1,
+    "support": [
+        "linux/arm64"
+    ],
+    "afterBundleInitramfsRecipes": [
+        "create-boot-image.xsh"
+    ],
+    "merge": true
+}
