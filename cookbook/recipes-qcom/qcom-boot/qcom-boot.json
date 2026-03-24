@@ -5,7 +5,7 @@
     "support": [
         "linux/arm64"
     ],
-    "afterBundleInitramfsRecipes": [
+    "afterBundleRecipes": [
         "create-boot-image.xsh"
     ],
     "merge": true
