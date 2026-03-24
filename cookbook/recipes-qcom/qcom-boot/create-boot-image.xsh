@@ -36,7 +36,6 @@ _IMAGE_NAME = os.environ.get('IMAGE_NAME')
 _IMAGE_NAME = f"{_DISTRO_NAME}-{_MACHINE}-ota-{_DISTRO_MAJOR}-{_DISTRO_MINOR}-{_DISTRO_PATCH}.img"
 
 
-os.environ['IMAGE_MNT_ROOT'] = _IMAGE_MNT_ROOT
 _QCOM_PTOOL_PATH = f"{_BUILD_PATH}/tmp/{_MACHINE}/qcom-ptool"
 _DEPLOY_DIR = f"{_BUILD_PATH}/tmp/{_MACHINE}/deploy"
 os.environ['DEPLOY_DIR'] = _DEPLOY_DIR
