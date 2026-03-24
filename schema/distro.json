@@ -24,7 +24,8 @@
                 "intel",
                 "sl1680",
                 "sl2619",
-                "luna"
+                "luna",
+                "arduino-uno-q"
             ]
         }
     }

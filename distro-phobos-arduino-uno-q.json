@@ -1,6 +1,6 @@
 {
     "name": "PhobOS",
-    "machine": "luna",
+    "machine": "arduino-uno-q",
     "arch": "linux/arm64",
     "version": {
         "major": 0,
