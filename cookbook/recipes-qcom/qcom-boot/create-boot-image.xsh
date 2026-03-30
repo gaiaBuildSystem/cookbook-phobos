@@ -10,6 +10,7 @@ $RAISE_SUBPROC_ERROR = True
 
 
 import os
+import sys
 import json
 import os.path
 from torizon_templates_utils.colors import print,BgColor,Color
@@ -153,10 +154,10 @@ if os.environ["MACHINE"] == "arduino-uno-q":
     sudo cp @(_DEPLOY_DIR)/boot.img @(_DEPLOY_DIR)/flash/boot.img
 
 else:
-    Error_Out(
-        f"Machine [{os.environ['MACHINE']}] is not supported",
-        Error.EINVAL
-    )
+    # this is PhobOS we should not error out because we can use the same distro
+    # config for other platforms
+    print(f"Warning: Machine {_MACHINE} is not supported to qcom create-boot-image, skipping ...", color=Color.YELLOW, bg_color=BgColor.RED)
+    sys.exit(0)
 
 
 print("Creating qcom boot.img, OK", color=Color.WHITE, bg_color=BgColor.GREEN)
