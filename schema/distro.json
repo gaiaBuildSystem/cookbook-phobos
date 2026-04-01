@@ -25,6 +25,7 @@
                 "sl1680",
                 "sl2619",
                 "luna",
+                "luna-upstream",
                 "arduino-uno-q"
             ]
         }

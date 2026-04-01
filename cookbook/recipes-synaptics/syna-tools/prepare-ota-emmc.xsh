@@ -55,6 +55,7 @@ if _DISTRO_VARIANT == "bootc":
 _supported_machines = [
     "sl1680",
     "luna",
+    "luna-upstream",
     "sl2619"
 ]
 
