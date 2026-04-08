@@ -25,7 +25,8 @@
         "initramfs-php",
         "simple-splash",
         "easy-splash",
-        "syna-tools"
+        "syna-tools",
+        "qcom-boot"
     ],
     "$schema": "./schema/distro.json"
 }
