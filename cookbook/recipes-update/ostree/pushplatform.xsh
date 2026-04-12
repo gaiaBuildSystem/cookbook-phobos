@@ -59,7 +59,7 @@ _commit = $(ostree --repo=@(_OSTREE_REPO_PATH) rev-parse @(_MACHINE))
 _module = _MACHINE
 _credentials_path = f"{_path}/credentials/credentials.zip"
 _package_name = f"{_module}"
-_version = f"phobos-{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}"
+_version = f"{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}-PhobOS"
 _codename = f"{_DISTRO_CODENAME}"
 
 # check if the credentials file exists
