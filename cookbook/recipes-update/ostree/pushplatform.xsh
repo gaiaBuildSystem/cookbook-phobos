@@ -139,7 +139,7 @@ _meta = {
         "ostree.ref.binding": [
             f"{_module}"
         ],
-        "version": f"{_version}-{_codename}"
+        "version": f"{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}-{_codename}"
     }
 }
 
