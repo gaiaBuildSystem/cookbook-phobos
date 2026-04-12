@@ -58,7 +58,10 @@ if 'OSTREE_GARAGE_PUSH' not in os.environ or os.environ['OSTREE_GARAGE_PUSH'] !=
 _commit = $(ostree --repo=@(_OSTREE_REPO_PATH) rev-parse @(_MACHINE))
 _module = _MACHINE
 _credentials_path = f"{_path}/credentials/credentials.zip"
-_package_name = f"{_module}"
+# we do not use the machine name as the package name anymore
+# _package_name = f"{_module}"
+# we just use PhobOS as the package name
+_package_name = f"PhobOS"
 _version = f"{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}-PhobOS"
 _codename = f"{_DISTRO_CODENAME}"
 
