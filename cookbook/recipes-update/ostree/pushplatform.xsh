@@ -62,7 +62,7 @@ _credentials_path = f"{_path}/credentials/credentials.zip"
 # _package_name = f"{_module}"
 # we just use PhobOS as the package name
 _package_name = f"PhobOS"
-_version = f"{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}-PhobOS"
+_version = f"{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}-{_MACHINE}"
 _codename = f"{_DISTRO_CODENAME}"
 
 # check if the credentials file exists
