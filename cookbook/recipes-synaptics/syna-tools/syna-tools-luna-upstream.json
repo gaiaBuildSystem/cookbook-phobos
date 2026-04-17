@@ -1,0 +1,12 @@
+{
+    "name": "syna-tools",
+    "type": "config",
+    "priority": 1,
+    "support": [
+        "linux/arm64"
+    ],
+    "afterBundleRecipes": [
+        "prepare-ota-emmc.xsh"
+    ],
+    "merge": true
+}
