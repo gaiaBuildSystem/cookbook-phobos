@@ -6,7 +6,8 @@
         "linux/arm64"
     ],
     "afterBundleRecipes": [
-        "prepare-ota-emmc.xsh"
+        "prepare-ota-emmc.xsh",
+        "prepare-raw-ota-emmc.xsh"
     ],
     "merge": true
 }
