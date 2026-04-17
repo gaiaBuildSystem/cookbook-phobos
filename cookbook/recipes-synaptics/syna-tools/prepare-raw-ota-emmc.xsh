@@ -153,8 +153,10 @@ _SECTORS_PER_MB = (1024 * 1024) // _SECTOR_SIZE  # 2048
 _TOTAL_EMMC_MB = 1 + sum(_sz for _, _sz in _partitions) + 1
 print(f"Raw eMMC image size: {_TOTAL_EMMC_MB}MB ({len(_partitions)} GPT partitions)", color=Color.WHITE, bg_color=BgColor.BLUE)
 
-# Create the zeroed raw image file
-_RAW_EMMC_IMG = f"{_DEPLOY_DIR}/emmc.img"
+# Create the zeroed raw image file.
+# Use a distinct name so the synaptics prepare-raw-emmc.xsh (which also runs
+# during a PhobOS build due to recipe merging) does not overwrite this image.
+_RAW_EMMC_IMG = f"{_DEPLOY_DIR}/emmc-ota.img"
 sudo dd if=/dev/zero of=@(_RAW_EMMC_IMG) bs=1M count=@(_TOTAL_EMMC_MB) status=progress
 
 # Build GPT partition table with sgdisk (sector size 512, start at 2048 = 1MiB)
@@ -234,7 +236,7 @@ print("All partitions written successfully", color=Color.WHITE, bg_color=BgColor
 
 
 # Compress the final raw eMMC image
-_RAW_EMMC_IMG_GZ = f"{_RAW_EMMC_IMG}.gz"
+_RAW_EMMC_IMG_GZ = f"{_DEPLOY_DIR}/emmc-ota.img.gz"
 print("Compressing raw eMMC image...", color=Color.WHITE, bg_color=BgColor.BLUE)
 sudo bash -c @(f"gzip -fc {_RAW_EMMC_IMG} > {_RAW_EMMC_IMG_GZ}")
 
