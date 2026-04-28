@@ -16,6 +16,12 @@ if env exists loglevel
         setenv loglevel 3
 fi
 
+# for qemu the device tree was already loaded by the "firmware"
+fdt addr ${fdt_addr}
+# now we edit the model
+fdt set / model "PhobOS Emulator"
+fdt set / compatible "phobos,emulator"
+
 if env exists bootcount
     then
         echo "bootcount is ${bootcount}"
