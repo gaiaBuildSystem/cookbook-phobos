@@ -116,10 +116,11 @@ sudo cp @(f"{_path}/files/greenboot.target") \
 # now move the /etc/greenboot to /usr/lib/greenboot
 sudo \
     rm -rf @(f"{_IMAGE_MNT_ROOT}/usr/lib/greenboot")
+
 sudo \
     mv \
     @(f"{_IMAGE_MNT_ROOT}/etc/greenboot") \
-    @(f"{_IMAGE_MNT_ROOT}/usr/lib)
+    @(f"{_IMAGE_MNT_ROOT}/usr/lib")
 
 # enable the service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-healthcheck.service
