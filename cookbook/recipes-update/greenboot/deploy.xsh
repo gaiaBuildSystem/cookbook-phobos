@@ -59,16 +59,29 @@ sudo \
 
 sudo \
     install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/green.d")
+# remove the green from upstream greenboot, we will add our own green checks
+sudo \
+    rm -rf @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/green.d/*")
 
 sudo \
     install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/red.d")
+sudo \
+    rm -rf @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/red.d/*")
 
 sudo \
     install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/check/required.d")
+# remove the required from upstream greenboot, we will add our own required checks
+sudo \
+    rm -rf @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/check/required.d/*")
 
 sudo \
     install -d @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/check/wanted.d")
+# remove the wanted from upstream greenboot, we will add our own wanted checks
+sudo \
+    rm -rf @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/check/wanted.d/*")
 
+
+# green
 sudo \
     install -m 755 \
     @(f"{_path}/files/00_cleanup_uboot_vars.sh") \
@@ -77,6 +90,8 @@ sudo \
     install -m 755 \
     @(f"{_path}/files/01_log_rollback_info.sh") \
     @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/green.d")
+
+# utils
 sudo \
     install -m 755 \
     @(f"{_path}/files/greenboot-status") \
@@ -90,8 +105,21 @@ sudo \
     @(f"{_path}/files/redboot-auto-reboot") \
     @(f"{_IMAGE_MNT_ROOT}/usr/libexec/greenboot")
 
+# config
 sudo cp @(f"{_path}/files/greenboot.conf") \
     @(f"{_IMAGE_MNT_ROOT}/etc/greenboot/greenboot.conf")
+
+# systemd unitdir
+sudo cp @(f"{_path}/files/greenboot.target") \
+    @(f"{_IMAGE_MNT_ROOT}/etc/systemd/system/greenboot.target")
+
+# now move the /etc/greenboot to /usr/lib/greenboot
+sudo \
+    rm -rf @(f"{_IMAGE_MNT_ROOT}/usr/lib/greenboot")
+sudo \
+    mv \
+    @(f"{_IMAGE_MNT_ROOT}/etc/greenboot") \
+    @(f"{_IMAGE_MNT_ROOT}/usr/lib)
 
 # enable the service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-healthcheck.service
