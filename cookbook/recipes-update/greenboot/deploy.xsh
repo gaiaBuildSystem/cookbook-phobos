@@ -125,6 +125,9 @@ sudo \
 # enable the service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-healthcheck.service
 sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-status.service
+sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable greenboot-task-runner.service
+sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable redboot-auto-reboot.service
+sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable redboot-task-runner.service
 
 
 print(
