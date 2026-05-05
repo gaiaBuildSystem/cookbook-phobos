@@ -146,11 +146,14 @@ _meta = {
 _meta_json = json.dumps(_meta)
 
 print("init ...")
-uptane-sign \
-    init \
-    --credentials @(_credentials_path) \
-    --repo @(_TUF_REPO) \
-    --verbose
+try:
+    uptane-sign \
+        init \
+        --credentials @(_credentials_path) \
+        --repo @(_TUF_REPO) \
+        --verbose
+except Exception as e:
+    print(f"Propably the tuf was already created: {e}")
 
 print("targets pull ...")
 uptane-sign \
