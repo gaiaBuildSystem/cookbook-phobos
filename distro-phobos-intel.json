@@ -4,9 +4,9 @@
     "arch": "linux/amd64",
     "version": {
         "major": 0,
-        "minor": 0,
+        "minor": 1,
         "patch": 0,
-        "build": 14,
+        "build": 0,
         "variant": "ota",
         "codename": "lion-killer"
     },
