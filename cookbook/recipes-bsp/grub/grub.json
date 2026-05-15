@@ -9,7 +9,7 @@
         "grub-common"
     ],
     "env": {
-        "GRUB_SPLASH_PATH": "${recipeOrigin}/microhobby.png"
+        "GRUB_SPLASH_PATH": "${recipeOrigin}/grub-splash.png"
     },
     "merge": true
 }
