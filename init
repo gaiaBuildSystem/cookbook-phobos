@@ -32,4 +32,4 @@ if [ -f ~/.local/bin/xonsh ]; then
 fi
 
 # also install the nodejs dependencies
-/root/.bun/bin/bun install
+/root/.deno/bin/deno install
