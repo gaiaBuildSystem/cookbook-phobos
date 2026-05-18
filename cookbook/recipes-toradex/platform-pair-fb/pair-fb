@@ -34,6 +34,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # load the first image
+drmset $card_id
 drmi /usr/share/pair-fb/diagrams.jpg $card_id 1 &
 
 # let's wait some time
