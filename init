@@ -13,7 +13,7 @@ sudo apt-get install -y \
     pipx
 
 
-pipx install xonsh
+pipx install xonsh==0.23.7
 pipx ensurepath
 pipx inject xonsh distro
 pipx inject xonsh shtab

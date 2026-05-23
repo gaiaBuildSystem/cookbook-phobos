@@ -6,7 +6,7 @@
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
 # always return if a cmd fails
-$RAISE_SUBPROC_ERROR = True
+$XONSH_SUBPROC_CMD_RAISE_ERROR = True
 
 import os
 import sys
@@ -59,10 +59,10 @@ sudo -k \
     echo "detaching ..."
 
 
-$RAISE_SUBPROC_ERROR = False
+$XONSH_SUBPROC_CMD_RAISE_ERROR = False
 sudo umount @(f"{_IMAGE_MNT_BOOT}-ota")
 sudo umount @(f"{_IMAGE_MNT_ROOT}-ota")
-$RAISE_SUBPROC_ERROR = True
+$XONSH_SUBPROC_CMD_RAISE_ERROR = True
 
 
 # check if the image file exists

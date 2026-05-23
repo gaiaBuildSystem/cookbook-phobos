@@ -10,7 +10,7 @@
 # use the xonsh environment to update the OS environment
 $UPDATE_OS_ENVIRON = True
 # always return if a cmd fails
-$RAISE_SUBPROC_ERROR = True
+$XONSH_SUBPROC_CMD_RAISE_ERROR = True
 $XONSH_SHOW_TRACEBACK = True
 
 import os
