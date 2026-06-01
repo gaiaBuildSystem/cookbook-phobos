@@ -14,4 +14,8 @@ staticx /tmp/ostree-boot/usr/lib/ostree/ostree-prepare-root ostree-prepare-root
 mv /ostree-prepare-root $INITRAMFS_PATH/bin/ostree-prepare-root
 
 # deploy the mount root script
-cp $_path/busybox/90-root.sh $INITRAMFS_PATH/scripts/90-root.sh
+if [ "$MACHINE" = "intel" ]; then
+    cp $_path/busybox/90-root-intel.sh $INITRAMFS_PATH/scripts/90-root.sh
+else
+    cp $_path/busybox/90-root.sh $INITRAMFS_PATH/scripts/90-root.sh
+fi
