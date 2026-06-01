@@ -26,7 +26,26 @@ fi
 setexpr bootcount $bootcount + 1
 saveenv
 
-ext4load efi 0:2 ${scriptaddr} boot/uEnv.txt
+
+# find the correct efi disk
+env set efidisk 0
+env set efidisk_found 0
+
+for i in 0 1 2 3 4 5 6 7 8 9
+    do
+        if test "${efidisk_found}" = "0"
+            then
+                if fatload efi $i:1 ${scriptaddr} ${label_name}
+                    then
+                        env set efidisk $i
+                        env set efidisk_found 1
+                fi
+        fi
+done
+env set efidisk_found
+
+
+ext4load efi ${efidisk}:2 ${scriptaddr} boot/uEnv.txt
 env import -t ${scriptaddr} ${filesize}
 
 if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
@@ -60,9 +79,9 @@ env set bootargs ${bootargs} ${extraargs}
 
 # loads the kernel and the initramfs
 env set ramdisk_addr_r 0x8a00000
-ext4load efi 0:2 ${kernel_addr_r} ${kernel_image}
+ext4load efi ${efidisk}:2 ${kernel_addr_r} ${kernel_image}
 env set kernel_size ${filesize}
-ext4load efi 0:2 ${ramdisk_addr_r} ${ramdisk_image}
+ext4load efi ${efidisk}:2 ${ramdisk_addr_r} ${ramdisk_image}
 env set ramdisk_size ${filesize}
 
 zboot ${kernel_addr_r} ${kernel_size} ${ramdisk_addr_r} ${ramdisk_size}
