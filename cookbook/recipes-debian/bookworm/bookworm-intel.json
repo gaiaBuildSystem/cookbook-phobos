@@ -1,0 +1,30 @@
+{
+    "name": "debian-bookworm",
+    "type": "rootfs",
+    "priority": 2,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "env": {
+        "BOOT_LABEL": "BOOT-INTEL",
+        "ROOT_LABEL": "otaroot"
+    },
+    "targetDeps": [
+        "xterm",
+        "openssh-server"
+    ],
+    "hostDeps": [
+        "python3"
+    ],
+    "beforeTargetDepsRecipes": [
+        "configure.py"
+    ],
+    "cleanRecipes": [
+        "umount.xsh"
+    ],
+    "sbomRecipes": [
+        "sbom.ts"
+    ],
+    "merge": true
+}
