@@ -26,25 +26,6 @@ fi
 setexpr bootcount $bootcount + 1
 saveenv
 
-
-# find the correct efi disk
-env set efidisk 0
-env set efidisk_found 0
-
-for i in 0 1 2 3 4 5 6 7 8 9
-    do
-        if test "${efidisk_found}" = "0"
-            then
-                if fatload efi $i:1 ${scriptaddr} ${label_name}
-                    then
-                        env set efidisk $i
-                        env set efidisk_found 1
-                fi
-        fi
-done
-env set efidisk_found
-
-
 ext4load efi ${efidisk}:2 ${scriptaddr} boot/uEnv.txt
 env import -t ${scriptaddr} ${filesize}
 
