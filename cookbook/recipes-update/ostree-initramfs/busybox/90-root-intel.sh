@@ -87,6 +87,12 @@ if [ "${root#LABEL:}" != "$root" ]; then
     interval=1 # Interval between checks in seconds
     elapsed=0
 
+    # if we have the kernel arg zeus_install=1
+    # propably we need some additional time to have the target disk available
+    if [ "$zeus_install" = "1" ]; then
+        sleep 10
+    fi
+
     while [ -z "$_dev" ]; do
         sleep $interval
 
