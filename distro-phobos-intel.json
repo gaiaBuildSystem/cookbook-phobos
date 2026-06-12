@@ -26,7 +26,8 @@
         "simple-splash",
         "easy-splash",
         "syna-tools",
-        "qcom-boot"
+        "qcom-boot",
+        "zeus-install"
     ],
     "$schema": "./schema/distro.json"
 }
