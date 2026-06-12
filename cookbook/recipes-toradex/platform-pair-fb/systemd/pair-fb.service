@@ -3,8 +3,6 @@ Description=Pair Torizon FB App
 ConditionPathExists=!/var/sota/import/info.json
 After=network-online.target rc-local.service systemd-user-sessions.service getty.target
 Wants=network-online.target
-ConditionKernelCommandLine=|zeus_install=0
-ConditionKernelCommandLine=|!zeus_install
 
 [Service]
 Type=exec
