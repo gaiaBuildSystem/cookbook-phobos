@@ -11,6 +11,8 @@ case "${machine_id}" in
 	*) card_id=0 ;;
 esac
 
+# there are machines that we need to find the right card index
+CARD_INDEX=$(ls /sys/class/drm/ | grep -E '^card[0-9]+-' | sed 's/card\([0-9]*\)-.*/\1/' | sort -un | head -1)
 
 # copy it to the /dev/tmpfs
 mkdir -p /dev/splash
@@ -18,8 +20,8 @@ mount -t tmpfs tmpfs /dev/splash
 cp /usr/mplayer-splash/1.mp4 /dev/splash/1.mp4
 
 # force set mode
-/bin/drmset ${card_id}
+/bin/drmset ${CARD_INDEX}
 
 # good to go
-/usr/mplayer-splash/mplayer -nosound -vo drm:/dev/dri/card${card_id} -fixed-vo -loop 0 -loop-start 1.57 /dev/splash/1.mp4 >/dev/null 2>&1 &
+/usr/mplayer-splash/mplayer -nosound -vo drm:/dev/dri/card${CARD_INDEX} -fixed-vo -loop 0 -loop-start 1.57 /dev/splash/1.mp4 >/dev/null 2>&1 &
 echo "[initramfs] splash loop..."
