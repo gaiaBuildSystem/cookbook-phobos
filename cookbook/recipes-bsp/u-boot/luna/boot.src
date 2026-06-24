@@ -1,10 +1,12 @@
 #
-# Copyright 2025 MicroHobby
+# Copyright 2026 MicroHobby
 #
 # Reference boot script.
 
 echo "Booting Reference ..."
 sleep 2
+
+setenv bootlimit 3
 
 # check if loglevel is set
 if env exists loglevel
@@ -26,9 +28,34 @@ env set initrd_high 0xffffffffffffffff
 env set cma 524288000@1556086784
 # env set fdt_high 0xffffffffffffffff
 
+setexpr bootcount $bootcount + 1
+saveenv
+
 mmc dev 0
 ext4load mmc 0:8 ${scriptaddr} boot/uEnv.txt
 env import -t ${scriptaddr} ${filesize}
+
+if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
+    then
+        # Make sure to reset upgrade_available to avoid unnecessary wear
+        # Note this also makes rollback permanent. aktualizr will reset rollback
+        # when a new (hopefully better) update comes in.
+        env set upgrade_available 0
+        setenv bootcount 0
+        saveenv
+fi
+
+if test $bootcount -gt $bootlimit
+    then
+        echo "Bootcount exceeded, applying rollback"
+        setenv bootcount 0
+        saveenv
+
+        setenv kernel_image ${kernel_image2}
+        setenv ramdisk_image ${ramdisk_image2}
+        setenv bootargs ${bootargs2}
+        setenv bootargs ${bootargs} rollback=1
+fi
 
 env set bootargs ${bootargs} root=LABEL:rootfs rootfstype=ext4
 env set bootargs ${bootargs} console=ttyS0,115200

@@ -1,6 +1,6 @@
 {
     "name": "PhobOS",
-    "machine": "sl1680",
+    "machine": "astra-sl2619",
     "arch": "linux/arm64",
     "version": {
         "major": 0,
@@ -26,7 +26,8 @@
         "neofetch",
         "initramfs-php",
         "simple-splash",
-        "easy-splash"
+        "easy-splash",
+        "syna-fastlogo"
     ],
     "$schema": "./schema/distro.json"
 }

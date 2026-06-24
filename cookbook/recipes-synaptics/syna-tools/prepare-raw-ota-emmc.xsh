@@ -53,10 +53,9 @@ if _DISTRO_VARIANT == "bootc":
 
 # this is only for astra boards
 _supported_machines = [
-    "sl1680",
+    "astra-sl1680",
     "luna",
-    "luna-upstream",
-    "sl2619"
+    "astra-sl2619"
 ]
 
 if _MACHINE not in _supported_machines:
@@ -65,8 +64,8 @@ if _MACHINE not in _supported_machines:
 
 
 _EMMC_IMG_PATH = "eMMCimg"
-if _MACHINE == "sl2619":
-    _EMMC_IMG_PATH = "eMMCimg-sl2619"
+if _MACHINE == "astra-sl2619":
+    _EMMC_IMG_PATH = "eMMCimg-astra-sl2619"
 
 
 # make sure that the deploy dir is created

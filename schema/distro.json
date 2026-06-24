@@ -22,10 +22,9 @@
                 "imx95-verdin-evk",
                 "smarc-imx95",
                 "intel",
-                "sl1680",
-                "sl2619",
+                "astra-sl1680",
+                "astra-sl2619",
                 "luna",
-                "luna-upstream",
                 "arduino-uno-q"
             ]
         }
