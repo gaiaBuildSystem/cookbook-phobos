@@ -24,6 +24,7 @@ _ARCH = os.environ.get('ARCH')
 _MACHINE = os.environ.get('MACHINE')
 _MAX_IMG_SIZE = os.environ.get('MAX_IMG_SIZE')
 _BUILD_PATH = os.environ.get('BUILD_PATH')
+_DISTRO_NAME = os.environ.get('DISTRO_NAME')
 _DISTRO_MAJOR = os.environ.get('DISTRO_MAJOR')
 _DISTRO_MINOR = os.environ.get('DISTRO_MINOR')
 _DISTRO_PATCH = os.environ.get('DISTRO_PATCH')
@@ -155,7 +156,7 @@ print(f"Raw eMMC image size: {_TOTAL_EMMC_MB}MB ({len(_partitions)} GPT partitio
 # Create the zeroed raw image file.
 # Use a distinct name so the synaptics prepare-raw-emmc.xsh (which also runs
 # during a PhobOS build due to recipe merging) does not overwrite this image.
-_RAW_EMMC_IMG = f"{_DEPLOY_DIR}/emmc-ota.img"
+_RAW_EMMC_IMG = f"{_DEPLOY_DIR}/{_DISTRO_NAME}-{_MACHINE}-emmc-ota-{_DISTRO_MAJOR}-{_DISTRO_MINOR}-{_DISTRO_PATCH}.img"
 sudo dd if=/dev/zero of=@(_RAW_EMMC_IMG) bs=1M count=@(_TOTAL_EMMC_MB) status=progress
 
 # Build GPT partition table with sgdisk (sector size 512, start at 2048 = 1MiB)
@@ -235,7 +236,7 @@ print("All partitions written successfully", color=Color.WHITE, bg_color=BgColor
 
 
 # Compress the final raw eMMC image
-_RAW_EMMC_IMG_GZ = f"{_DEPLOY_DIR}/emmc-ota.img.gz"
+_RAW_EMMC_IMG_GZ = f"{_RAW_EMMC_IMG}.gz"
 print("Compressing raw eMMC image...", color=Color.WHITE, bg_color=BgColor.BLUE)
 sudo bash -c @(f"gzip -fc {_RAW_EMMC_IMG} > {_RAW_EMMC_IMG_GZ}")
 
