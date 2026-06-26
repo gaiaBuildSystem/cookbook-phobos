@@ -256,7 +256,7 @@ for _img_file, _part in _image_list:
         _boot_num = _part[1]
         _boot_out = f"{_DEPLOY_DIR}/preboot_boot{_boot_num}.img"
         print(f"Saving eMMC boot partition {_part} -> preboot_boot{_boot_num}.img", color=Color.WHITE, bg_color=BgColor.BLUE)
-        sudo bash -c @(f"gunzip -c {_EMMC_DEPLOY_DIR}/{_img_file} > {_boot_out}")
+        sudo bash -c @(f"gunzip -c {_EMMC_WORK_DIR}/{_img_file} > {_boot_out}")
         continue
 
     if _img_file == 'format':
@@ -279,7 +279,7 @@ for _img_file, _part in _image_list:
 
     else:
         # Decompress and write the pre-built sub-image from eMMCimg deploy dir
-        _subimg = f"{_EMMC_DEPLOY_DIR}/{_img_file}"
+        _subimg = f"{_EMMC_WORK_DIR}/{_img_file}"
         sudo bash -c @(f"gunzip -c {_subimg} | dd of={_RAW_EMMC_IMG} bs=512 seek={_seek_sectors} conv=notrunc status=progress")
 
 sync
