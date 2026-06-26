@@ -65,7 +65,7 @@ if _MACHINE not in _supported_machines:
 
 _EMMC_IMG_PATH = "eMMCimg"
 if _MACHINE == "astra-sl2619":
-    _EMMC_IMG_PATH = "eMMCimg-sl2619"
+    _EMMC_IMG_PATH = "eMMCimg-astra-sl2619"
 
 
 # make sure that the deploy dir is created

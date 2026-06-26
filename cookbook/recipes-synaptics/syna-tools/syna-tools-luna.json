@@ -5,6 +5,9 @@
     "support": [
         "linux/arm64"
     ],
+    "bundleRecipes": [
+        "prepare-raw-emmc.xsh"
+    ],
     "afterBundleRecipes": [
         "prepare-ota-emmc.xsh",
         "prepare-raw-ota-emmc.xsh"
