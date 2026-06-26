@@ -21,8 +21,8 @@ print("syna-tools preparing raw emmc image ...", color=Color.WHITE, bg_color=BgC
 print(
     "THIS ONLY OVERWRITES THE ORIGINAL COOKBOOK-SYNAPTICS RECIPE!\n" +
     "FOR OTA WE USE THE prepare-ota-emmc.xsh RECIPE INSTEAD THAT GOES AFTER BUNDLE",
-    color=Color.WHITE,
-    bg_color=BgColor.BRIGHT_WHITE
+    color=Color.BLACK,
+    bg_color=BgColor.WHITE
 )
 
 print("syna-tools preparing raw emmc image, OK", color=Color.WHITE, bg_color=BgColor.GREEN)
