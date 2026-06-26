@@ -73,8 +73,8 @@ if _MACHINE == "astra-sl2619":
 sudo mkdir -p @(_DEPLOY_DIR)
 
 # Create the OTA rootfs image from the root-ota mount.
-# The boot partition and all other pre-built sub-images (bl, fastlogo, etc.)
-# are already present in _DEPLOY_DIR/eMMCimg/ from the preceding prepare step.
+# first we need to create the rootfs.subimg.gz
+# calculate the size of the rootfs directory (in KB), excluding virtual filesystems
 print("Calculating rootfs size (excluding virtual filesystems)...", color=Color.WHITE, bg_color=BgColor.BLUE)
 _ROOTFS_SIZE_KB = $(sudo du -sk --exclude=proc --exclude=sys --exclude=dev --exclude=run --exclude=tmp @(_IMAGE_MNT_ROOT) | cut -f1)
 _ROOTFS_SIZE_MB = int(int(_ROOTFS_SIZE_KB) / 1024)
@@ -122,13 +122,59 @@ finally:
     sudo rmdir @(_TEMP_MNT) || true
 
 
+# to the same for boot partition
+print("Calculating boot partition size...", color=Color.WHITE, bg_color=BgColor.BLUE)
+_BOOT_SIZE_KB = $(sudo du -sk @(_IMAGE_MNT_BOOT) | cut -f1)
+_BOOT_SIZE_MB = int(int(_BOOT_SIZE_KB) / 1024)
+_PADDING_BOOT_MB = max(int(_BOOT_SIZE_MB * 0.5), 100)
+_TOTAL_BOOT_SIZE_MB = _BOOT_SIZE_MB + _PADDING_BOOT_MB
+print(f"Boot content size: {_BOOT_SIZE_MB}MB, padding: {_PADDING_BOOT_MB}MB, total: {_TOTAL_BOOT_SIZE_MB}MB", color=Color.WHITE, bg_color=BgColor.BLUE)
+
+_BOOT_IMG = f"{_DEPLOY_DIR}/ota-boot.img"
+sudo dd if=/dev/zero of=@(_BOOT_IMG) bs=1M count=@(_TOTAL_BOOT_SIZE_MB) status=progress
+
+# format as FAT32 for bootloader
+sudo mkfs.vfat -F 32 @(_BOOT_IMG)
+sudo fatlabel @(_BOOT_IMG) BOOT
+
+_TEMP_BOOT_MNT = f"{_BUILD_PATH}/tmp/{_MACHINE}/mnt/temp_boot"
+sudo mkdir -p @(_TEMP_BOOT_MNT)
+sudo mount -o loop @(_BOOT_IMG) @(_TEMP_BOOT_MNT)
+
+try:
+    print("Copying boot partition content...", color=Color.WHITE, bg_color=BgColor.BLUE)
+    sudo rsync -av @(f"{_IMAGE_MNT_BOOT}/") @(f"{_TEMP_BOOT_MNT}/")
+    sync
+    print("Boot image created successfully", color=Color.WHITE, bg_color=BgColor.BLUE)
+except Exception as e:
+    print("syna-tools preparing raw emmc (OTA), OOPS at boot...", color=Color.WHITE, bg_color=BgColor.RED)
+    print(e)
+finally:
+    sudo umount @(_TEMP_BOOT_MNT) || true
+    sudo rmdir @(_TEMP_BOOT_MNT) || true
+
+
+# make sure that we had the deploy/eMMCimg folder created by the build
+sudo mkdir -p @(_DEPLOY_DIR)/eMMCimg
+sudo cp @(_path)/@(f"{_EMMC_IMG_PATH}")/* @(_DEPLOY_DIR)/eMMCimg/
+
 # --- RAW eMMC IMAGE ASSEMBLY ---
-# Build a single raw image containing all GPT partitions.  All pre-built
-# sub-images (preboot, key, tzk, bl, firmware, fastlogo, boot) are already
-# in _DEPLOY_DIR/eMMCimg/ from the preceding prepare step; only the rootfs
-# is the OTA version we just built above.
+# Build a single raw image containing all GPT partitions populated with
+# the pre-built sub-images and the rootfs/boot we just created above.
 
 print("Assembling raw eMMC image...", color=Color.WHITE, bg_color=BgColor.BLUE)
+
+# Gather pre-built sub-images into a working directory
+_EMMC_WORK_DIR = f"{_DEPLOY_DIR}/emmc_work"
+sudo mkdir -p @(_EMMC_WORK_DIR)
+
+sudo cp @(_path)/@(f"{_EMMC_IMG_PATH}")/*.subimg.gz @(_EMMC_WORK_DIR)/
+
+# bl.subimg.gz (and fastlogo.subimg.gz) are produced by the build and land in DEPLOY_DIR
+sudo mv @(_DEPLOY_DIR)/bl.subimg.gz @(_EMMC_WORK_DIR)/
+
+if _MACHINE == "luna" or _MACHINE == "astra-sl1680":
+    sudo mv @(_DEPLOY_DIR)/fastlogo.subimg.gz @(_EMMC_WORK_DIR)/
 
 # Parse emmc_part_list.template substituting the actual rootfs size
 _emmc_part_list_template = f"{_path}/{_EMMC_IMG_PATH}/emmc_part_list.template"
@@ -223,9 +269,14 @@ for _img_file, _part in _image_list:
 
     print(f"Writing {_img_file} -> {_part} (sector {_seek_sectors}, offset {_part_byte_offsets[_part_num] // (1024*1024)}MB)", color=Color.WHITE, bg_color=BgColor.BLUE)
 
-    if _img_file == 'rootfs':
+    if _img_file == 'boot.subimg.gz':
+        # Use the boot.img built above (dd with seek, conv=notrunc to keep the rest of the file)
+        sudo bash -c @(f"dd if={_BOOT_IMG} of={_RAW_EMMC_IMG} bs=512 seek={_seek_sectors} conv=notrunc status=progress")
+
+    elif _img_file == 'rootfs':
         # Use the OTA rootfs.img built above
         sudo bash -c @(f"dd if={_ROOTFS_IMG} of={_RAW_EMMC_IMG} bs=512 seek={_seek_sectors} conv=notrunc status=progress")
+
     else:
         # Decompress and write the pre-built sub-image from eMMCimg deploy dir
         _subimg = f"{_EMMC_DEPLOY_DIR}/{_img_file}"
@@ -247,6 +298,7 @@ print(f"eMMC boot1 partition: {_DEPLOY_DIR}/preboot_boot1.img (flash to /dev/mmc
 
 # Remove the intermediate rootfs image
 sudo rm -f @(_ROOTFS_IMG)
+sudo rm -f @(_BOOT_IMG)
 
 
 print("syna-tools preparing raw emmc image (OTA), OK", color=Color.WHITE, bg_color=BgColor.GREEN)

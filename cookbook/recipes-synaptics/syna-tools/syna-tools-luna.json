@@ -9,7 +9,6 @@
         "prepare-raw-emmc.xsh"
     ],
     "afterBundleRecipes": [
-        "prepare-ota-emmc.xsh",
         "prepare-raw-ota-emmc.xsh"
     ],
     "merge": true
