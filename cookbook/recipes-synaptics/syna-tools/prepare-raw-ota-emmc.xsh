@@ -64,9 +64,7 @@ if _MACHINE not in _supported_machines:
     sys.exit(0)
 
 
-_EMMC_IMG_PATH = "eMMCimg"
-if _MACHINE == "astra-sl2619":
-    _EMMC_IMG_PATH = "eMMCimg-astra-sl2619"
+_EMMC_IMG_PATH = f"eMMCimg_{_MACHINE}"
 
 
 # make sure that the deploy dir is created
