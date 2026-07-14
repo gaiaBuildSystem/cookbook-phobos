@@ -125,4 +125,4 @@ Although systems have design and architectural differences the goal as the proje
 ²**TCB**: Torizon Core Builder <br>
 ³**Opus**: PhobOS image customization tool <br>
 ⁴**SBOM**: Software Bill of Materials <br>
-⁵**Torizon VS Code Extension support**: PhobOS supports the Torizon VS Code templates trought a different repository that need to be configured on the VS Code settings <br>
+⁵**Torizon VS Code Extension support**: PhobOS supports the Torizon VS Code templates through a different repository that need to be configured on the VS Code settings <br>
