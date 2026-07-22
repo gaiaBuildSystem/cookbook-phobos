@@ -70,7 +70,7 @@ echo "DMESG: $DMESG"
 
 # do it
 curl --request POST \
-  --url http://phobos.dev.br:8080/api/telemetry/add \
+  --url https://phobos.dev.br:8080/api/telemetry/add \
   --data-urlencode "region=$REGION" \
   --data-urlencode "dateTime=$DATETIME" \
   --data-urlencode "boardarch=$BOARDARCH" \
