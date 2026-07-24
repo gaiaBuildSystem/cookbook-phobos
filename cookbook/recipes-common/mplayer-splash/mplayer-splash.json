@@ -27,7 +27,7 @@
         "zlib1g-dev",
         "libpng-dev",
         "pkg-config",
-        "linux-headers-6.12.86+deb13-common",
+        "linux-headers-6.1.0-47-common",
         "linux-libc-dev"
     ],
     "fetchRecipes": [
