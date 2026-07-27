@@ -1,7 +1,7 @@
 [Unit]
 Description=Send Telemetry about the Gaia usage
-Requires=set-hostname.service network-online.target
-After=set-hostname.service network-online.target
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 Type=exec
