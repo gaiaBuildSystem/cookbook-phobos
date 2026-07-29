@@ -1,0 +1,62 @@
+#
+# Copyright 2025 MicroHobby
+#
+# Reference boot script.
+
+echo "Booting Reference ..."
+
+setenv bootlimit 3
+
+# check if loglevel is set
+if env exists loglevel
+    then
+        echo "loglevel is set to ${loglevel}"
+    else
+        setenv loglevel 3
+fi
+
+setexpr bootcount $bootcount + 1
+saveenv
+
+mmc dev 1
+ext4load mmc 1:2 ${scriptaddr} boot/uEnv.txt
+env import -t ${scriptaddr} ${filesize}
+
+if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
+    then
+        # Make sure to reset upgrade_available to avoid unnecessary wear
+        # Note this also makes rollback permanent. aktualizr will reset rollback
+        # when a new (hopefully better) update comes in.
+        env set upgrade_available 0
+        setenv bootcount 0
+        saveenv
+fi
+
+if test $bootcount -gt $bootlimit
+    then
+        echo "Bootcount exceeded, applying rollback"
+        setenv bootcount 0
+        saveenv
+
+        setenv kernel_image ${kernel_image2}
+        setenv ramdisk_image ${ramdisk_image2}
+        setenv bootargs ${bootargs2}
+        setenv bootargs ${bootargs} rollback=1
+fi
+
+env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} console=ttyAMA10,115200
+env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
+env set bootargs ${bootargs} 8250.nr_uarts=1
+env set bootargs ${bootargs} loglevel=${loglevel}
+env set bootargs ${bootargs} ${extraargs}
+
+saveenv
+
+# loads the kernel and the initramfs
+ext4load mmc 1:2 ${kernel_addr_r} ${kernel_image}
+ext4load mmc 1:2 ${ramdisk_addr_r} ${ramdisk_image}
+env set ramdisk_size ${filesize}
+
+# the device tree was already loaded by the rpi firmware
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr}
