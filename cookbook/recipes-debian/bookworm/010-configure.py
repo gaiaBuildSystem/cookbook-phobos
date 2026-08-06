@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import os
-import shutil
 import subprocess
 
 # get the environment
@@ -23,11 +22,11 @@ os.environ['IMAGE_MNT_ROOT'] = IMAGE_MNT_ROOT
 # get the actual script path
 _path = os.path.dirname(os.path.realpath(__file__))
 
-print(f"configuring dpkg ...")
+print("configuring dpkg ...")
 
 _cmds = []
 
-if os.path.exists(f"{IMAGE_MNT_ROOT}/usr/var/lib/apt") == False:
+if os.path.exists(f"{IMAGE_MNT_ROOT}/usr/var/lib/apt") is False:
     _cmds += [
         f"mkdir -p {IMAGE_MNT_ROOT}/usr/var/lib",
         f"mkdir -p {IMAGE_MNT_ROOT}/usr/var/cache",
@@ -55,4 +54,4 @@ for _cmd in _cmds:
         env=os.environ
     )
 
-print(f"dpkg config ok!")
+print("dpkg config ok!")
