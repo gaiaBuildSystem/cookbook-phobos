@@ -26,6 +26,10 @@ case "${machine_id}" in
 	*) card_id=0 ;;
 esac
 
+# there are machines that we need to find the right card index
+CARD_INDEX=$(ls /sys/class/drm/ | grep -E '^card[0-9]+-' | sed 's/card\([0-9]*\)-.*/\1/' | sort -un | head -1)
+card_id=$CARD_INDEX
+
 # check if the script has been run as root
 if [ "$EUID" -ne 0 ]; then
     echo "Please run with root privileges (sudo)"
