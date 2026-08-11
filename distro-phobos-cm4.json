@@ -1,0 +1,31 @@
+{
+    "name": "PhobOS",
+    "machine": "cm4",
+    "arch": "linux/arm64",
+    "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "build": 0,
+        "variant": "ota",
+        "codename": "lion-killer"
+    },
+    "useInitramfs": true,
+    "maxImgSize": 3520,
+    "searchForRecipesOn": [
+        "../gaia/cookbook",
+        "../cookbook-rpi/cookbook",
+        "cookbook"
+    ],
+    "excludeRecipes": [
+        "grub",
+        "u-boot-ram",
+        "microsoft",
+        "powershell",
+        "neofetch",
+        "initramfs-php",
+        "simple-splash",
+        "easy-splash"
+    ],
+    "$schema": "./schema/distro.json"
+}

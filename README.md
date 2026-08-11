@@ -21,6 +21,7 @@ PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the sy
 | Raspberry Pi 5B             | rpi5b               |
 | Compute Module 5            | cm5                 |
 | Raspberry Pi 4B             | rpi4b               |
+| Compute Module 4            | cm4                 |
 | Toradex SMARC iMX95         | smarc-imx95         |
 | Toradex iMX95 EVK           | imx95-verdin-evk    |
 | NXP iMX93 Freedom Board     | imx93-frdm          |

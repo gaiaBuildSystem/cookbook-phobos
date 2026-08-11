@@ -16,6 +16,7 @@
                 "wsl-amd64",
                 "wsl-arm64",
                 "rpi4b",
+                "cm4",
                 "rpi5b",
                 "cm5",
                 "imx8mp-verdin",
