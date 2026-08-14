@@ -53,7 +53,7 @@ _json = {
 
 # the update version depends by machine
 _machines = {
-    "cm4": "1.0.0",
+    "cm4": "1.0.1",
     "cm5": "1.0.0",
     "luna": "1.0.0",
     "rpi5": "1.0.0",
