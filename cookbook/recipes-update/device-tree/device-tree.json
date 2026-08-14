@@ -1,0 +1,12 @@
+{
+    "name": "device-tree",
+    "type": "bootloader",
+    "priority": 1,
+    "support": [
+        "linux/amd64",
+        "linux/arm64"
+    ],
+    "afterDeployRecipes": [
+        "deploy.xsh"
+    ]
+}

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import os
-import shutil
 import subprocess
 
 # get the environment
@@ -23,12 +22,16 @@ os.environ['IMAGE_MNT_ROOT'] = IMAGE_MNT_ROOT
 # get the actual script path
 _path = os.path.dirname(os.path.realpath(__file__))
 
-print(f"Fixing TCCP disable ostree aktualizr ...")
+print("Setup conf ostree aktualizr ...")
 
 
 _cmds = [
     f"rm -rf {IMAGE_MNT_ROOT}/etc/sota/conf.d/70-disable-ostree.toml",
     f"cp -f {_path}/files/70-enable-ostree.toml {IMAGE_MNT_ROOT}/etc/sota/conf.d/",
+    f"cp -f {_path}/files/71-complete-update.toml {IMAGE_MNT_ROOT}/etc/sota/conf.d/",
+    f"mkdir -p {IMAGE_MNT_ROOT}/usr/share/sota",
+    f"cp -f {_path}/files/sotaComplete.sh {IMAGE_MNT_ROOT}/usr/bin/sotaComplete.sh",
+    f"chmod +x {IMAGE_MNT_ROOT}/usr/bin/sotaComplete.sh",
 ]
 
 
@@ -45,4 +48,4 @@ for _cmd in _cmds:
     )
 
 
-print(f"Fixing TCCP disable ostree aktualizr, OK")
+print("Setup conf ostree aktualizr, OK")

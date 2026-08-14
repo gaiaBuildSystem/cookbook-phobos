@@ -1,0 +1,2 @@
+[bootloader]
+reboot_command = "/usr/bin/sotaComplete.sh"

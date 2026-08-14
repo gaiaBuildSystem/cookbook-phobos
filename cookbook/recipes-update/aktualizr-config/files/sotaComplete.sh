@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+_ACTUAL="/usr/share/sota"
+_NEXT_OSTREE_HASH=$(mars deploy-next)
+_NEXT="/sysroot/ostree/deploy/phobos/deploy/${_NEXT_OSTREE_HASH}.0/usr/share/sota"
+
+function need_update_device_tree() {
+    # compare the versions from the actual and next directories
+    _ACTUAL_VERSION=$(jq -r '.update_version' ${_ACTUAL}/device-tree.json)
+    _NEXT_VERSION=$(jq -r '.update_version' ${_NEXT}/device-tree.json)
+
+    # return 0 if update is needed, 1 otherwise
+    if [ "$_ACTUAL_VERSION" != "$_NEXT_VERSION" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+function update_device_tree() {
+    # copy all the .dtb files from actual to /boot
+    cp -f ${_ACTUAL}/*.dtb /var/rootdirs/media/u-boot/
+}
+
+# check if the /usr/share/sota/device-tree.json file exists
+if [ ! -f /usr/share/sota/device-tree.json ]; then
+    # if it does not exists always update the device tree
+    echo "device-tree.json does not exist, forcing device tree update"
+    update_device_tree
+
+else
+    echo "device-tree.json exists, checking if update is needed"
+    if need_update_device_tree; then
+        echo "device tree update needed, updating ..."
+        update_device_tree
+    fi
+fi
+
+# force the new deploy after aktualizr completes
+/sbin/reboot
