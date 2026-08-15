@@ -2,7 +2,7 @@
 
 _ACTUAL="/usr/share/sota"
 _NEXT_OSTREE_HASH=$(mars deploy-next)
-_NEXT="/sysroot/ostree/deploy/phobos/deploy/${_NEXT_OSTREE_HASH}.0/usr/share/sota"
+_NEXT="/sysroot/ostree/deploy/phobos/deploy/${_NEXT_OSTREE_HASH}/usr/share/sota"
 
 function need_update_device_tree() {
     # compare the versions from the actual and next directories
