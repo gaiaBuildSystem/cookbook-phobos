@@ -9,6 +9,8 @@ function need_update_device_tree() {
     _ACTUAL_VERSION=$(jq -r '.update_version' ${_ACTUAL}/device-tree.json)
     _NEXT_VERSION=$(jq -r '.update_version' ${_NEXT}/device-tree.json)
 
+    echo "actual=${_ACTUAL_VERSION} :: next=${_NEXT_VERSION}"
+
     # return 0 if update is needed, 1 otherwise
     if [ "$_ACTUAL_VERSION" != "$_NEXT_VERSION" ]; then
         return 0
@@ -18,8 +20,8 @@ function need_update_device_tree() {
 }
 
 function update_device_tree() {
-    # copy all the .dtb files from actual to /boot
-    cp -f ${_ACTUAL}/*.dtb /var/rootdirs/media/u-boot/
+    # copy all the .dtb files from NEXT to /boot
+    cp -f ${_NEXT}/*.dtb /var/rootdirs/media/u-boot/
 }
 
 # check if the /usr/share/sota/device-tree.json file exists
