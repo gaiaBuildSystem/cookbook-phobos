@@ -11,6 +11,7 @@ $XONSH_SHOW_TRACEBACK = True
 
 import os
 import json
+import glob
 import os.path
 from torizon_templates_utils.colors import print,BgColor,Color
 from torizon_templates_utils.errors import Error_Out,Error
@@ -87,6 +88,27 @@ with open(_tmp_json, "w") as f:
 
 sudo install -m 0644 @(_tmp_json) @(_IMAGE_MNT_ROOT)/usr/share/sota/device-tree.json
 rm -f @(_tmp_json)
+
+# some boards do not have a /boot folder, and some have a /boot folder
+# but no .dtb files. Both cases must be skipped gracefully.
+if not os.path.exists(f"{_IMAGE_MNT_BOOT}"):
+    print(
+        "No /boot folder found, skipping device tree deployment",
+        color=Color.WHITE,
+        bg_color=BgColor.YELLOW
+    )
+
+    exit(0)
+
+_boot_dtb_files = glob.glob(f"{_IMAGE_MNT_BOOT}/*.dtb")
+if not _boot_dtb_files:
+    print(
+        "No .dtb files found in /boot, skipping device tree deployment",
+        color=Color.WHITE,
+        bg_color=BgColor.YELLOW
+    )
+
+    exit(0)
 
 # move all the .dtb from /boot to the /usr/share/sota
 sudo cp -f @(_IMAGE_MNT_BOOT)/*.dtb @(_IMAGE_MNT_ROOT)/usr/share/sota/
