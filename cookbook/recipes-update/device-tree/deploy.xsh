@@ -52,27 +52,12 @@ _json = {
     "update_version": "1.0.0"
 }
 
-# the update version depends by machine
-_machines = {
-    "cm4": "1.0.1",
-    "cm5": "1.0.0",
-    "luna": "1.0.0",
-    "rpi5": "1.0.0",
-    "intel": "1.0.0",
-    "rpi4b": "1.0.0",
-    "rpi5b": "1.0.0",
-    "qemuarm64": "1.0.0",
-    "wsl-amd64": "1.0.0",
-    "wsl-arm64": "1.0.0",
-    "imx93-frdm": "1.0.0",
-    "qemux86-64": "1.0.0",
-    "smarc-imx95": "1.0.0",
-    "astra-sl1680": "1.0.0",
-    "astra-sl2619": "1.0.0",
-    "arduino-uno-q": "1.0.0",
-    "imx8mp-verdin": "1.0.0",
-    "imx95-verdin-evk": "1.0.0"
-}
+_version_meta = meta.get("customData", {}).get("version", {})
+if isinstance(_version_meta, str):
+    _json["update_version"] = _version_meta
+else:
+    _default_version = _version_meta.get("default", "1.0.0")
+    _json["update_version"] = _version_meta.get("machines", {}).get(_MACHINE, _default_version)
 
 # make sure that the /usr/share/sota folder exists
 sudo mkdir -p @(_IMAGE_MNT_ROOT)/usr/share/sota
@@ -82,7 +67,6 @@ _tmp_json = f"{_BUILD_ROOT}/sota-device-tree/device-tree.json"
 # make sure that the sota-device-tree folder exists
 mkdir -p @(_BUILD_ROOT)/sota-device-tree
 
-_json["update_version"] = _machines.get(_MACHINE, "1.0.0")
 with open(_tmp_json, "w") as f:
     json.dump(_json, f, indent=4)
 
