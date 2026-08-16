@@ -6,6 +6,31 @@
         "linux/amd64",
         "linux/arm64"
     ],
+    "customData": {
+        "version": {
+            "default": "1.0.0",
+            "machines": {
+                "cm4": "1.0.1",
+                "cm5": "1.0.0",
+                "luna": "1.0.0",
+                "rpi5": "1.0.0",
+                "intel": "1.0.0",
+                "rpi4b": "1.0.0",
+                "rpi5b": "1.0.0",
+                "qemuarm64": "1.0.0",
+                "wsl-amd64": "1.0.0",
+                "wsl-arm64": "1.0.0",
+                "imx93-frdm": "1.0.0",
+                "qemux86-64": "1.0.0",
+                "smarc-imx95": "1.0.0",
+                "astra-sl1680": "1.0.0",
+                "astra-sl2619": "1.0.0",
+                "arduino-uno-q": "1.0.0",
+                "imx8mp-verdin": "1.0.0",
+                "imx95-verdin-evk": "1.0.0"
+            }
+        }
+    },
     "afterDeployRecipes": [
         "deploy.xsh"
     ]
