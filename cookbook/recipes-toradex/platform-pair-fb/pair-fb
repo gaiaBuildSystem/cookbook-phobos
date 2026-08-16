@@ -179,4 +179,5 @@ drmi /home/phobos/output.jpg $card_id 1 &
 # sleep like 2min
 sleep 120s
 pkill -SIGINT drmi
-cat /dev/zero > /dev/fb0 2>/dev/null
+# if we reach here it's because all was ok
+cat /dev/zero > /dev/fb0 2>/dev/null || true
