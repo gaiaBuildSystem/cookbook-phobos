@@ -32,10 +32,35 @@ if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
         saveenv
 fi
 
+# in a rollback situation, we have an edge case for raspberry pi
 if test $bootcount -gt $bootlimit
     then
-        echo "Bootcount exceeded, applying rollback"
+        setenv pi_rollback 1
         setenv bootcount 0
+        saveenv
+
+        if test -e mmc 1:1 config.txt.bak.1
+            then
+                echo "Already in a rollback situation!"
+            else
+                echo "Entering rollback situation!"
+                # copy the actual config.txt to config.txt.bak.1
+                load mmc 1:1 ${scriptaddr} config.txt
+                save mmc 1:1 ${scriptaddr} config.txt.bak.1 ${filesize}
+
+                # copy the backup config.txt.bak to config.txt
+                load mmc 1:1 ${scriptaddr} config.txt.bak
+                save mmc 1:1 ${scriptaddr} config.txt ${filesize}
+
+                # reboot
+                reset
+        fi
+fi
+
+if test "${pi_rollback}" = "1"
+    then
+        echo "Bootcount exceeded, applying rollback"
+        setenv pi_rollback 0
         saveenv
 
         setenv kernel_image ${kernel_image2}

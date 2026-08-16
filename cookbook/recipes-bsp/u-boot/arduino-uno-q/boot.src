@@ -22,6 +22,7 @@ saveenv
 mmc dev 0
 ext4load mmc 0:49 ${scriptaddr} boot/uEnv.txt
 env import -t ${scriptaddr} ${filesize}
+setenv backup_suffix
 
 if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
     then
@@ -43,6 +44,7 @@ if test $bootcount -gt $bootlimit
         setenv ramdisk_image ${ramdisk_image2}
         setenv bootargs ${bootargs2}
         setenv bootargs ${bootargs} rollback=1
+        setenv backup_suffix .bak
 fi
 
 env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
@@ -60,8 +62,8 @@ ext4load mmc 0:49 ${kernel_addr_r} ${kernel_image}
 ext4load mmc 0:49 ${ramdisk_addr_r} ${ramdisk_image}
 env set ramdisk_size ${filesize}
 
-# FIXME:    the dtb is loaded from the boot partition
-#           would be nice to get it from ostree
-fatload mmc 0:48 ${fdt_addr_r} qrb2210-arduino-imola.dtb
+# loads the device tree
+# if we are in a rollback situation, we load the backup device tree
+fatload mmc 0:48 ${fdt_addr_r} qrb2210-arduino-imola.dtb${backup_suffix}
 
 booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r}

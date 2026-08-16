@@ -20,6 +20,21 @@ function need_update_device_tree() {
 }
 
 function update_device_tree() {
+    # if there is .bak files remove it
+    find /var/rootdirs/media/u-boot/ -name "*.dtb.bak" -type f -delete
+
+    # create the backup of the current .dtb files
+    for dtb in /var/rootdirs/media/u-boot/*.dtb; do
+        cp -f ${dtb} ${dtb}.bak
+    done
+
+    # on raspberry pi we need to also check the config.txt file
+    # if we had a rollback situation, we need to backup the config.txt
+    if [ -f /var/rootdirs/media/u-boot/config.txt.bak.1 ]; then
+        mv -f /var/rootdirs/media/u-boot/config.txt /var/rootdirs/media/u-boot/config.txt.bak
+        mv -f /var/rootdirs/media/u-boot/config.txt.bak.1 /var/rootdirs/media/u-boot/config.txt
+    fi
+
     # copy all the .dtb files from NEXT to /boot
     cp -f ${_NEXT}/*.dtb /var/rootdirs/media/u-boot/
 }
