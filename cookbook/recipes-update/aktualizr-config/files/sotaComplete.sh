@@ -19,7 +19,7 @@ function need_update_device_tree() {
     fi
 }
 
-function update_device_tree() {
+function backup_device_tree() {
     # if there is .bak files remove it
     find /var/rootdirs/media/u-boot/ -name "*.dtb.bak" -type f -delete
 
@@ -27,7 +27,9 @@ function update_device_tree() {
     for dtb in /var/rootdirs/media/u-boot/*.dtb; do
         cp -f ${dtb} ${dtb}.bak
     done
+}
 
+function update_device_tree() {
     # on raspberry pi we need to also check the config.txt file
     # if we had a rollback situation, we need to backup the config.txt
     if [ -f /var/rootdirs/media/u-boot/config.txt.bak.1 ]; then
@@ -38,6 +40,10 @@ function update_device_tree() {
     # copy all the .dtb files from NEXT to /boot
     cp -f ${_NEXT}/*.dtb /var/rootdirs/media/u-boot/
 }
+
+# we backup on every update anyway, because in a rollback situation
+# the bootloader will try to boot from the .bak
+backup_device_tree
 
 # check if the /usr/share/sota/device-tree.json file exists
 if [ ! -f /usr/share/sota/device-tree.json ]; then
