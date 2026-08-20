@@ -52,6 +52,10 @@ if not os.path.exists(f"{_BUILD_ROOT}/aktualizr-torizon"):
     git submodule update --init --recursive
     # for some reason access the repo fails with other user
     git config --global --add safe.directory f"{_BUILD_ROOT}/aktualizr-torizon"
+else:
+    # we need to fetch from origin
+    os.chdir(f"{_BUILD_ROOT}/aktualizr-torizon")
+    git fetch --all
 
 os.chdir(f"{_BUILD_ROOT}/aktualizr-torizon")
 git checkout @(meta['ref'][_ARCH])
