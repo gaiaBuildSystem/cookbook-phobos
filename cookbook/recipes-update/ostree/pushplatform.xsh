@@ -63,7 +63,7 @@ _credentials_path = f"{_path}/credentials/credentials.zip"
 # we just use PhobOS as the package name
 _package_name = f"PhobOS"
 _version = f"{_DISTRO_MAJOR}.{_DISTRO_MINOR}.{_DISTRO_PATCH}.{_DISTRO_BUILD}-{_MACHINE}"
-_codename = f"{_DISTRO_CODENAME}"
+_codename = _DISTRO_CODENAME or ""
 
 # check if the credentials file exists
 if not os.path.exists(_credentials_path):
@@ -131,7 +131,7 @@ _meta = {
     "ostreeMetadata": {
         "gaia.arch": _ARCH,
         "gaia.distro": "phobos",
-        "gaia.distro-codename": "lion-killer",
+        "gaia.distro-codename": _codename,
         "gaia.image": "phobos-ota",
         "gaia.machine": _MACHINE,
         "gaia.build-purpose": "development",
