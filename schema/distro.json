@@ -27,7 +27,8 @@
                 "astra-sl1680",
                 "astra-sl2619",
                 "luna",
-                "arduino-uno-q"
+                "arduino-uno-q",
+                "orin"
             ]
         }
     }

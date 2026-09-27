@@ -1,0 +1,76 @@
+#
+# Copyright 2026 MicroHobby
+#
+# Reference boot script for PhobOS on NVIDIA Jetson Orin.
+#
+echo "Booting PhobOS ..."
+
+setenv bootlimit 3
+
+# check if loglevel is set
+if env exists loglevel
+    then
+        echo "loglevel is set to ${loglevel}"
+    else
+        setenv loglevel 3
+fi
+
+setexpr bootcount $bootcount + 1
+saveenv
+
+# find the correct efi disk and load the u-boot env (rollback/upgrade_available) from the rootfs
+env set efidisk 0
+env set fdt_addr 0xe1000000
+env set scriptaddr 0xe0000000
+env set kernel_addr_r 0xe3000000
+env set ramdisk_addr_r 0xea000000
+
+# load the boot environment (rollback, upgrade_available) from uEnv.txt in the rootfs
+ext4load efi ${efidisk}:2 ${scriptaddr} boot/uEnv.txt
+env import -t ${scriptaddr} ${filesize}
+setenv backup_suffix
+
+if test "${rollback}" = "1" && test "${upgrade_available}" = "1"
+    then
+        # Make sure to reset upgrade_available to avoid unnecessary wear
+        # Note this also makes rollback permanent. aktualizr will reset rollback
+        # when a new (hopefully better) update comes in.
+        env set upgrade_available 0
+        setenv bootcount 0
+        saveenv
+fi
+
+if test $bootcount -gt $bootlimit
+    then
+        echo "Bootcount exceeded, applying rollback"
+        setenv bootcount 0
+        saveenv
+
+        setenv kernel_image ${kernel_image2}
+        setenv ramdisk_image ${ramdisk_image2}
+        setenv bootargs ${bootargs2}
+        setenv bootargs ${bootargs} rollback=1
+        setenv backup_suffix .bak
+fi
+
+env set bootargs root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} console=ttyTCU0,115200
+env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
+env set bootargs ${bootargs} loglevel=${loglevel}
+env set bootargs ${bootargs} ${extraargs}
+
+saveenv
+
+# loads the kernel and the initramfs from the efi disk
+ext4load efi ${efidisk}:2 ${kernel_addr_r} ${kernel_image}
+env set kernel_size ${filesize}
+
+# device tree (on the vfat boot partition, /var/rootdirs/media/u-boot)
+# in a rollback situation, use the .bak backup created by sotaComplete.sh
+fatload efi ${efidisk}:1 ${fdt_addr} tegra234-p3768-0000+p3767-0005-nv-super.dtb${backup_suffix}
+
+ext4load efi ${efidisk}:2 ${ramdisk_addr_r} ${ramdisk_image}
+env set ramdisk_size ${filesize}
+
+# switch root to the ostree deployed PhobOS system (/mnt/root)
+bootedk ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr}

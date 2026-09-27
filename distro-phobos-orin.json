@@ -1,0 +1,34 @@
+{
+    "name": "PhobOS",
+    "machine": "orin",
+    "arch": "linux/arm64",
+    "version": {
+        "major": 0,
+        "minor": 3,
+        "patch": 0,
+        "build": 0,
+        "variant": "ota",
+        "codename": "lion-killer"
+    },
+    "useInitramfs": true,
+    "maxImgSize": 3072,
+    "searchForRecipesOn": [
+        "../gaia/cookbook",
+        "../cookbook-tegra/cookbook",
+        "cookbook"
+    ],
+    "excludeRecipes": [
+        "grub",
+        "su-boot",
+        "u-boot-ram",
+        "microsoft",
+        "docker",
+        "powershell",
+        "neofetch",
+        "zeus-install",
+        "initramfs-php",
+        "simple-splash",
+        "easy-splash"
+    ],
+    "$schema": "./schema/distro.json"
+}
