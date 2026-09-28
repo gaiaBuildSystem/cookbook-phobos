@@ -53,7 +53,7 @@ if test $bootcount -gt $bootlimit
         setenv backup_suffix .bak
 fi
 
-env set bootargs root=LABEL:otaroot rootfstype=ext4
+env set bootargs ${bootargs} root=LABEL:otaroot rootfstype=ext4
 env set bootargs ${bootargs} console=ttyTCU0,115200
 env set bootargs ${bootargs} logo.nologo vt.global_cursor_default=0
 env set bootargs ${bootargs} loglevel=${loglevel}
