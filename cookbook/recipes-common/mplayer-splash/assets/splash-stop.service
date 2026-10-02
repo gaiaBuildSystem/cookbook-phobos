@@ -1,9 +1,9 @@
 [Unit]
 Description=Easy Splash Stop Service
 Before=getty.target pair-fb.service
-After=getty@tty1.service network-online.target systemd-timesyncd.service
+After=getty@tty1.service network-online.target systemd-timesyncd.service systemd-time-wait-sync.service
 Requires=getty@tty1.service
-Wants=systemd-timesyncd.service network-online.target
+Wants=systemd-timesyncd.service network-online.target time-sync.target
 
 [Service]
 Type=oneshot
