@@ -1,0 +1,14 @@
+[Unit]
+Description=Pair Torizon FB App
+ConditionPathExists=!/var/sota/import/info.json
+After=network-online.target rc-local.service systemd-user-sessions.service nvidia-drm.service getty.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+EnvironmentFile=-/etc/environment
+ExecStart=/usr/bin/pair-fb
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
