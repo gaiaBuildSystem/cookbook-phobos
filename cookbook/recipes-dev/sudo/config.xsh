@@ -60,16 +60,10 @@ print("⚠️ WARNING: This recipe is meant to be used for development purposes 
 sudo chroot @(_IMAGE_MNT_ROOT) \
     bash -c 'echo "phobos ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/phobos'
 
-# config sshd to not ask for password for root
+# config sshd to allow root login
 sudo chroot @(_IMAGE_MNT_ROOT) \
     bash -c 'echo "PermitRootLogin yes" >> /etc/ssh/sshd_config'
 
-sudo chroot @(_IMAGE_MNT_ROOT) \
-    bash -c 'echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config'
-
-# set also the phobos user to not have a password
-sudo chroot @(_IMAGE_MNT_ROOT) \
-    bash -c 'passwd -d phobos'
 ###
 # ⚠️ WARNING: This recipe is meant to be used for development purposes only.
 ###
