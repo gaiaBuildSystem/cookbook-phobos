@@ -18,18 +18,19 @@ PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the sy
 | Board                       | Gaia Machine Name   |
 |-----------------------------|---------------------|
 | Arduino Uno Q               | arduino-uno-q       |
-| Raspberry Pi 5B             | rpi5b               |
-| Compute Module 5            | cm5                 |
-| Raspberry Pi 4B             | rpi4b               |
 | Compute Module 4            | cm4                 |
-| Toradex SMARC iMX95         | smarc-imx95         |
-| Toradex iMX95 EVK           | imx95-verdin-evk    |
+| Compute Module 5            | cm5                 |
+| Generic x86_64              | intel               |
+| Nvidia Jetson Orin Nano     | orin                |
 | NXP iMX93 Freedom Board     | imx93-frdm          |
-| Toradex Verdin iMX8M Plus   | imx8mp-verdin       |
-| Toradex Luna SBC            | luna                |
+| Raspberry Pi 4B             | rpi4b               |
+| Raspberry Pi 5B             | rpi5b               |
 | Synaptics Astra sl1680      | astra-sl1680        |
 | Synaptics Astra sl2619      | astra-sl2619        |
-| Generic x86_64              | intel               |
+| Toradex iMX95 EVK           | imx95-verdin-evk    |
+| Toradex Luna SBC            | luna                |
+| Toradex SMARC iMX95         | smarc-imx95         |
+| Toradex Verdin iMX8M Plus   | imx8mp-verdin       |
 | QEMU x86_64                 | qemux86-64          |
 | QEMU arm64                  | qemuarm64           |
 
@@ -46,6 +47,7 @@ PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the sy
     - [Synaptics Astra Boards](https://github.com/gaiaBuildSystem/cookbook-synaptics)
     - [Qualcomm Boards](https://github.com/gaiaBuildSystem/cookbook-qcom)
     - [x86_64 Boards](https://github.com/gaiaBuildSystem/cookbook-intel)
+    - [Nvidia Tegra Boards](https://github.com/gaiaBuildSystem/cookbook-tegra)
 
 ### Build
 
