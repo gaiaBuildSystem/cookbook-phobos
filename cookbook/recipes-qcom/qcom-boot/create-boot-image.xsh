@@ -223,9 +223,11 @@ elif os.environ["MACHINE"] == "arduino-ventuno-q":
         @(_QCOM_PTOOL_PATH)/partitions.conf
 
     # .4 use the qcom-ptool to create the partitions
+    # newer qcom-ptool revisions ship the scripts inside the qcom_ptool
+    # package, so they need to run as modules from the ptool root
     cd @(_QCOM_PTOOL_PATH)
-    python3 gen_partition.py -i partitions.conf -o ptool-partitions.xml
-    python3 ptool.py -x ptool-partitions.xml
+    python3 -m qcom_ptool.gen_partition -i partitions.conf -o ptool-partitions.xml
+    python3 -m qcom_ptool.ptool -x ptool-partitions.xml
 
     # .5 create the bundle for the flash
     _flash_files = [
