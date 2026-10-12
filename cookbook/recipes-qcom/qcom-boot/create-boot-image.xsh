@@ -153,6 +153,110 @@ if os.environ["MACHINE"] == "arduino-uno-q":
     # the boot.img
     sudo cp @(_DEPLOY_DIR)/boot.img @(_DEPLOY_DIR)/flash/boot.img
 
+elif os.environ["MACHINE"] == "arduino-ventuno-q":
+    # .1 generate the dtb.bin (FAT image containing the DTB)
+    # based on the QCOM dtb-fit-image fragment, the dtb partition is a FAT
+    # filesystem that holds <board>/combined-dtb.dtb and UEFI/ABL reads it from there
+    _DTB_SRC = f"{_BUILD_PATH}/tmp/{_MACHINE}/linux/arch/arm64/boot/dts/qcom/monaco-arduino-monza.dtb"
+    _DTB_BASE_NAME = "monaco-arduino-monza"
+    _DTB_DIR = f"{_BUILD_PATH}/tmp/{_MACHINE}/qcom_dtbbin_deploy"
+    _DTB_BIN = f"{_DEPLOY_DIR}/dtb.bin"
+
+    sudo rm -rf @(_DTB_DIR)
+    sudo mkdir -p @(_DTB_DIR)/@(_DTB_BASE_NAME)
+    sudo cp @(_DTB_SRC) @(_DTB_DIR)/@(_DTB_BASE_NAME)/combined-dtb.dtb
+
+    # remove any stale dtb.bin from a previous build before creating the FAT image
+    # (mkfs.vfat -C refuses to create the file if it already exists)
+    sudo rm -f @(_DTB_BIN)
+
+    sudo mkfs.vfat -S 512 -C @(_DTB_BIN) 4096
+    sudo mcopy -i @(_DTB_BIN) -vsmpQ @(_DTB_DIR)/@(_DTB_BASE_NAME)/* ::/
+
+    sudo rm -rf @(_DTB_DIR)
+
+    # make the dtb.bin available to the qcom-ptool so ptool.py can write it
+    # into the dtb_a/dtb_b partitions (partitions.conf --filename=dtb.bin)
+    sudo cp @(_DTB_BIN) @(_QCOM_PTOOL_PATH)/dtb.bin
+
+    # no boot.img for arduino-ventuno-q, UEFI loads systemd-boot from the ESP
+    # and systemd-boot chainloads the u-boot EFI app
+
+    # .2 detatch the /boot and /root partitions from the ota image
+    # this is needed because the flasher XML expects them to be separate
+    # read the actual partition table from the image to get the correct sector offsets
+    # (parted uses decimal MB and aligns to MiB boundaries, so computing offsets manually is error-prone)
+    _sfdisk_out = $(sfdisk --json @(f'{_DEPLOY_DIR}/{_IMAGE_NAME}'))
+    _parts = json.loads(_sfdisk_out)['partitiontable']['partitions']
+
+    _BOOT_SKIP = _parts[0]['start']
+    _BOOT_COUNT = _parts[0]['size']
+    _ROOT_SKIP = _parts[1]['start']
+    _ROOT_COUNT = _parts[1]['size']
+
+    sync
+
+    # dd the boot partition
+    sudo dd \
+        if=@(_DEPLOY_DIR)/@(_IMAGE_NAME) \
+        of=@(_DEPLOY_DIR)/disk-sdcard.img.esp \
+        bs=512 skip=@(_BOOT_SKIP) \
+        count=@(_BOOT_COUNT) \
+        status=none
+
+    # dd the root partition
+    sudo dd \
+        if=@(_DEPLOY_DIR)/@(_IMAGE_NAME) \
+        of=@(_DEPLOY_DIR)/disk-sdcard.img.root \
+        bs=512 skip=@(_ROOT_SKIP) \
+        count=@(_ROOT_COUNT) \
+        status=none
+
+    # .3 replace the partitions.conf.template
+    with open(f"{_path}/{_MACHINE}/partitions.conf.template", 'r') as file:
+        _filedata = file.read()
+
+    with open(f"{_path}/{_MACHINE}/partitions.conf", 'w') as file:
+        file.write(_filedata)
+
+    sudo mv @(f"{_path}/{_MACHINE}")/partitions.conf \
+        @(_QCOM_PTOOL_PATH)/partitions.conf
+
+    # .4 use the qcom-ptool to create the partitions
+    cd @(_QCOM_PTOOL_PATH)
+    python3 gen_partition.py -i partitions.conf -o ptool-partitions.xml
+    python3 ptool.py -x ptool-partitions.xml
+
+    # .5 create the bundle for the flash
+    _flash_files = [
+        "gpt_backup0.bin",
+        "gpt_both0.bin",
+        "gpt_empty0.bin",
+        "gpt_main0.bin",
+        "patch0.xml",
+        "rawprogram0.xml",
+        "rawprogram0_BLANK_GPT.xml",
+        "rawprogram0_WIPE_PARTITIONS.xml",
+        "wipe_rawprogram_PHY0.xml",
+        "wipe_rawprogram_PHY1.xml",
+        "wipe_rawprogram_PHY2.xml",
+        "wipe_rawprogram_PHY4.xml",
+        "wipe_rawprogram_PHY5.xml",
+        "wipe_rawprogram_PHY6.xml",
+        "wipe_rawprogram_PHY7.xml",
+        "zeros_1sector.bin",
+        "zeros_33sectors.bin"
+    ]
+
+    sudo mkdir -p @(_DEPLOY_DIR)/flash
+
+    for _file in _flash_files:
+        sudo cp @(_QCOM_PTOOL_PATH)/@(_file) @(_DEPLOY_DIR)/flash/@(_file)
+
+    # as we could make it easy to get only the bundle, let's also add there
+    # the dtb.bin
+    sudo cp @(_DEPLOY_DIR)/dtb.bin @(_DEPLOY_DIR)/flash/dtb.bin
+
 else:
     # this is PhobOS we should not error out because we can use the same distro
     # config for other platforms

@@ -1,0 +1,32 @@
+{
+    "name": "PhobOS",
+    "machine": "arduino-ventuno-q",
+    "arch": "linux/arm64",
+    "version": {
+        "major": 0,
+        "minor": 3,
+        "patch": 0,
+        "build": 0,
+        "variant": "ota",
+        "codename": "lion-killer"
+    },
+    "useInitramfs": true,
+    "maxImgSize": 3072,
+    "searchForRecipesOn": [
+        "../gaia/cookbook",
+        "../cookbook-qcom/cookbook",
+        "cookbook"
+    ],
+    "excludeRecipes": [
+        "grub",
+        "u-boot-ram",
+        "su-boot",
+        "microsoft",
+        "powershell",
+        "neofetch",
+        "initramfs-php",
+        "simple-splash",
+        "easy-splash"
+    ],
+    "$schema": "./schema/distro.json"
+}

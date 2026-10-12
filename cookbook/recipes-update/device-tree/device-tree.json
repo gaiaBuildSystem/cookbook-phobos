@@ -27,6 +27,7 @@
                 "astra-sl1680": "1.0.0",
                 "astra-sl2619": "1.0.0",
                 "arduino-uno-q": "1.0.0",
+                "arduino-ventuno-q": "1.0.0",
                 "imx8mp-verdin": "1.0.0",
                 "imx95-verdin-evk": "1.0.0"
             }

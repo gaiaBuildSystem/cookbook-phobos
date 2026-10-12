@@ -28,6 +28,7 @@
                 "astra-sl2619",
                 "luna",
                 "arduino-uno-q",
+                "arduino-ventuno-q",
                 "orin"
             ]
         }
