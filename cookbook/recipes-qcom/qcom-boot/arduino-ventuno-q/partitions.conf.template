@@ -97,7 +97,7 @@
 
 # HLOS partitions
 --partition --name=persist --size=30720KB --type-guid=6C95E238-E343-4BA8-B489-8681ED22AD0B
---partition --name=efi --size=524288KB --type-guid=C12A7328-F81F-11D2-BA4B-00A0C93EC93B --filename=../{{name}}-arduino-ventuno-q-{{variant}}{{v1}}-{{v2}}-{{v3}}.img --file-offset={{efi_offset}}
+--partition --name=efi --size=524288KB --type-guid=C12A7328-F81F-11D2-BA4B-00A0C93EC93B --filename=../{{name}}-arduino-ventuno-q-{{variant}}{{v1}}-{{v2}}-{{v3}}.img --file-offset={{efi_offset}} --file-partition-size={{efi_size}}
 --partition --name=rootfs --size=16777216KB --type-guid=B921B045-1DF0-41C3-AF44-4C6F280D3FAE --filename=../{{name}}-arduino-ventuno-q-{{variant}}{{v1}}-{{v2}}-{{v3}}.img --file-offset={{rootfs_offset}}
 
 # Physical Partition 1 (--phys-part=1) - OTP storage partition (JEDEC "Boot Area Partition 1")

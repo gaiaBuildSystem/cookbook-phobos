@@ -200,6 +200,13 @@ elif os.environ["MACHINE"] == "arduino-ventuno-q":
     _ROOT_SKIP = _parts[1]['start']
     _ROOT_COUNT = _parts[1]['size']
 
+    # sfdisk reports start/size in 512-byte sectors. The dd commands above use
+    # those sector counts directly (bs=512), but qcom-ptool's --file-partition-size
+    # expects a size with an explicit unit (partition_size_in_kb treats a bare
+    # integer as BYTES). Expose byte and KB forms so the template gets correct values.
+    _BOOT_SIZE_BYTES = _BOOT_COUNT * 512
+    _BOOT_SIZE_KB = _BOOT_COUNT // 2
+
     sync
 
     # dd the boot partition
@@ -229,6 +236,10 @@ elif os.environ["MACHINE"] == "arduino-ventuno-q":
     _filedata = _filedata.replace('{{v2}}', str(_DISTRO_MINOR))
     _filedata = _filedata.replace('{{v3}}', str(_DISTRO_PATCH))
     _filedata = _filedata.replace('{{efi_offset}}', str(_BOOT_SKIP))
+    # pass an explicit KB value: qcom-ptool's partition_size_in_kb() reads a bare
+    # integer as bytes, so the raw sector count would be off by 512x. The "KB"
+    # suffix makes it self-documenting and matches every other --size in this file.
+    _filedata = _filedata.replace('{{efi_size}}', f"{_BOOT_SIZE_KB}KB")
     _filedata = _filedata.replace('{{rootfs_offset}}', str(_ROOT_SKIP))
 
     with open(f"{_path}/{_MACHINE}/partitions.conf", 'w') as file:
