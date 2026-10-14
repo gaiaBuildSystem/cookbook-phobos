@@ -31,6 +31,12 @@ _DISTRO_PATCH = os.environ.get('DISTRO_PATCH')
 _USER_PASSWD = os.environ.get('USER_PASSWD')
 _IMAGE_NAME = os.environ.get('IMAGE_NAME')
 
+# check if we have the DISTRO_VARIANT env
+if 'DISTRO_VARIANT' in os.environ:
+    _DISTRO_VARIANT = f"{os.environ.get('DISTRO_VARIANT')}-"
+else:
+    _DISTRO_VARIANT = ""
+
 # read the meta data
 meta = json.loads(os.environ.get('META', '{}'))
 
@@ -215,6 +221,15 @@ elif os.environ["MACHINE"] == "arduino-ventuno-q":
     # .3 replace the partitions.conf.template
     with open(f"{_path}/{_MACHINE}/partitions.conf.template", 'r') as file:
         _filedata = file.read()
+
+    # replace the placeholders with actual values
+    _filedata = _filedata.replace('{{name}}', f"{_DISTRO_NAME}")
+    _filedata = _filedata.replace('{{variant}}', f"{_DISTRO_VARIANT}")
+    _filedata = _filedata.replace('{{v1}}', str(_DISTRO_MAJOR))
+    _filedata = _filedata.replace('{{v2}}', str(_DISTRO_MINOR))
+    _filedata = _filedata.replace('{{v3}}', str(_DISTRO_PATCH))
+    _filedata = _filedata.replace('{{efi_offset}}', str(_BOOT_SKIP))
+    _filedata = _filedata.replace('{{rootfs_offset}}', str(_ROOT_SKIP))
 
     with open(f"{_path}/{_MACHINE}/partitions.conf", 'w') as file:
         file.write(_filedata)
