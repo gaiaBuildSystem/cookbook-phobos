@@ -55,6 +55,33 @@ _DEPLOY_DIR = f"{_BUILD_PATH}/tmp/{_MACHINE}/deploy"
 os.environ['DEPLOY_DIR'] = _DEPLOY_DIR
 
 
+def replace_partitions_conf(machine_name, boot_skip, boot_count, root_skip, root_count):
+    _template_path = f"{_path}/{machine_name}/partitions.conf.template"
+    _output_path = f"{_path}/{machine_name}/partitions.conf"
+
+    with open(_template_path, 'r') as file:
+        _filedata = file.read()
+
+    # replace the placeholders with actual values
+    _filedata = _filedata.replace('{{name}}', f"{_DISTRO_NAME}")
+    _filedata = _filedata.replace('{{variant}}', f"{_DISTRO_VARIANT}")
+    _filedata = _filedata.replace('{{v1}}', str(_DISTRO_MAJOR))
+    _filedata = _filedata.replace('{{v2}}', str(_DISTRO_MINOR))
+    _filedata = _filedata.replace('{{v3}}', str(_DISTRO_PATCH))
+    _filedata = _filedata.replace('{{efi_offset}}', str(boot_skip))
+    # pass an explicit KB value: qcom-ptool's partition_size_in_kb() reads a bare
+    # integer as bytes, so the raw sector count would be off by 512x. The "KB"
+    # suffix makes it self-documenting and matches every other --size in this file.
+    _boot_size_kb = boot_count // 2
+    _filedata = _filedata.replace('{{efi_size}}', f"{_boot_size_kb}KB")
+    _filedata = _filedata.replace('{{rootfs_offset}}', str(root_skip))
+
+    with open(_output_path, 'w') as file:
+        file.write(_filedata)
+
+    return _output_path
+
+
 if os.environ["MACHINE"] == "arduino-uno-q":
     # .1 create the boot.img
     # zip the u-boot binary
@@ -115,19 +142,23 @@ if os.environ["MACHINE"] == "arduino-uno-q":
         status=none
 
     # .3 replace the partitions.conf.template
-    with open(f"{_path}/{_MACHINE}/partitions.conf.template", 'r') as file:
-        _filedata = file.read()
-
-    with open(f"{_path}/{_MACHINE}/partitions.conf", 'w') as file:
-        file.write(_filedata)
+    replace_partitions_conf(
+        _MACHINE,
+        _BOOT_SKIP,
+        _BOOT_COUNT,
+        _ROOT_SKIP,
+        _ROOT_COUNT
+    )
 
     sudo mv @(f"{_path}/{_MACHINE}")/partitions.conf \
         @(_QCOM_PTOOL_PATH)/partitions.conf
 
     # .3 use the qcom-ptool to create the partitions
+    # newer qcom-ptool revisions ship the scripts inside the qcom_ptool
+    # package, so they need to run as modules from the ptool root
     cd @(_QCOM_PTOOL_PATH)
-    python3 gen_partition.py -i partitions.conf -o ptool-partitions.xml
-    python3 ptool.py -x ptool-partitions.xml
+    python3 -m qcom_ptool.gen_partition -i partitions.conf -o ptool-partitions.xml
+    python3 -m qcom_ptool.ptool -x ptool-partitions.xml
 
     # .4 create the bundle for the flash
     _flash_files = [
@@ -200,13 +231,6 @@ elif os.environ["MACHINE"] == "arduino-ventuno-q":
     _ROOT_SKIP = _parts[1]['start']
     _ROOT_COUNT = _parts[1]['size']
 
-    # sfdisk reports start/size in 512-byte sectors. The dd commands above use
-    # those sector counts directly (bs=512), but qcom-ptool's --file-partition-size
-    # expects a size with an explicit unit (partition_size_in_kb treats a bare
-    # integer as BYTES). Expose byte and KB forms so the template gets correct values.
-    _BOOT_SIZE_BYTES = _BOOT_COUNT * 512
-    _BOOT_SIZE_KB = _BOOT_COUNT // 2
-
     sync
 
     # dd the boot partition
@@ -225,25 +249,14 @@ elif os.environ["MACHINE"] == "arduino-ventuno-q":
         count=@(_ROOT_COUNT) \
         status=none
 
-    # .3 replace the partitions.conf.template
-    with open(f"{_path}/{_MACHINE}/partitions.conf.template", 'r') as file:
-        _filedata = file.read()
-
-    # replace the placeholders with actual values
-    _filedata = _filedata.replace('{{name}}', f"{_DISTRO_NAME}")
-    _filedata = _filedata.replace('{{variant}}', f"{_DISTRO_VARIANT}")
-    _filedata = _filedata.replace('{{v1}}', str(_DISTRO_MAJOR))
-    _filedata = _filedata.replace('{{v2}}', str(_DISTRO_MINOR))
-    _filedata = _filedata.replace('{{v3}}', str(_DISTRO_PATCH))
-    _filedata = _filedata.replace('{{efi_offset}}', str(_BOOT_SKIP))
-    # pass an explicit KB value: qcom-ptool's partition_size_in_kb() reads a bare
-    # integer as bytes, so the raw sector count would be off by 512x. The "KB"
-    # suffix makes it self-documenting and matches every other --size in this file.
-    _filedata = _filedata.replace('{{efi_size}}', f"{_BOOT_SIZE_KB}KB")
-    _filedata = _filedata.replace('{{rootfs_offset}}', str(_ROOT_SKIP))
-
-    with open(f"{_path}/{_MACHINE}/partitions.conf", 'w') as file:
-        file.write(_filedata)
+    # .3 replace the partitions.conf.template via shared function
+    replace_partitions_conf(
+        _MACHINE,
+        _BOOT_SKIP,
+        _BOOT_COUNT,
+        _ROOT_SKIP,
+        _ROOT_COUNT
+    )
 
     sudo mv @(f"{_path}/{_MACHINE}")/partitions.conf \
         @(_QCOM_PTOOL_PATH)/partitions.conf
