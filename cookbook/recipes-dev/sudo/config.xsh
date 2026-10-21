@@ -64,6 +64,10 @@ sudo chroot @(_IMAGE_MNT_ROOT) \
 sudo chroot @(_IMAGE_MNT_ROOT) \
     bash -c 'echo "PermitRootLogin yes" >> /etc/ssh/sshd_config'
 
+# config sshd to accept the empty password only for root
+sudo chroot @(_IMAGE_MNT_ROOT) \
+    bash -c 'mkdir -p /etc/ssh/sshd_config.d && printf "Match User root\n    PermitEmptyPasswords yes\nMatch all\n" > /etc/ssh/sshd_config.d/10-root-empty-passwd.conf'
+
 ###
 # ⚠️ WARNING: This recipe is meant to be used for development purposes only.
 ###
