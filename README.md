@@ -18,6 +18,7 @@ PhobOS is compatible with the Torizon ecosystem. It uses OSTree to manage the sy
 | Board                       | Gaia Machine Name   |
 |-----------------------------|---------------------|
 | Arduino Uno Q               | arduino-uno-q       |
+| Arduino Ventuno Q           | arduino-ventuno-q   |
 | Compute Module 4            | cm4                 |
 | Compute Module 5            | cm5                 |
 | Generic x86_64              | intel               |
@@ -95,7 +96,20 @@ The `--buildPath` argument must be an absolute path.
 ./gaia/scripts/bitcook/gaia.ts --buildPath /home/<user>/workdir --distro ./cookbook-phobos/distro-phobos-imx95-verdin-evk.json --installHostDeps
 ```
 
-This will generate the image on the `--buildPath` directory `./build-PhobOS/tmp/imx95-verdin-evk/deploy`
+This will generate the image on the `--buildPath` directory `./build-PhobOS/tmp/imx95-verdin-evk/deploy
+`
+
+## Pushing to Torizon Cloud
+
+The PhobOS build generates an OSTree repository and commit that represents the current state of the system. This commit can then be pushed to the Torizon cloud for deployment to devices and fleets.
+
+To push the OSTree commit to Torizon you need an account and the `credentials.zip` file provided by Torizon.
+
+Once you have the credentials, you can use the `ostree` recipe to automatically push the commit to the Torizon cloud. By default it's disabled, to enable it  copy the `credentials.zip` file to the `cookbook-phobos/cookbook/recipes-update/ostree/credentials` directory and set the environment variable before the build command:
+
+```bash
+OSTREE_GARAGE_PUSH=true ./gaia/bitcook --buildPath /your/workdir --distro ./cookbook-phobos/distro-phobos-qemux86-64.json  --installHostDeps --noCache --overrideEnv
+```
 
 ## Torizon OS Feature Comparison
 
