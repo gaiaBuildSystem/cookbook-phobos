@@ -40,6 +40,10 @@ _cmds += [
     f"cp {_path}/files/dpkg.cfg {IMAGE_MNT_ROOT}/etc/dpkg/dpkg.cfg",
     f"mkdir -p {IMAGE_MNT_ROOT}/etc/apt",
     f"cp {_path}/files/apt.conf {IMAGE_MNT_ROOT}/etc/apt/apt.conf",
+    # tools like dpkg-query ignore dpkg.cfg and look at the default path
+    f"ln -sfn /usr/var/lib/dpkg {IMAGE_MNT_ROOT}/var/lib/dpkg",
+    f"mkdir -p {IMAGE_MNT_ROOT}/usr/lib/tmpfiles.d",
+    f"cp {_path}/files/dpkg-compat.conf {IMAGE_MNT_ROOT}/usr/lib/tmpfiles.d/dpkg-compat.conf",
 ]
 
 for _cmd in _cmds:
