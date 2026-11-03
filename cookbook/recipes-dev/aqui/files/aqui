@@ -1,0 +1,32 @@
+#!/bin/bash
+# aqui: UDP broadcast beacon
+# announces the device on the local network every AQUI_INTERVAL seconds
+
+AQUI_PORT=${AQUI_PORT:-9999}
+AQUI_INTERVAL=${AQUI_INTERVAL:-5}
+
+SOCAT=$(which socat) || { echo "E: You must have socat" && exit 1; }
+IFCONFIG=$(which ifconfig) || { echo "E: You must have ifconfig" && exit 1; }
+
+# only report the addresses of interfaces backed by a device (ethernet,
+# wifi, usb, virtio), so virtual ones like docker0, br-*, veth* and lo
+# are skipped
+get_addresses() {
+    for _iface in /sys/class/net/*; do
+        [ -e "${_iface}/device" ] || continue
+
+        ${IFCONFIG} "$(basename "${_iface}")" 2>/dev/null | \
+            awk '$1 == "inet" { print $2 }'
+    done | xargs
+}
+
+while true; do
+    MESSAGE="aqui $(hostname) $(get_addresses)"
+
+    # the network may not be ready yet, so do not die on send errors
+    echo -n "${MESSAGE}" | \
+        ${SOCAT} - UDP-DATAGRAM:255.255.255.255:${AQUI_PORT},broadcast \
+        2>/dev/null || true
+
+    sleep ${AQUI_INTERVAL}
+done

@@ -1,0 +1,15 @@
+[Unit]
+Description=Aqui UDP broadcast beacon
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+Environment=AQUI_PORT=9999
+Environment=AQUI_INTERVAL=5
+ExecStart=/usr/bin/aqui
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
