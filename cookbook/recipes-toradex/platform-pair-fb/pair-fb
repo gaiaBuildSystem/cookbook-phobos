@@ -57,11 +57,9 @@ if [ $? -ne 0 ]; then
         -gravity NorthWest \
         -annotate 0x0+1029+570 \
         "No Network" \
-        /home/phobos/output.jpg
+        /home/phobos/back1.jpg
 
-    pkill -SIGINT drmi
-    sleep 1
-    drmi /home/phobos/output.jpg $card_id 1 &
+    pkill -HUP drmi
 fi
 
 # Wait for internet connection with retries
@@ -136,11 +134,9 @@ convert \
     -gravity NorthWest \
     -annotate 0x0+1029+570 \
     "${code}" \
-    /home/phobos/output.jpg
+    /home/phobos/back1.jpg
 
-pkill -SIGINT drmi
-sleep 1
-drmi /home/phobos/output.jpg $card_id 1 &
+pkill -HUP drmi
 
 while true; do
     sleep 10
@@ -169,12 +165,10 @@ convert \
     -gravity NorthWest \
     -annotate 0x0+1029+570 \
     "Paired!" \
-    /home/phobos/output.jpg
+    /home/phobos/back1.jpg
 
-pkill -SIGINT drmi
-sleep 1s
-
-drmi /home/phobos/output.jpg $card_id 1 &
+drmi /home/phobos/back1.jpg $card_id 1 &
+pkill -HUP drmi
 
 # sleep like 2min
 sleep 120s
