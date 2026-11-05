@@ -37,8 +37,9 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # load the first image
+cp /usr/share/pair-fb/diagrams.jpg /home/phobos/back.jpg
 drmset $card_id
-drmi /usr/share/pair-fb/diagrams.jpg $card_id 1 &
+drmi /home/phobos/back.jpg $card_id 1 &
 
 # let's wait some time
 sleep 10s
