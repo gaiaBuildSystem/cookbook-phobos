@@ -6,19 +6,17 @@ This directory contains a Gaia cookbook recipe for `aqui`, a small UDP broadcast
 
 ## How It Works
 
-The `aqui` script runs as a systemd service. Every `AQUI_INTERVAL` seconds it uses `socat` to send one UDP datagram to the broadcast address `255.255.255.255` on port `AQUI_PORT`. The payload is a single line of plain text, without a trailing newline:
+The `aqui` script runs as a systemd service. Every `AQUI_INTERVAL` seconds it uses `socat` to send one UDP datagram to the broadcast address `255.255.255.255` on port `AQUI_PORT`. The payload is a single line without a trailing newline, starting with the hardcoded `aqui ` prefix followed by a **compact JSON** object:
 
 ```
-aqui <hostname> <ip addresses>
+aqui {"hostname":"qemux86-64","ip":["192.168.1.10"],"model":"Standard PC (Q35 + ICH9, 2009)"}
 ```
 
-For example:
+The first word `aqui` lets listeners identify the message type. Splitting on the first whitespace leaves the remainder as a single-line JSON object that can be parsed directly with any standard JSON parser:
 
-```
-aqui qemux86-64 172.17.0.5
-```
-
-Only the IPv4 addresses of interfaces backed by a device are listed: Ethernet, Wi-Fi, USB and virtio network cards, which have a `/sys/class/net/<iface>/device` link. Virtual interfaces like `lo`, `docker0`, `br-*` and `veth*` are skipped, so the Docker bridge addresses are not reported. The addresses are read with `ifconfig`, so only the primary IPv4 address of each interface is listed.
+- **`hostname`** — the system hostname, from the `hostname` command
+- **`ip`** — an array of IPv4 addresses of physical network interfaces: Ethernet, Wi-Fi, USB and virtio network cards, which have a `/sys/class/net/<iface>/device` link. Virtual interfaces like `lo`, `docker0`, `br-*` and `veth*` are skipped. Omitted entirely if no interface has a usable address
+- **`model`** — the device model from the DMI data, read with the `fastfetch` Host module: the product name plus version when set, e.g. `PhobOS Emulator (0.0)`, falling back to the product family. Omitted if `fastfetch` is unavailable or the DMI data is not set by the O.E.M.
 
 The service starts after `network-online.target`. If the network is not ready yet, the send errors are ignored and the script tries again on the next interval. If the script dies, systemd restarts it after 5 seconds.
 
@@ -94,18 +92,38 @@ With Python, also printing the address the beacon came from:
 
 ```bash
 python3 -c '
-import socket
+import socket, json
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(("", 9999))
 while True:
     data, addr = s.recvfrom(1024)
-    print(addr[0], data.decode(), flush=True)
+    msg = data.decode().strip()
+    if msg.startswith("aqui "):
+        # strip the "aqui " prefix and parse the JSON payload
+        try:
+            info = json.loads(msg[len("aqui "):])
+            hostname = info.get("hostname", "unknown")
+            ips = info.get("ip", [])
+            model = info.get("model", "")
+            print(f"Host: {hostname}")
+            if ips:
+                print("IPs: " + ", ".join(ips))
+            if model:
+                print(f"Model: {model}")
+        except json.JSONDecodeError as e:
+            print(f"Invalid JSON: {e}")
+    else:
+        print("Unknown message format:", repr(msg))
 '
 ```
 
+Output example:
+
 ```
-172.17.0.5 aqui qemux86-64 172.17.0.5
+Host: qemux86-64
+IPs: 192.168.1.10
+Model: Standard PC (Q35 + ICH9, 2009)
 ```
 
 With `tcpdump`, without opening a socket:
@@ -123,3 +141,4 @@ If nothing arrives:
 - On WSL2 or inside a VM with NAT networking, broadcasts from the physical network may not reach the guest. Listen on the host, or use bridged networking.
 - On the device, check `systemctl status aqui` and that `socat` and `ifconfig` are installed.
 - If the beacon arrives without any address, the device has no IPv4 address on a physical interface yet, only on virtual ones.
+- If the beacon arrives without a model, `fastfetch` is not installed on the device or the DMI product name and family are not set by the O.E.M.

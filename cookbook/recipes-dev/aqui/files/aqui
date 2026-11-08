@@ -5,8 +5,15 @@
 AQUI_PORT=${AQUI_PORT:-9999}
 AQUI_INTERVAL=${AQUI_INTERVAL:-5}
 
+# the values are interpolated into the socat address, whose options are
+# comma separated, and into sleep, so accept plain numbers only
+[[ "${AQUI_PORT}" =~ ^[0-9]+$ ]] || { echo "E: AQUI_PORT must be numeric" && exit 1; }
+[[ "${AQUI_INTERVAL}" =~ ^[0-9]+([.][0-9]+)?$ ]] || { echo "E: AQUI_INTERVAL must be numeric" && exit 1; }
+
 SOCAT=$(which socat) || { echo "E: You must have socat" && exit 1; }
 IFCONFIG=$(which ifconfig) || { echo "E: You must have ifconfig" && exit 1; }
+# fastfetch is optional, it is only used to report the device model
+FASTFETCH=$(which fastfetch) || true
 
 # only report the addresses of interfaces backed by a device (ethernet,
 # wifi, usb, virtio), so virtual ones like docker0, br-*, veth* and lo
@@ -20,8 +27,54 @@ get_addresses() {
     done | xargs
 }
 
+# escape backslashes and double quotes so a value is safe inside JSON;
+# drop control characters (newlines, tabs) so a hostile hostname or DMI
+# string cannot break the single-line payload or inject extra fields
+json_escape() {
+    printf '%s' "$1" | tr -d '\000-\037\177' | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+# device model from the DMI data, via the fastfetch Host module;
+# prefer the product name, fall back to the product family
+get_model() {
+    [ -n "${FASTFETCH}" ] || return 0
+
+    # this fastfetch version takes named placeholders without a dot
+    # prefix, "{.name}" would be printed literally as an invalid placeholder;
+    # "{/name}{family}{/}" prints the family only when the name is unset and
+    # "{?version} ({version}){?}" appends the version only when it is set,
+    # mirroring the default "name (version)" Host output
+    ${FASTFETCH} -l none -s Host \
+        --host-format '{name}{/name}{family}{/}{?version} ({version}){?}' \
+        2>/dev/null
+}
+
+# build the beacon payload: the hardcoded "aqui" word, a space and a
+# single line compact JSON object
+build_message() {
+    local _json _ips _ip _model _arr=""
+
+    _json="{\"hostname\":\"$(json_escape "$(hostname)")\""
+
+    _ips=$(get_addresses)
+    if [ -n "${_ips}" ]; then
+        for _ip in ${_ips}; do
+            [ -n "${_arr}" ] && _arr="${_arr},"
+            _arr="${_arr}\"${_ip}\""
+        done
+        _json="${_json},\"ip\":[${_arr}]"
+    fi
+
+    _model=$(get_model)
+    if [ -n "${_model}" ]; then
+        _json="${_json},\"model\":\"$(json_escape "${_model}")\""
+    fi
+
+    printf 'aqui %s}' "${_json}"
+}
+
 while true; do
-    MESSAGE="aqui $(hostname) $(get_addresses)"
+    MESSAGE=$(build_message)
 
     # the network may not be ready yet, so do not die on send errors
     echo -n "${MESSAGE}" | \
