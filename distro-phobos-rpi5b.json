@@ -2,6 +2,7 @@
     "name": "PhobOS",
     "machine": "rpi5b",
     "arch": "linux/arm64",
+    "debian": "forky",
     "version": {
         "major": 0,
         "minor": 4,
