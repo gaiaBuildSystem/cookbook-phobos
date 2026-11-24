@@ -1,0 +1,24 @@
+[Unit]
+Description=kochlos Torizon agent (pairing check and Torizon AI access for the kochlos shell)
+Documentation=https://github.com/gaiaBuildSystem/kochlos
+After=network-online.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+# Runs as root: the device credentials in /var/sota/import are root's.
+# The kochlos shell (any user) talks to it over /run/kochlos/torizon.sock.
+ExecStart=/usr/bin/kochlos --torizon-agent
+# Environment="TORIZON_AI_URL=https://phobos.dev.br:8091/v1"
+RuntimeDirectory=kochlos
+RuntimeDirectoryMode=0755
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -58,6 +58,11 @@ _LOGIN_USER = os.environ.get('USER_LOGIN_USER', 'phobos')
 for _user in ["root", _LOGIN_USER]:
     sudo chroot @(_IMAGE_MNT_ROOT) usermod -s /usr/bin/kochlos @(_user)
 
+# the Torizon agent: checks the pairing as root and gives the shell (any user)
+# access to the Torizon AI service through /run/kochlos/torizon.sock
+sudo cp @(_path)/systemd/kochlos-torizon.service @(_IMAGE_MNT_ROOT)/etc/systemd/system/kochlos-torizon.service
+sudo chroot @(_IMAGE_MNT_ROOT) systemctl enable kochlos-torizon.service
+
 print(
     "Deploying kochlos binary, ok",
     color=Color.WHITE,
