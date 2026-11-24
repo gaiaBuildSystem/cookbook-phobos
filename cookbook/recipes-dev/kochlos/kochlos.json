@@ -6,7 +6,7 @@
         "linux/amd64",
         "linux/arm64"
     ],
-    "version": "18f130c",
+    "version": "1340cd5",
     "source": "https://github.com/gaiaBuildSystem/kochlos-release/releases/download",
     "targetDeps": [
         "util-linux",
